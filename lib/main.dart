@@ -8,6 +8,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF9DAF59),
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white
+          ),
+          textTheme: TextTheme(
+            title: TextStyle(
+              color: Colors.white,
+              fontSize: 25.0
+            )
+          )
+        )
       ),
       home: Scaffold(
         appBar: AppBar(
