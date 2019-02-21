@@ -5,7 +5,23 @@ import 'package:csc2022_app/fragments/building_information_fragment.dart';
 import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
 import 'package:csc2022_app/fragments/history_fragment.dart';
 
+class _DrawerTile {
+  String tileTitle;
+  IconData icon;
+  String appbarTitle;
+
+  _DrawerTile(this.tileTitle, this.icon, this.appbarTitle);
+}
+
 class HomePage extends StatefulWidget {
+  final _drawerTiles = [
+    _DrawerTile('Find a room', Icons.navigation, 'Find a room'),
+    _DrawerTile('Explore a floor', Icons.map, 'Explore'),
+    _DrawerTile('Building information', Icons.info, 'Building information'),
+    _DrawerTile('Urban Observatory', Icons.computer, 'Urban Observatory'),
+    _DrawerTile('History', Icons.history, 'History')
+  ];
+
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -39,12 +55,26 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
   }
 
+  _buildDrawerTiles() {
+    var tiles = <Widget>[];
+    for(int i = 0; i < widget._drawerTiles.length; i++) {
+      tiles.add(
+          ListTile(
+            title: Text(widget._drawerTiles[i].tileTitle),
+            leading: Icon(widget._drawerTiles[i].icon),
+            selected: _selectedFragmentIndex == i,
+            onTap: () => _onItemPressed(i),
+          )
+      );
+    }
+    return tiles;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Project App'),
+        title: Text(widget._drawerTiles[_selectedFragmentIndex].appbarTitle),
       ),
       drawer: Drawer(
         child: Column(
@@ -53,38 +83,7 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset('assets/images/ncl_logo.jpg'),
             ),
             Column(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.navigation),
-                  title: Text('Find a room'),
-                  selected: _selectedFragmentIndex == 0,
-                  onTap: () => _onItemPressed(0),
-                ),
-                ListTile(
-                  leading: Icon(Icons.map),
-                  title: Text('Explore a floor'),
-                  selected: _selectedFragmentIndex == 1,
-                  onTap: () => _onItemPressed(1),
-                ),
-                ListTile(
-                  leading: Icon(Icons.info),
-                  title: Text('Building information'),
-                  selected: _selectedFragmentIndex == 2,
-                  onTap: () => _onItemPressed(2),
-                ),
-                ListTile(
-                  leading: Icon(Icons.computer),
-                  title: Text('Urban Observatory'),
-                  selected: _selectedFragmentIndex == 3,
-                  onTap: () => _onItemPressed(3),
-                ),
-                ListTile(
-                  leading: Icon(Icons.history),
-                  title: Text('History'),
-                  selected: _selectedFragmentIndex == 4,
-                  onTap: () => _onItemPressed(4),
-                )
-              ],
+              children: _buildDrawerTiles()
             ),
           ],
         ),
