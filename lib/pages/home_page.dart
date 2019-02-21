@@ -49,36 +49,43 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: Column(
           children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.navigation),
-              title: Text('Find a room'),
-              selected: _selectedFragmentIndex == 0,
-              onTap: () => _onItemPressed(0),
+            DrawerHeader(
+              child: Image.asset('assets/images/ncl_logo.jpg'),
             ),
-            ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Explore a floor'),
-              selected: _selectedFragmentIndex == 1,
-              onTap: () => _onItemPressed(1),
+            Column(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.navigation),
+                  title: Text('Find a room'),
+                  selected: _selectedFragmentIndex == 0,
+                  onTap: () => _onItemPressed(0),
+                ),
+                ListTile(
+                  leading: Icon(Icons.map),
+                  title: Text('Explore a floor'),
+                  selected: _selectedFragmentIndex == 1,
+                  onTap: () => _onItemPressed(1),
+                ),
+                ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Building information'),
+                  selected: _selectedFragmentIndex == 2,
+                  onTap: () => _onItemPressed(2),
+                ),
+                ListTile(
+                  leading: Icon(Icons.computer),
+                  title: Text('Urban Observatory'),
+                  selected: _selectedFragmentIndex == 3,
+                  onTap: () => _onItemPressed(3),
+                ),
+                ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text('History'),
+                  selected: _selectedFragmentIndex == 4,
+                  onTap: () => _onItemPressed(4),
+                )
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Building information'),
-              selected: _selectedFragmentIndex == 2,
-              onTap: () => _onItemPressed(2),
-            ),
-            ListTile(
-              leading: Icon(Icons.computer),
-              title: Text('Urban Observatory'),
-              selected: _selectedFragmentIndex == 3,
-              onTap: () => _onItemPressed(3),
-            ),
-            ListTile(
-              leading: Icon(Icons.history),
-              title: Text('History'),
-              selected: _selectedFragmentIndex == 4,
-              onTap: () => _onItemPressed(4),
-            )
           ],
         ),
       ),
