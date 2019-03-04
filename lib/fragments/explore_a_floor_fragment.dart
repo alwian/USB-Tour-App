@@ -5,7 +5,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text('Explore a floor fragment')
+        Image.asset('assets/images/usb.jpg')
       ],
     );
   }
