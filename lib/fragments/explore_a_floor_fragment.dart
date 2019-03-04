@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 
 class _FloorButton {
   int number;
@@ -41,7 +42,10 @@ class ExploreAFloorFragment extends StatelessWidget {
               )
             ],
           ),
-          onPressed: () => {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) => FloorFeatureListPage(_floorButtons[i].number)));
+          },
         ),
       );
     }
