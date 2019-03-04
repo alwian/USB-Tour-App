@@ -1,11 +1,57 @@
 import 'package:flutter/material.dart';
 
+class _FloorButton {
+  int number;
+  Color color;
+
+  _FloorButton(this.number, this.color);
+}
+
 class ExploreAFloorFragment extends StatelessWidget {
+  final _floorButtons = [
+    _FloorButton(1, Color(0xFFDC817E)),
+    _FloorButton(2, Color(0xFFE59D62)),
+    _FloorButton(3, Color(0xFFE2DE83)),
+    _FloorButton(4, Color(0xFFB4D47F)),
+  ];
+
+  _buildFloorButtons(context) {
+    var buttons = <Widget>[];
+    for(int i = 0; i < _floorButtons.length; i++) {
+      buttons.add(
+        RawMaterialButton(
+          shape: CircleBorder(),
+          fillColor: _floorButtons[i].color,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Floor',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0
+                ),
+              ),
+              Text(
+                _floorButtons[i].number.toString(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35.0
+                ),
+              )
+            ],
+          ),
+          onPressed: () => {},
+        ),
+      );
+    }
+    return buttons;
+  }
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Color(0xFF333333)
+          color: Color(0xFF333333)
       ),
       child: Column(
         children: <Widget>[
@@ -15,110 +61,13 @@ class ExploreAFloorFragment extends StatelessWidget {
               child: Container(
                 width: (MediaQuery.of(context).size.width / 3) * 2,
                 child: GridView.count(
-                  crossAxisCount: 2,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(20.0),
-                  mainAxisSpacing: 20.0,
-                  crossAxisSpacing: 20.0,
-                  children: <Widget>[
-                    RawMaterialButton(
-                      shape: CircleBorder(),
-                      fillColor: Color(0xFFDC817E),
-                      onPressed: () => {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30.0
-                            ),
-                          ),
-                          Text(
-                            'Floor',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    RawMaterialButton(
-                      shape: CircleBorder(),
-                      fillColor: Color(0xFFE59D62),
-                      onPressed: () => {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '2',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30.0
-                            ),
-                          ),
-                          Text(
-                            'Floor',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    RawMaterialButton(
-                      shape: CircleBorder(),
-                      fillColor: Color(0xFFE2DE83),
-                      onPressed: () => {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '3',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30.0
-                            ),
-                          ),
-                          Text(
-                            'Floor',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    RawMaterialButton(
-                      shape: CircleBorder(),
-                      fillColor: Color(0xFFB4D47F),
-                      onPressed: () => {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '4',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30.0
-                            ),
-                          ),
-                          Text(
-                            'Floor',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]
+                    crossAxisCount: 2,
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(20.0),
+                    mainAxisSpacing: 20.0,
+                    crossAxisSpacing: 20.0,
+                    children: _buildFloorButtons(context)
                 ),
               ),
             ),
