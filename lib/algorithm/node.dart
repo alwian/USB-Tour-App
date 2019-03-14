@@ -5,13 +5,9 @@ class Node {
 
   String _name;
 
+  Node _prev;
+
   List<Node> _shortestPath = [];
-
-  List<Node> get shortestPath => _shortestPath;
-
-  set shortestPath(List<Node> value) {
-    _shortestPath = value;
-  }
 
   int _distance = 9223372036854775807;  //No max value constant in Dart
 
@@ -19,6 +15,18 @@ class Node {
 
   set distance(int value) {
     _distance = value;
+  }
+
+  List<Node> get shortestPath => _shortestPath;
+
+  set shortestPath(List<Node> value) {
+    _shortestPath = value;
+  }
+
+  Node get prev => _prev;
+
+  set prev(Node value) {
+    _prev = value;
   }
 
   Map<Node, int> adjacentNodes = {};
