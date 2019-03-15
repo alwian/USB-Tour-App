@@ -3,10 +3,11 @@
 
 import 'graph.dart';
 import 'node.dart';
+import 'dart:collection';
 
 class Navigation {
 
-  static Graph calculateShortestPathFromSource(Graph graph, Node source){
+  static Graph calculateShortestPathFromSource(Graph graph, Node source, Node target){
     source.distance = 0;
 
     Set<Node> settledNodes = {};
@@ -29,8 +30,9 @@ class Navigation {
       settledNodes.add(currentNode);
     }
     return graph;
-
   }
+
+
 
   static Node getLowestDistanceNode(Set<Node> unsettledNodes){
     Node lowestDistanceNode;
@@ -59,4 +61,18 @@ class Navigation {
     }
   }
 
+  static Queue pathToTarget(Node source, Node target){
+    Queue<Node> path = new Queue();
+    Node u = target;
+
+    if(u == source || u.shortestPath.isNotEmpty){
+      while(u != null){
+        path.addLast(target);
+
+        u = u.shortestPath[u.shortestPath.length - 1];
+      }
+    }
+
+    return path;
+  }
 }

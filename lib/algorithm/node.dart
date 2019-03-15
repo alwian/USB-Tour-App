@@ -5,8 +5,6 @@ class Node {
 
   String _name;
 
-  Node _prev;
-
   List<Node> _shortestPath = [];
 
   int _distance = 9223372036854775807;  //No max value constant in Dart
