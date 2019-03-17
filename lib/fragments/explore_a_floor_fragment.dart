@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 
-class _FloorButton {
-  int number;
-  Color color;
-
-  _FloorButton(this.number, this.color);
-}
-
 class ExploreAFloorFragment extends StatelessWidget {
-  final _floorButtons = [
-    _FloorButton(0, Color(0xFFB4D47F)),
-    _FloorButton(1, Color(0xFFDC817E)),
-    _FloorButton(2, Color(0xFFE59D62)),
-    _FloorButton(3, Color(0xFFE2DE83)),
-    _FloorButton(4, Color(0xFFB4D47F)),
-  ];
+  final int _floorCount = 5;
 
   _buildFloorButton(context, floorNo, fullWidth) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -27,8 +14,8 @@ class ExploreAFloorFragment extends StatelessWidget {
 
   _buildFloorButtonList(context) {
     var rows = <Widget>[];
-    for(int i = 0; i < _floorButtons.length; i++) {
-      if(i % 3 == 0 && i + 1 < _floorButtons.length) {
+    for(int i = 0; i < _floorCount; i++) {
+      if(i % 3 == 0 && i + 1 < _floorCount) {
         rows.add(
           Row(
             children: <Widget>[
