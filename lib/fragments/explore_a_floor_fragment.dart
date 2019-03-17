@@ -17,40 +17,45 @@ class ExploreAFloorFragment extends StatelessWidget {
     _FloorButton(4, Color(0xFFB4D47F)),
   ];
 
-  _buildFloorButtons(context) {
-    var buttons = <Widget>[];
+  _buildFloorButton(context, floorNo, fullWidth) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Container(
+      width: fullWidth ? screenWidth : screenWidth / 2,
+      child: Text('Floor ' + floorNo.toString()),
+    );
+  }
+
+  _buildFloorButtonList(context) {
+    var rows = <Widget>[];
     for(int i = 0; i < _floorButtons.length; i++) {
-      buttons.add(
-        RawMaterialButton(
-          shape: CircleBorder(),
-          fillColor: _floorButtons[i].color,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      if(i % 3 == 0 && i + 1 < _floorButtons.length) {
+        rows.add(
+          Row(
             children: <Widget>[
-              Text(
-                'Floor',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.0
-                ),
-              ),
-              Text(
-                _floorButtons[i].number.toString(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35.0
-                ),
-              )
+              _buildFloorButton(context, i, false),
+              _buildFloorButton(context, i + 1, false),
             ],
           ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context) => FloorFeatureListPage(_floorButtons[i].number)));
-          },
-        ),
-      );
+        );
+      } else if (i % 3 == 0) {
+        rows.add(
+          Row(
+            children: <Widget>[
+              _buildFloorButton(context, i, true),
+            ],
+          ),
+        );
+      } else if (i % 3 == 2) {
+        rows.add(
+          Row(
+            children: <Widget>[
+              _buildFloorButton(context, i, true),
+            ],
+          ),
+        );
+      }
     }
-    return buttons;
+    return rows;
   }
   @override
   Widget build(BuildContext context) {
@@ -62,19 +67,8 @@ class ExploreAFloorFragment extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/images/usb.jpg'),
           Expanded(
-            child: Center(
-              child: Container(
-                width: (MediaQuery.of(context).size.width / 3) * 2,
-                child: GridView.count(
-                    crossAxisCount: 2,
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(20.0),
-                    mainAxisSpacing: 20.0,
-                    crossAxisSpacing: 20.0,
-                    children: _buildFloorButtons(context)
-                ),
-              ),
+            child: Column(
+              children: _buildFloorButtonList(context),
             ),
           )
         ],
