@@ -31,7 +31,9 @@ class FloorFeatureListPage extends StatelessWidget {
         itemCount: _features.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: EdgeInsets.only(bottom: 30.0),
+            padding: EdgeInsets.only(
+                bottom: index != _features.length - 1 ? 30.0 : 0.0
+            ),
             child: Stack(
               children: <Widget>[
                 Image.asset(_features[index].image),
