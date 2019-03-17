@@ -14,27 +14,22 @@ class FloorFeatureListPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          Card(
-            margin: EdgeInsets.all(16.0),
-            shape: BeveledRectangleBorder(),
-            color: Color(0xFF313131),
-            child: Stack(
-              children: <Widget>[
-                Image.asset('assets/images/lecture_theatre.jpg'),
-                Container(
-                  margin: EdgeInsets.all(20.0),
-                  padding: EdgeInsets.only(left: 10.0, top: 7.5, right: 20.0, bottom: 7.5),
-                  color: Color(0xFF313131),
-                  child: Text(
-                    'Lecture Theatre',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+          Stack(
+            children: <Widget>[
+              Image.asset('assets/images/lecture_theatre.jpg'),
+              Container(
+                margin: EdgeInsets.all(20.0),
+                padding: EdgeInsets.only(left: 10.0, top: 7.5, right: 20.0, bottom: 7.5),
+                color: Color(0xFFB3B3B3),
+                child: Text(
+                  'Lecture Theatre',
+                  style: TextStyle(
+                      color: Colors.white,
                       fontSize: 20.0
-                    ),
                   ),
-                )
-              ],
-            )
+                ),
+              )
+            ],
           )
         ],
       ),
