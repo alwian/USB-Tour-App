@@ -22,7 +22,7 @@ class ExploreAFloorFragment extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Floor',
+                  'FLOOR',
                   style: TextStyle(
                     fontSize: 15.0,
                   ),
