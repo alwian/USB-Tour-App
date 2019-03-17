@@ -6,11 +6,17 @@ class ExploreAFloorFragment extends StatelessWidget {
 
   _buildFloorButton(context, floorNo, height, fullWidth) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Container(
-      height: height,
-      width: fullWidth ? screenWidth : screenWidth / 2,
+    return Material(
       color: Colors.white,
-      child: Text('Floor ' + floorNo.toString()),
+      child: InkWell(
+        splashColor: Color(0xFFD5E3AF),
+        onTap: () => {},
+        child: Container(
+          height: height,
+          width: fullWidth ? screenWidth : screenWidth / 2,
+          child: Text('Floor ' + floorNo.toString()),
+        ),
+      ),
     );
   }
 
