@@ -24,7 +24,6 @@ class FloorFeatureListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Floor ' + _floor.toString()),
       ),
