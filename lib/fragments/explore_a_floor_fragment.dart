@@ -10,7 +10,13 @@ class ExploreAFloorFragment extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         splashColor: Color(0xFFD5E3AF),
-        onTap: () => {},
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => FloorFeatureListPage(floorNo)  
+            )
+          );
+        },
         child: Container(
           height: height,
           width: fullWidth ? screenWidth : screenWidth / 2,
