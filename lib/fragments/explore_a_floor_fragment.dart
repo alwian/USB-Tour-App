@@ -14,6 +14,9 @@ class ExploreAFloorFragment extends StatelessWidget {
         child: Container(
           height: height,
           width: fullWidth ? screenWidth : screenWidth / 2,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 2.0)
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
