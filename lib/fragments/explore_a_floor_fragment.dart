@@ -9,6 +9,7 @@ class ExploreAFloorFragment extends StatelessWidget {
     return Container(
       height: height,
       width: fullWidth ? screenWidth : screenWidth / 2,
+      color: Colors.white,
       child: Text('Floor ' + floorNo.toString()),
     );
   }
