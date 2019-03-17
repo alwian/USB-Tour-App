@@ -38,7 +38,7 @@ class FloorFeatureListPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RoomFeatureListPage())
+                  MaterialPageRoute(builder: (context) => RoomFeatureListPage(_features[index].name))
                 );
               },
               child: Stack(
