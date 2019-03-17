@@ -8,7 +8,7 @@ class _RoomFeature {
 }
 
 class RoomFeatureListPage extends StatelessWidget {
-  String roomName;
+  final String roomName;
 
   RoomFeatureListPage(this.roomName);
 
