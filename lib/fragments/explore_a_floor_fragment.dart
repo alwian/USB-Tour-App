@@ -4,23 +4,34 @@ import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 class ExploreAFloorFragment extends StatelessWidget {
   final int _floorCount = 5;
 
-  _buildFloorButton(context, floorNo, fullWidth) {
+  _buildFloorButton(context, floorNo, height, fullWidth) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
+      height: height,
       width: fullWidth ? screenWidth : screenWidth / 2,
       child: Text('Floor ' + floorNo.toString()),
     );
   }
 
-  _buildFloorButtonList(context) {
+  _calcRowCount() {
+    int rows = 0;
+    for(int i = 0; i < _floorCount; i++) {
+      if (i % 3 == 0 || i % 3 == 2) {
+        rows++;
+      }
+    }
+    return rows;
+  }
+
+  _buildFloorButtonList(context, rowHeight) {
     var rows = <Widget>[];
     for(int i = 0; i < _floorCount; i++) {
       if(i % 3 == 0 && i + 1 < _floorCount) {
         rows.add(
           Row(
             children: <Widget>[
-              _buildFloorButton(context, i, false),
-              _buildFloorButton(context, i + 1, false),
+              _buildFloorButton(context, i, rowHeight, false),
+              _buildFloorButton(context, i + 1, rowHeight, false),
             ],
           ),
         );
@@ -28,7 +39,7 @@ class ExploreAFloorFragment extends StatelessWidget {
         rows.add(
           Row(
             children: <Widget>[
-              _buildFloorButton(context, i, true),
+              _buildFloorButton(context, i, rowHeight, true),
             ],
           ),
         );
@@ -36,7 +47,7 @@ class ExploreAFloorFragment extends StatelessWidget {
         rows.add(
           Row(
             children: <Widget>[
-              _buildFloorButton(context, i, true),
+              _buildFloorButton(context, i, rowHeight, true),
             ],
           ),
         );
@@ -44,6 +55,7 @@ class ExploreAFloorFragment extends StatelessWidget {
     }
     return rows;
   }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -54,9 +66,16 @@ class ExploreAFloorFragment extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/images/usb.jpg'),
           Expanded(
-            child: Column(
-              children: _buildFloorButtonList(context),
-            ),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Column(
+                  children: _buildFloorButtonList(
+                      context,
+                      constraints.maxHeight / _calcRowCount()
+                  ),
+                );
+              }
+            )
           )
         ],
       ),
