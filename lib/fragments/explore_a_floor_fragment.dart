@@ -68,15 +68,7 @@ class ExploreAFloorFragment extends StatelessWidget {
             ],
           ),
         );
-      } else if (i % 3 == 0) {
-        rows.add(
-          Row(
-            children: <Widget>[
-              _buildFloorButton(context, i, rowHeight, true),
-            ],
-          ),
-        );
-      } else if (i % 3 == 2) {
+      } else if (i % 3 == 0 || i % 3 == 2) {
         rows.add(
           Row(
             children: <Widget>[
