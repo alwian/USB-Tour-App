@@ -10,6 +10,7 @@ class _FloorButton {
 
 class ExploreAFloorFragment extends StatelessWidget {
   final _floorButtons = [
+    _FloorButton(0, Color(0xFFB4D47F)),
     _FloorButton(1, Color(0xFFDC817E)),
     _FloorButton(2, Color(0xFFE59D62)),
     _FloorButton(3, Color(0xFFE2DE83)),
