@@ -22,6 +22,8 @@ class Node {
     _shortestPath = value;
   }
 
+  String get name => _name;
+
   Map<Node, int> adjacentNodes = {};
 
   Node(String name) {
@@ -32,5 +34,8 @@ class Node {
     adjacentNodes[destination] = distance;
   }
 
+  String toString(){
+    return _name;
+  }
 
 }
