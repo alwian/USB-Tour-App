@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:csc2022_app/fragments/find_a_room_fragment.dart';
-import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
-import 'package:csc2022_app/fragments/building_information_fragment.dart';
-import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
-import 'package:csc2022_app/fragments/history_fragment.dart';
+import 'package:csc2022_app/fragments/fragments.dart';
 
 class _DrawerTile {
   String tileTitle;
@@ -15,6 +11,7 @@ class _DrawerTile {
 
 class HomePage extends StatefulWidget {
   final _drawerTiles = [
+    _DrawerTile('Map', Icons.explore, 'Map'),
     _DrawerTile('Find a room', Icons.navigation, 'Find a room'),
     _DrawerTile('Explore a floor', Icons.map, 'Explore'),
     _DrawerTile('Building information', Icons.info, 'Building information'),
@@ -34,14 +31,16 @@ class _HomePageState extends State<HomePage> {
   _getSelectedFragment() {
     switch(_selectedFragmentIndex) {
       case 0:
-        return FindARoomFragment();
+        return BuildingMapFragment();
       case 1:
-        return ExploreAFloorFragment();
+        return FindARoomFragment();
       case 2:
-        return BuildingInformationFragment();
+        return ExploreAFloorFragment();
       case 3:
-        return UrbanObservatoryFragment();
+        return BuildingInformationFragment();
       case 4:
+        return UrbanObservatoryFragment();
+      case 5:
         return HistoryFragment();
       default:
         return Text('Error');
