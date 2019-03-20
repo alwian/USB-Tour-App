@@ -10,6 +10,9 @@ class Node {
 
   int _distance = 9223372036854775807;  //No max value constant in Dart
 
+  double coordsX = 0;
+  double coordsY = 0;
+
   int get distance => _distance;
 
   set distance(int value) {
