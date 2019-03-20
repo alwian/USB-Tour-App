@@ -29,6 +29,22 @@ class FindARoomFragment extends StatelessWidget {
               ),
             ],
           ),
+          //@todo Fix button pixel overflow issue
+          //@todo Improve styling - https://medium.com/flutter-community/breaking-layouts-in-rows-and-columns-in-flutter-8ea1ce4c1316
+          //@todo Hard code suggestion dropdowns
+          //@todo add new search page
+          TextFormField(
+            autofocus: false,
+            decoration: InputDecoration(
+              labelText: 'Enter Destination'
+            ),
+          ),
+          TextFormField(
+            autofocus: false,
+            decoration: InputDecoration(
+                labelText: 'Enter Current Location'
+            ),
+          ),
         ],
       ),
     );
