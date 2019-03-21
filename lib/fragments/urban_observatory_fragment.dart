@@ -20,7 +20,16 @@ class UrbanObservatoryFragment extends StatelessWidget {
               child: TabBarView(
                 children: <Widget>[
                   Text('Info'),
-                  Text('Search'),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          TextField(),
+                        ],
+                      ),
+                    )
+                  )
                 ],
               ),
             )
