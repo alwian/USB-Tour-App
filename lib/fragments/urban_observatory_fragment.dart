@@ -59,7 +59,11 @@ class UrbanObservatoryFragment extends StatelessWidget {
                                         return DecoratedBox(
                                             decoration: BoxDecoration(
                                               color: Color(0xFFBDBDBD),
-                                              border: Border.all(color: Colors.black),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.black,
+                                                )
+                                              )
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.all(16.0),
