@@ -30,7 +30,7 @@ dev_dependencies:
 
   test: 1.5.3
 
-  photo_view: ^0.0.1
+  photo_view: ^0.2.2
 
 
 
