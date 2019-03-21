@@ -1,56 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 
-class _FloorButton {
-  int number;
-  Color color;
-
-  _FloorButton(this.number, this.color);
-}
-
 class ExploreAFloorFragment extends StatelessWidget {
-  final _floorButtons = [
-    _FloorButton(1, Color(0xFFDC817E)),
-    _FloorButton(2, Color(0xFFE59D62)),
-    _FloorButton(3, Color(0xFFE2DE83)),
-    _FloorButton(4, Color(0xFFB4D47F)),
-  ];
+  final int _floorCount = 5;
 
-  _buildFloorButtons(context) {
-    var buttons = <Widget>[];
-    for(int i = 0; i < _floorButtons.length; i++) {
-      buttons.add(
-        RawMaterialButton(
-          shape: CircleBorder(),
-          fillColor: _floorButtons[i].color,
+  _buildFloorButton(context, floorNo, height, fullWidth) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        splashColor: Color(0xFFD5E3AF),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => FloorFeatureListPage(floorNo)  
+            )
+          );
+        },
+        child: Container(
+          height: height,
+          width: fullWidth ? screenWidth : screenWidth / 2,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 2.0)
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'FLOOR',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                ),
+                Text(
+                  floorNo.toString(),
+                  style: TextStyle(
+                    fontSize: 36.0
+                  ),
+                )
+              ],
+            ),
+        ),
+      ),
+    );
+  }
+
+  _calcRowCount() {
+    int rows = 0;
+    for(int i = 0; i < _floorCount; i++) {
+      if (i % 3 == 0 || i % 3 == 2) {
+        rows++;
+      }
+    }
+    return rows;
+  }
+
+  _buildFloorButtonList(context, rowHeight) {
+    var rows = <Widget>[];
+    for(int i = 0; i < _floorCount; i++) {
+      if(i % 3 == 0 && i + 1 < _floorCount) {
+        rows.add(
+          Row(
             children: <Widget>[
-              Text(
-                'Floor',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.0
-                ),
-              ),
-              Text(
-                _floorButtons[i].number.toString(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35.0
-                ),
-              )
+              _buildFloorButton(context, i, rowHeight, false),
+              _buildFloorButton(context, i + 1, rowHeight, false),
             ],
           ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context) => FloorFeatureListPage(_floorButtons[i].number)));
-          },
-        ),
-      );
+        );
+      } else if (i % 3 == 0 || i % 3 == 2) {
+        rows.add(
+          Row(
+            children: <Widget>[
+              _buildFloorButton(context, i, rowHeight, true),
+            ],
+          ),
+        );
+      }
     }
-    return buttons;
+    return rows;
   }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -61,20 +91,16 @@ class ExploreAFloorFragment extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/images/usb.jpg'),
           Expanded(
-            child: Center(
-              child: Container(
-                width: (MediaQuery.of(context).size.width / 3) * 2,
-                child: GridView.count(
-                    crossAxisCount: 2,
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(20.0),
-                    mainAxisSpacing: 20.0,
-                    crossAxisSpacing: 20.0,
-                    children: _buildFloorButtons(context)
-                ),
-              ),
-            ),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Column(
+                  children: _buildFloorButtonList(
+                      context,
+                      constraints.maxHeight / _calcRowCount()
+                  ),
+                );
+              }
+            )
           )
         ],
       ),

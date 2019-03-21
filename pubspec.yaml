@@ -51,6 +51,7 @@ flutter:
     - assets/images/ncl_logo.jpg
     - assets/images/usb.jpg
     - assets/images/lecture_theatre.jpg
+    - assets/images/flat_floor.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
