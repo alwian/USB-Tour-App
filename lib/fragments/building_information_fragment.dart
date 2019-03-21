@@ -3,28 +3,14 @@ import 'package:flutter/material.dart';
 class BuildingInformationFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          backgroundColor: Colors.grey[400],
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(200),
-            child: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0.0,
-              title: Image.asset('assets/images/usb2.jpg'),
-              /*flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Image.asset('assets/images/usb2.jpg'),
-                    ),
-                  ],
-                ),
-              ),*/
-              bottom: TabBar(
+    return Column(
+      children: <Widget>[
+        Image.asset('assets/images/usb2.jpg'),
+        DefaultTabController(
+          length: 3,
+          child: Column(
+            children: <Widget>[
+              TabBar(
                 indicatorColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: Colors.black,
                 labelColor: Theme.of(context).primaryColor,
@@ -34,23 +20,29 @@ class BuildingInformationFragment extends StatelessWidget {
                   Tab(text: 'Contact'),
                 ],
               ),
-            ),
-          ),
-          body: TabBarView(
-            children: <Widget>[
-              Container(
-                child: Text('About text'),
-              ),
-              Container(
-                child: Text('Opening times text'),
-              ),
-              Container(
-                child: Text('Contact text'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 289,
+                child: TabBarView(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.grey[400],
+                      child: Text('About text'),
+                    ),
+                    Container(
+                      color: Colors.grey[400],
+                      child: Text('Opening times text'),
+                    ),
+                    Container(
+                      color: Colors.grey[400],
+                      child: Text('Contact text'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
