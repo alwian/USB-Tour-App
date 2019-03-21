@@ -34,36 +34,43 @@ class UrbanObservatoryFragment extends StatelessWidget {
               child: TabBarView(
                 children: <Widget>[
                   Text('Info'),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          TextField(),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 16.0),
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: _dataPoints.length,
-                                  itemBuilder: (context, index) {
-                                    return DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFBDBDBD),
-                                          border: Border.all(color: Colors.black),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(16.0),
-                                          child: Text(_dataPoints[index]),
-                                        )
-                                    );
-                                  }
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
+                  Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      backgroundColor: Color(0xFF96B24A),
+                      child: Icon(Icons.refresh),
+                      onPressed: () => {}
+                    ),
+                    body: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              TextField(),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 16.0),
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _dataPoints.length,
+                                      itemBuilder: (context, index) {
+                                        return DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFBDBDBD),
+                                              border: Border.all(color: Colors.black),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child: Text(_dataPoints[index]),
+                                            )
+                                        );
+                                      }
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                    ),
                   )
                 ],
               ),
