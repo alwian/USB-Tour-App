@@ -48,7 +48,16 @@ class UrbanObservatoryFragment extends StatelessWidget {
                         child: Container(
                           child: Column(
                             children: <Widget>[
-                              TextField(),
+                              TextField(
+                                style: TextStyle(
+                                  fontSize: 20.0
+                                ),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter a room...',
+
+                                ),
+                              ),
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 16.0),
