@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 
 class UrbanObservatoryFragment extends StatelessWidget {
+
+  final _dataPoints = [
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+    'Temperature',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -26,6 +40,27 @@ class UrbanObservatoryFragment extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           TextField(),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 16.0),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _dataPoints.length,
+                                  itemBuilder: (context, index) {
+                                    return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFBDBDBD),
+                                          border: Border.all(color: Colors.black),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Text(_dataPoints[index]),
+                                        )
+                                    );
+                                  }
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     )
