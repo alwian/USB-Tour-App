@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseLoader {
-  static load(BuildContext context, String dbName) async {
+  static Future<bool> load(BuildContext context, String dbName) async {
     String dbsPath = await getDatabasesPath();
     String pathToCopyTo = join(dbsPath, dbName);
     if(! await File(pathToCopyTo).exists()) {
@@ -13,5 +13,6 @@ class DatabaseLoader {
       List<int> bytes = dbFile.buffer.asUint8List(dbFile.offsetInBytes, dbFile.lengthInBytes);
       File(pathToCopyTo).writeAsBytes(bytes);
     }
+    return true;
   }
 }
