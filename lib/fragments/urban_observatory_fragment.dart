@@ -25,6 +25,9 @@ class UrbanObservatoryFragment extends StatelessWidget {
         child: Column(
           children: <Widget>[
             TabBar(
+              indicatorColor: Color(0xFF96B24A),
+              unselectedLabelColor: Colors.black,
+              labelColor: Color(0xFF96B24A),
               tabs: <Widget>[
                 Tab(icon: Icon(Icons.info)),
                 Tab(icon: Icon(Icons.search)),
