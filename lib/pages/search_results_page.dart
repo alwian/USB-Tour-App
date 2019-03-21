@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class SearchResultsPage extends StatelessWidget {
 
   final backgroundImage = new Container(
+    height: 250.00,
     decoration: new BoxDecoration(
       image: new DecorationImage(
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.6),
-              BlendMode.luminosity),
-          image: AssetImage('images/lecture_theatre.jpg'),
+          image: AssetImage('assets/images/lecture_theatre.jpg'),
           fit: BoxFit.cover,
       ),
     ),
@@ -21,6 +19,7 @@ class SearchResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
+      color: Colors.white,
       padding: EdgeInsets.all(8.0),
       height: 250.0,
       child: new Stack(
