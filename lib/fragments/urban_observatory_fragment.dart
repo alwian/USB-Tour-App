@@ -29,8 +29,8 @@ class UrbanObservatoryFragment extends StatelessWidget {
               unselectedLabelColor: Colors.black,
               labelColor: Color(0xFF96B24A),
               tabs: <Widget>[
-                Tab(icon: Icon(Icons.info)),
-                Tab(icon: Icon(Icons.search)),
+                Tab(text: 'About'),
+                Tab(text: 'Pick a room'),
               ],
             ),
             Expanded(
