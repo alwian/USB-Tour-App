@@ -15,6 +15,17 @@ class UrbanObservatoryFragment extends StatelessWidget {
     'Temperature',
   ];
 
+  final _placeholderAbout = 'Lorem ipsum dolor sit amet, consectetur adipiscing'
+      ' elit. Aliquam tempus ac risus in iaculis. Quisque placerat a lectus '
+      'non pretium. Cras congue aliquam arcu, eget dictum ipsum ornare quis. '
+      'Sed quis ipsum nec odio pulvinar ullamcorper eget vel turpis. '
+      'Donec molestie neque sit amet pharetra fringilla. Quisque ut '
+      'tellus non orci porttitor porttitor. Proin facilisis lorem id '
+      'fringilla sagittis. Mauris non magna auctor, tincidunt nibh in, '
+      'molestie lacus. Ut pharetra in justo sed luctus. Sed quis sem massa. '
+      'In hac habitasse platea dictumst. Donec et dignissim magna. Nunc in '
+      'finibus dui. ';
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -41,6 +52,10 @@ class UrbanObservatoryFragment extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/observatory.png'),
+                        Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(_placeholderAbout),
+                        )
                       ],
                     ),
                   ),
