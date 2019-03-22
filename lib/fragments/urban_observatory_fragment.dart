@@ -36,7 +36,14 @@ class UrbanObservatoryFragment extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  Text('Info'),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/observatory.png'),
+                      ],
+                    ),
+                  ),
                   Scaffold(
                     floatingActionButton: FloatingActionButton(
                       backgroundColor: Color(0xFF96B24A),
