@@ -40,7 +40,6 @@ void main() {
 
     test('shortestPathFromSource', () {
 
-
       bool distCheck = false;
       for (Node u in graph.nodes) {
         switch (u.name) {
