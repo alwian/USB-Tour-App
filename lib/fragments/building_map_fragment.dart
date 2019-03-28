@@ -14,7 +14,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   final String selectedImage = 'assets/images/floor1_temp.png';
   int i = 1;
   final Node a = new Node('a');
-  final Node f = new Node('f');
+  final Node g = new Node('g');
   Node _source;
   Node _target;
   _Route route;
@@ -23,42 +23,38 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   @override
   void initState() {
     super.initState();
-    print("initialised");
-    path.addLast(f);
-    path.addLast(a);
-    print(path.isNotEmpty);
+    //Initial test code until connection to database is established
     _source = a;
-    _target = f;
+    _target = g;
     path = _Route(_source, _target).generateRoute();
-    print(path.isNotEmpty);
   }
 
   @override
   Widget build(BuildContext context) {
-    //if (path.isNotEmpty) {
-     return Scaffold(
+    if (path.isNotEmpty) {
+      return Scaffold(
         body: Container(
           child: PhotoView.customChild(
             child: new CustomPaint(
                 foregroundPainter: RoutePainter(path),
                 child: Image(image: AssetImage(selectedImage))),
             minScale: PhotoViewComputedScale.contained,
-           maxScale: 1.5,
+            maxScale: 1.5,
             childSize: Size(4961, 3508),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
             child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.trip_origin),
-              onPressed: () {
-                  setState(() {
-                    _sourceList();
-                  });
-                /*ListView(children: <Widget>[
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.trip_origin),
+                  onPressed: () {
+                    setState(() {
+                      _sourceList();
+                    });
+                    /*ListView(children: <Widget>[
                   Container(
                       child: RaisedButton(
                     onPressed: () {
@@ -67,67 +63,58 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: const Text('Node a'),
                   )),
                 ]);*/
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.lens),
-              onPressed: () {
-                ListView(children: <Widget>[
-                  Container(
-                      child: RaisedButton(
-                    onPressed: () {
-                      setState(() {
-                        _target = f;
-                      });
-                    },
-                    child: const Text('Node a'),
-                  )),
-                ]);
-              },
-            ),
-          ],
-        )),
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.lens),
+                  onPressed: () {
+                    ListView(children: <Widget>[
+                      Container(
+                          child: RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                _target = g;
+                              });
+                            },
+                            child: const Text('Node a'),
+                          )),
+                    ]);
+                  },
+                ),
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
               path = _Route(_source, _target).generateRoute();
             });
-
           },
           tooltip: 'draw route',
           child: Icon(Icons.near_me),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
-    /*} else {
+    } else {
       return Scaffold(
         body: Container(
-          /*child: PhotoView(
+          child: PhotoView(
             imageProvider: AssetImage(selectedImage),
             minScale: PhotoViewComputedScale.contained,
             maxScale: 1.5,
-          ),*/
-          child: PhotoView.customChild(
-            child: new CustomPaint(
-                foregroundPainter: RoutePainter(path),
-                child: Image(image: AssetImage(selectedImage))),
-            minScale: PhotoViewComputedScale.contained,
-            maxScale: 1.5,
-            childSize: Size(4961, 3508),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
             child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.trip_origin),
-              onPressed: () {
-                setState(() {
-                  _sourceList();
-                });
-                /*ListView(children: <Widget>[
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.trip_origin),
+                  onPressed: () {
+                    setState(() {
+                      _sourceList();
+                    });
+                    /*ListView(children: <Widget>[
                   Container(
                       child: RaisedButton(
                     onPressed: () {
@@ -136,28 +123,28 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: const Text('Node a'),
                   )),
                 ]);*/
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.lens),
-              onPressed: () {
-                setState(() {
-                  ListView(children: <Widget>[
-                    Container(
-                        child: RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          _target = f;
-                        });
-                      },
-                      child: const Text('Node a'),
-                    )),
-                  ]);
-                });
-              },
-            ),
-          ],
-        )),
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.lens),
+                  onPressed: () {
+                    setState(() {
+                      ListView(children: <Widget>[
+                        Container(
+                            child: RaisedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _target = g;
+                                });
+                              },
+                              child: const Text('Node a'),
+                            )),
+                      ]);
+                    });
+                  },
+                ),
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //path = _Route(source, _target).generateRoute();
@@ -166,16 +153,16 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           child: Icon(Icons.near_me),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      );*/
+      );
     }
+  }
 
 
   Widget _sourceList() {
-    print("working1");
     return ListView.builder(
         padding: const EdgeInsets.all(10.0),
         itemBuilder: (context, i) {
-          print("working2");
+
           return _buildRow();
         });
   }
@@ -186,7 +173,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
 }
 
 class RoutePainter extends CustomPainter {
-  Queue path;
+  ListQueue path;
   RoutePainter(Queue path) {
     this.path = Queue.from(path);
   }
@@ -195,25 +182,37 @@ class RoutePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
     paint.color = Colors.indigoAccent;
-    paint.strokeWidth = 5;
+    paint.strokeWidth = 20;
 
     /* Path p = new Path();
     p.lineTo(size.height - , size.width);
 
     canvas.drawPath(p,paint); */
+    Node node1 = path.elementAt(path.length-1);
+    Node node2 = path.elementAt(path.length-2);
+    int length = path.length -3;
+    canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
+        Offset(node2.coordsX, node2.coordsY), paint);
+    canvas.drawCircle(Offset(node1.coordsX, node1.coordsY), size.width/60, paint);
 
-    /*Node node1 = path.removeLast();
-    Node node2 = path.removeLast();
-    int length = path.length;
-    for (int i = 0; i < length; i++) {
-      canvas.drawLine(Offset(node1.coordsY, node1.coordsX),
-          Offset(node2.coordsY, node2.coordsX), paint);
-      node1 = node2;
-      node2 = path.removeLast();
-      print("painting1");
-    }*/
-    canvas.drawLine(Offset(0, 0),
-        Offset(-10, -10), paint);
+    for (int i = length; i >=0; i--) {
+      node1 = node2.copy();
+      node2 = path.elementAt(i);
+      canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
+          Offset(node2.coordsX, node2.coordsY), paint);
+      canvas.drawCircle(Offset(node1.coordsX, node1.coordsY), size.width/90, paint);
+      if(i == 0) {
+        canvas.drawCircle(Offset(node2.coordsX, node2.coordsY), size.width/60, paint);
+      }
+
+
+
+    }
+    /*canvas.drawLine(Offset(size.width/2, (size.height/2)+200),
+    Offset((size.width/2)-1100, (size.height/2)+550), paint);
+
+    canvas.drawCircle(Offset(size.width/2, (size.height/2)+200), size.width/45, paint);
+    canvas.drawCircle(Offset((size.width/2)-1100, (size.height/2)+550), size.width/45, paint);*/
   }
 
   @override
@@ -228,27 +227,47 @@ class _Route {
   Graph graph = new Graph();
   Queue route;
 
+  //these nodes would already be in the database, but for now they're just local for testing
   Node a = new Node("a");
   Node b = new Node("b");
   Node c = new Node("c");
   Node d = new Node("d");
   Node e = new Node("e");
   Node f = new Node("f");
+  Node g = new Node("g");
 
   _Route(Node source, Node target) {
+    //pre-initialisation test code start
     a.addDestination(b, 10);
     a.addDestination(c, 15);
+    a.coordsX = 3112;
+    a.coordsY = 1176;
 
     b.addDestination(d, 12);
     b.addDestination(f, 15);
+    b.coordsX = 1812;
+    b.coordsY = 1137;
 
     c.addDestination(e, 10);
+    c.coordsX = 1455;
+    c.coordsY = 1065;
 
     d.addDestination(e, 2);
     d.addDestination(f, 1);
+    d.coordsX = 1377;
+    d.coordsY = 1399;
 
     f.addDestination(e, 5);
-    print(a.adjacentNodes);
+    f.addDestination(g, 5);
+    f.coordsX = 1377;
+    f.coordsY = 2800;
+
+    e.coordsX = 602;
+    e.coordsY = 3100;
+
+    g.coordsX = 964;
+    g.coordsY = 2872;
+
 
     graph.addNode(a);
     graph.addNode(b);
@@ -256,7 +275,8 @@ class _Route {
     graph.addNode(d);
     graph.addNode(e);
     graph.addNode(f);
-
+    graph.addNode(g);
+    //end
 
     this.source = source;
     this.target = target;
@@ -265,9 +285,6 @@ class _Route {
   }
 
   Queue generateRoute() {
-    print(source.name);
-    print(target.name);
-    print(graph.nodes);
     route = Queue.from(Navigation.pathToTarget(graph, source, target));
     return route;
   }
