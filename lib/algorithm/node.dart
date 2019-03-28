@@ -41,4 +41,15 @@ class Node {
     return _name;
   }
 
+  Node copy() {
+    Node n = new Node(_name);
+    n.coordsY = this.coordsY;
+    n.coordsX = this.coordsX;
+    n.adjacentNodes = Map.from(this.adjacentNodes);
+    n.distance = this.distance;
+    n.shortestPath = List.from(this.shortestPath);
+
+    return n;
+  }
+
 }
