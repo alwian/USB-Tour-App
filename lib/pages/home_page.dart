@@ -3,7 +3,6 @@ import 'package:csc2022_app/fragments/find_a_room_fragment.dart';
 import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
 import 'package:csc2022_app/fragments/building_information_fragment.dart';
 import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
-import 'package:csc2022_app/fragments/history_fragment.dart';
 
 class _DrawerTile {
   String tileTitle;
@@ -19,7 +18,6 @@ class HomePage extends StatefulWidget {
     _DrawerTile('Explore a floor', Icons.map, 'Explore'),
     _DrawerTile('Building information', Icons.info, 'Building information'),
     _DrawerTile('Urban Observatory', Icons.computer, 'Urban Observatory'),
-    _DrawerTile('History', Icons.history, 'History')
   ];
 
   @override
@@ -41,8 +39,6 @@ class _HomePageState extends State<HomePage> {
         return BuildingInformationFragment();
       case 3:
         return UrbanObservatoryFragment();
-      case 4:
-        return HistoryFragment();
       default:
         return Text('Error');
     }
