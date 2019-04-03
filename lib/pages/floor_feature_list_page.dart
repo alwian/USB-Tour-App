@@ -56,7 +56,7 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
               },
               child: Stack(
                 children: <Widget>[
-                  Image.asset("assets/images/" + _rooms[index].image),
+                  Image.asset('assets/images/' + _rooms[index].image),
                   Container(
                     margin: EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(left: 10.0, top: 7.5, right: 20.0, bottom: 7.5),
