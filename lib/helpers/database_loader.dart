@@ -11,6 +11,9 @@ class DatabaseLoader {
       ByteData dbFile = await DefaultAssetBundle.of(context).load(join('assets/databases/', dbName));
       List<int> bytes = dbFile.buffer.asUint8List(dbFile.offsetInBytes, dbFile.lengthInBytes);
       await File(pathToCopyTo).writeAsBytes(bytes);
+    } else {
+      await File(pathToCopyTo).delete();
+      _load(context, dbsPath, dbName);
     }
     return true;
   }
