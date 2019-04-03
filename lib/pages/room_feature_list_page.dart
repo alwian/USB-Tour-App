@@ -1,33 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
 
-class _RoomFeature {
-  String image;
-  String description;
-
-  _RoomFeature(this.image, this.description);
-}
-
-class RoomFeatureListPage extends StatelessWidget {
+class RoomFeatureListPage extends StatefulWidget {
   final String roomName;
 
   RoomFeatureListPage(this.roomName);
 
-  final _features = [
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-    _RoomFeature('assets/images/flat_floor.jpg', 'Placeholder text...'),
-  ];
+  @override
+  State<StatefulWidget> createState() {
+    return _RoomFeatureListPageState();
+  }
+}
+
+class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
+  List<RoomFeature> _features;
+
+  @override
+  void initState() {
+    _loadFeatures();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(roomName),
-      ),
-      body: ListView.builder(
+        appBar: AppBar(
+          title: Text(widget.roomName),
+        ),
+        body: _features == null ? Center(
+          child: CircularProgressIndicator(),
+        ) : _listUI()
+    );
+  }
+
+  Future<void> _loadFeatures() async {
+    _features = await ExploreAFloorManager.getRoomFeatures(widget.roomName);
+    setState(() {
+
+    });
+  }
+
+  Widget _listUI() {
+    return ListView.builder(
         itemCount: _features.length,
         itemBuilder: (context, index) {
           return  Card(
@@ -36,7 +49,7 @@ class RoomFeatureListPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset(_features[index].image),
+                Image.asset('assets/images/' + _features[index].image),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   color: Color(0xFFE0E0E0),
@@ -53,7 +66,6 @@ class RoomFeatureListPage extends StatelessWidget {
             ),
           );
         }
-      )
     );
   }
 }
