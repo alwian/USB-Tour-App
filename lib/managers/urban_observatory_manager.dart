@@ -1,6 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+class Sensor {
+  String metric;
+  String value;
+  String unit;
+
+  Sensor(this.metric, this.value, this.unit);
+
+  @override
+  String toString() {
+    return '$metric: $value $unit';
+  }
+}
+
 class UrbanObservatoryManager {
 
   static final Map<String, String> _units = {
@@ -11,9 +24,9 @@ class UrbanObservatoryManager {
     'luxes' : 'luxes'
   };
 
-  static Future<List<String>> getSensorData(room) async {
+  static Future<List<Sensor>> getSensorData(room) async {
     String json = await  _getJson(room);
-    List<String> extractedData = _extractSensorData(json);
+    List<Sensor> extractedData = _extractSensorData(json);
     return extractedData;
   }
 
@@ -23,18 +36,23 @@ class UrbanObservatoryManager {
     return response.body;
   }
 
-  static List<String> _extractSensorData(json) {
-    List<String> sensorData = [];
+  static List<Sensor> _extractSensorData(json) {
+    List<Sensor> sensorData = [];
     Map decoded = jsonDecode(json);
     List items = decoded['items'];
-    Map firstItem = items[0];
-    List feeds = firstItem['feed'];
-    for (Map feed in feeds) {
-      try {
-        sensorData.add(
-            feed['metric'] + ': ' + feed['timeseries'][0]['latest']['value'].toString()
-                + ' ' + _units[feed['timeseries'][0]['unit']['name']]);
-      } catch (e) {}
+    for(Map item in items) {
+      List feeds = item['feed'];
+      for (Map feed in feeds) {
+        try {
+          sensorData.add(
+              Sensor(
+                  feed['metric'],
+                  feed['timeseries'][0]['latest']['value'].toString(),
+                  _units[feed['timeseries'][0]['unit']['name']]
+              )
+          );
+        } catch (e) {}
+      }
     }
     return sensorData;
   }
