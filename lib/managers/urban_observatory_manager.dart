@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class UrbanObservatoryManager {
 
   static final Map<String, String> _units = {
-    'degrees celcius' : '°C',
+    'degrees celsius' : '°C',
     'parts per million' : 'ppm',
     'percent' : '%',
     'unknown' : '',
