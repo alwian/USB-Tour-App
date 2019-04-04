@@ -50,15 +50,18 @@ class UrbanObservatoryManager {
         sensorData.add(Sensor('Zone 0', '0', 'separator'));
       }
       List feeds = item['feed'];
+      RegExp exclude = RegExp('CLCZ[0-9]+DimValStatus');
       for (Map feed in feeds) {
         try {
-          sensorData.add(
-              Sensor(
-                  feed['metric'],
-                  feed['timeseries'][0]['latest']['value'].toString(),
-                  _units[feed['timeseries'][0]['unit']['name']]
-              )
-          );
+          if (!exclude.hasMatch(feed['metric'])) {
+            sensorData.add(
+                Sensor(
+                    feed['metric'],
+                    feed['timeseries'][0]['latest']['value'].toString(),
+                    _units[feed['timeseries'][0]['unit']['name']]
+                )
+            );
+          }
         } catch (e) {}
       }
     }
