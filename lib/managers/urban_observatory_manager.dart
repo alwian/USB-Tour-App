@@ -57,7 +57,8 @@ class UrbanObservatoryManager {
             sensorData.add(
                 Sensor(
                     feed['metric'],
-                    feed['timeseries'][0]['latest']['value'].toString(),
+                    feed['timeseries'][0]['latest']['value'] == null ?
+                    'unavailable' : feed['timeseries'][0]['latest']['value'].toString(),
                     _units[feed['timeseries'][0]['unit']['name']]
                 )
             );
