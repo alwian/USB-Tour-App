@@ -22,7 +22,8 @@ class UrbanObservatoryManager {
     'parts per million' : 'ppm',
     'percent' : '%',
     'unknown' : '',
-    'luxes' : 'luxes'
+    'luxes' : 'luxes',
+    'percent relative humidity' : '%'
   };
 
   static Future<List<Sensor>> getSensorData(room) async {
