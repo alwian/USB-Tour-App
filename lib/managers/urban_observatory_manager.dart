@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:http/http.dart' as http;
 
 class Sensor {
@@ -38,9 +39,13 @@ class UrbanObservatoryManager {
 
   static List<Sensor> _extractSensorData(json) {
     List<Sensor> sensorData = [];
+    RegExp zoneExp = RegExp('Zone [0-9]+');
     Map decoded = jsonDecode(json);
     List items = decoded['items'];
     for(Map item in items) {
+      if (zoneExp.hasMatch(item['name'])) {
+        sensorData.add(Sensor(zoneExp.firstMatch(item['name']).group(0), '0', 'separator'));
+      }
       List feeds = item['feed'];
       for (Map feed in feeds) {
         try {

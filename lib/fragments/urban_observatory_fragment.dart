@@ -142,7 +142,14 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text(_dataPoints[index].toString()),
+                    child: _dataPoints[index].unit == 'separator' ?
+                        Text(
+                            _dataPoints[index].metric,
+                            style: TextStyle(
+                              fontSize: 22.0
+                            ),
+                        )
+                        : Text(_dataPoints[index].toString()),
                   )
               );
             }
