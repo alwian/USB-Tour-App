@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseLoader {
+class DatabaseHelper {
   static Future<bool> _load(BuildContext context, String dbsPath, String dbName) async {
     String pathToCopyTo = join(dbsPath, dbName);
     if(! await File(pathToCopyTo).exists()) {

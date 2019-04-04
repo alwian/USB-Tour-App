@@ -27,6 +27,8 @@ class ExploreAFloorManager {
       queryResults = await txn.rawQuery(query);
     });
 
+    await database.close();
+
     List<Room> rooms = [];
     for (Map<String, dynamic> m in queryResults) {
       rooms.add(
@@ -46,6 +48,8 @@ class ExploreAFloorManager {
       String query = "SELECT * FROM room_features WHERE room='$room'";
       queryResults = await txn.rawQuery(query);
     });
+
+    await database.close();
 
     List<RoomFeature> features = [];
     for (Map<String, dynamic> m in queryResults) {
