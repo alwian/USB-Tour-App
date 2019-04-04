@@ -46,6 +46,8 @@ class UrbanObservatoryManager {
     for(Map item in items) {
       if (zoneExp.hasMatch(item['name'])) {
         sensorData.add(Sensor(zoneExp.firstMatch(item['name']).group(0), '0', 'separator'));
+      } else if (items.length == 1) {
+        sensorData.add(Sensor('Zone 0', '0', 'separator'));
       }
       List feeds = item['feed'];
       for (Map feed in feeds) {
