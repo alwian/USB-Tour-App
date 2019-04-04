@@ -30,4 +30,17 @@ class DatabaseHelper {
     }
     return true;
   }
+
+  static Future<List<Map<String, dynamic>>> query(query) async {
+    String dbsPath = await getDatabasesPath();
+    String dbPath = join(dbsPath, "data.db");
+
+    Database database = await openDatabase(dbPath);
+    List<Map<String, dynamic>> queryResults;
+    await database.transaction((txn) async {
+      queryResults = await txn.rawQuery(query);
+    });
+
+    return queryResults;
+  }
 }

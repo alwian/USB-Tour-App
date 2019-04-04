@@ -1,5 +1,4 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:csc2022_app/helpers/database_helper.dart';
 
 class Room {
   String name;
@@ -17,18 +16,9 @@ class RoomFeature {
 
 class ExploreAFloorManager {
   static Future<List<Room>> getRooms(floor) async {
-    String dbsPath = await getDatabasesPath();
-    String dbPath = join(dbsPath, "data.db");
-    
-    Database database = await openDatabase(dbPath);
-    List<Map<String, dynamic>> queryResults;
-    await database.transaction((txn) async {
-      String query = "SELECT * FROM rooms WHERE floorId=$floor";
-      queryResults = await txn.rawQuery(query);
-    });
-
-    await database.close();
-
+    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
+        'SELECT * FROM rooms WHERE floorId=$floor'
+    );
     List<Room> rooms = [];
     for (Map<String, dynamic> m in queryResults) {
       rooms.add(
@@ -39,18 +29,9 @@ class ExploreAFloorManager {
   }
 
   static Future<List<RoomFeature>> getRoomFeatures(room) async {
-    String dbsPath = await getDatabasesPath();
-    String dbPath = join(dbsPath, "data.db");
-
-    Database database = await openDatabase(dbPath);
-    List<Map<String, dynamic>> queryResults;
-    await database.transaction((txn) async {
-      String query = "SELECT * FROM room_features WHERE room='$room'";
-      queryResults = await txn.rawQuery(query);
-    });
-
-    await database.close();
-
+    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
+        "SELECT * FROM room_features WHERE room='$room'"
+    );
     List<RoomFeature> features = [];
     for (Map<String, dynamic> m in queryResults) {
       features.add(
