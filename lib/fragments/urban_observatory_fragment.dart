@@ -97,7 +97,9 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                                   child: CircularProgressIndicator(),
                                 ) : !_fetching && _dataPoints == null ? Center(
                                   child: Text('No data requested'),
-                                ) : _listUI(),
+                                ) : _dataPoints.length == 0 ? Center(
+                                  child: Text('No sensors available in this room'),
+                                ) :_listUI(),
                               )
                             ],
                           ),
