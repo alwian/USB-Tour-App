@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedFragmentIndex = 0;
 
   /// Loads the app section that needs to be displayed.
-  _getSelectedFragment() {
+  Widget _getSelectedFragment() {
     switch(_selectedFragmentIndex) {
       case 0:
         return FindARoomFragment();
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Loads a new [_HomePageState] with the correct app section displayed.
-  _onItemPressed(index) {
+  void _onItemPressed(index) {
     setState(() {
       _selectedFragmentIndex = index;
     });
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Builds the [ListTile]s to be displayed in the [Drawer].
-  _buildDrawerTiles() {
+  List<Widget> _buildDrawerTiles() {
     var tiles = <Widget>[];
     for(int i = 0; i < widget._drawerTiles.length; i++) {
       tiles.add(

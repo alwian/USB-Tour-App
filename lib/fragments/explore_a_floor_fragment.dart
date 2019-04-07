@@ -11,7 +11,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   final int _floorCount = 5;
 
   /// Returns a button which navigates to a [FloorFeatureListPage].
-  _buildFloorButton(context, floorNo, height, fullWidth) {
+  Material _buildFloorButton(context, floorNo, height, fullWidth) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
       color: Colors.white,
@@ -54,7 +54,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   }
 
   /// Returns how many rows of buttons shall be created.
-  _calcRowCount() {
+  int _calcRowCount() {
     int rows = 0;
     for(int i = 0; i < _floorCount; i++) {
       if (i % 3 == 0 || i % 3 == 2) {
@@ -67,7 +67,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   /// Returns a [List] of buttons.
   ///
   /// Buttons are created n a 2:1:2:1:... pattern.
-  _buildFloorButtonList(context, rowHeight) {
+  List<Widget> _buildFloorButtonList(context, rowHeight) {
     var rows = <Widget>[];
     for(int i = 0; i < _floorCount; i++) {
       if(i % 3 == 0 && i + 1 < _floorCount) {
