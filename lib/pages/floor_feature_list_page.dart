@@ -30,6 +30,7 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
   /// Load [_rooms] when the [State] is created.
   @override
   void initState() {
+    super.initState();
     _loadRooms();
   }
 

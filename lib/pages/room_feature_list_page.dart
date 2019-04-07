@@ -29,6 +29,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
   /// Loads the [RoomFeature] for this page to display.
   @override
   void initState() {
+    super.initState();
     _loadFeatures();
   }
 
