@@ -1,25 +1,38 @@
+/// Author: Alex Anderson
+/// Student No: 170453905
+
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
 
+/// A Page for displaying rooms on a floor in the Urban Sciences Building.
 class RoomFeatureListPage extends StatefulWidget {
+
+  /// The name of the [Room] this page is about.
   final String roomName;
 
+  /// Defines a [RoomFeatureListPage].
   RoomFeatureListPage(this.roomName);
 
+  /// Returns a [State] of this page.
   @override
   State<StatefulWidget> createState() {
     return _RoomFeatureListPageState();
   }
 }
 
+/// A [State] of a [RoomFeatureListPage].
 class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
+
+  /// A [List] of [RoomFeature]s to be displayed.
   List<RoomFeature> _features;
 
+  /// Loads the [RoomFeature] for this page to display.
   @override
   void initState() {
     _loadFeatures();
   }
 
+  /// Builds the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +45,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
     );
   }
 
+  /// Gets a [List] of [RoomFeature]s to display.
   Future<void> _loadFeatures() async {
     _features = await ExploreAFloorManager.getRoomFeatures(widget.roomName);
     setState(() {
@@ -39,6 +53,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
     });
   }
 
+  /// Returns a [Widget] containing a [Room]s [RoomFeature]s.
   Widget _listUI() {
     return ListView.builder(
         itemCount: _features.length,

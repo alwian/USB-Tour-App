@@ -1,8 +1,14 @@
+/// Author: Alex Anderson
+/// Student No: 170453905
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/urban_observatory_manager.dart';
 
+/// Allows users to view sensor data about rooms in the Urban Sciences Building.
 class UrbanObservatoryFragment extends StatefulWidget {
+
+  /// The text to display in the about section of the page.
   final _placeholderAbout = 'Lorem ipsum dolor sit amet, consectetur adipiscing'
       ' elit. Aliquam tempus ac risus in iaculis. Quisque placerat a lectus '
       'non pretium. Cras congue aliquam arcu, eget dictum ipsum ornare quis. '
@@ -14,25 +20,39 @@ class UrbanObservatoryFragment extends StatefulWidget {
       'In hac habitasse platea dictumst. Donec et dignissim magna. Nunc in '
       'finibus dui. ';
 
+  /// Returns a [UrbanObservatoryFragmentState].
   @override
   State<StatefulWidget> createState() {
     return UrbanObservatoryFragmentState();
   }
 }
 
+/// A [State] of a [UrbanObservatoryFragment].
 class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
+
+  /// Sensors that need to be displayed.
   List<Sensor> _dataPoints;
+
+  /// Whether data is currently being fetched.
   bool _fetching = false;
+
+  /// Whether there is an internet connection.
   bool connection = true;
+
+  /// Controller for the room input field.
   final _controller = TextEditingController();
+
+  /// The room currently being viewed.
   String _currentRoom;
 
+  /// Disposes of [_controller].
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  /// Builds the fragment.
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -119,6 +139,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
     );
   }
 
+  /// Loads the sensor data for [room].
   Future<void> _loadSensorData(room) async {
     _currentRoom = room;
     if (await checkConnection()) {
@@ -137,6 +158,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
     }
   }
 
+  /// Checks for an internet connection.
   Future<bool> checkConnection() async {
     try {
       final result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
@@ -146,6 +168,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
     }
   }
 
+  /// Returns a [Widget] containing the values for the sensors in [_currentRoom].
   Widget _listUI() {
     return Padding(
         padding: EdgeInsets.only(top: 16.0),

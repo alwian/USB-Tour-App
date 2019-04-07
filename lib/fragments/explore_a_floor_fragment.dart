@@ -1,9 +1,16 @@
+/// Author: Alex Anderson
+/// Student No: 170453905
+
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 
+/// Allows users to view information about different floors in the Urban Sciences Building.
 class ExploreAFloorFragment extends StatelessWidget {
+
+  /// The number of floors to be displayed.
   final int _floorCount = 5;
 
+  /// Returns a button which navigates to a [FloorFeatureListPage].
   _buildFloorButton(context, floorNo, height, fullWidth) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
@@ -46,6 +53,7 @@ class ExploreAFloorFragment extends StatelessWidget {
     );
   }
 
+  /// Returns how many rows of buttons shall be created.
   _calcRowCount() {
     int rows = 0;
     for(int i = 0; i < _floorCount; i++) {
@@ -56,6 +64,9 @@ class ExploreAFloorFragment extends StatelessWidget {
     return rows;
   }
 
+  /// Returns a [List] of buttons.
+  ///
+  /// Buttons are created n a 2:1:2:1:... pattern.
   _buildFloorButtonList(context, rowHeight) {
     var rows = <Widget>[];
     for(int i = 0; i < _floorCount; i++) {
@@ -81,6 +92,7 @@ class ExploreAFloorFragment extends StatelessWidget {
     return rows;
   }
 
+  /// Builds the fragment.
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
