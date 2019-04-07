@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseLoader {
+class DatabaseHelper {
   static Future<bool> _load(BuildContext context, String dbsPath, String dbName) async {
     String pathToCopyTo = join(dbsPath, dbName);
     if(! await File(pathToCopyTo).exists()) {
@@ -29,5 +29,18 @@ class DatabaseLoader {
       await _load(context, dbsPath, dbName);
     }
     return true;
+  }
+
+  static Future<List<Map<String, dynamic>>> query(query) async {
+    String dbsPath = await getDatabasesPath();
+    String dbPath = join(dbsPath, "data.db");
+
+    Database database = await openDatabase(dbPath);
+    List<Map<String, dynamic>> queryResults;
+    await database.transaction((txn) async {
+      queryResults = await txn.rawQuery(query);
+    });
+
+    return queryResults;
   }
 }

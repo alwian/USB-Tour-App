@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'helpers/database_loader.dart';
+import 'helpers/database_helper.dart';
 import 'package:csc2022_app/pages/home_page.dart';
 
 void main() => runApp(MyApp());
@@ -7,7 +7,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DatabaseLoader.loadSingular(context, 'data.db');
+    DatabaseHelper.loadSingular(context, 'data.db');
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF9DAF59),
