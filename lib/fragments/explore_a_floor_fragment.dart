@@ -12,6 +12,7 @@ class ExploreAFloorFragment extends StatelessWidget {
 
   /// Returns a button which navigates to a [FloorFeatureListPage].
   Material _buildFloorButton(context, floorNo, height, fullWidth) {
+    // Get screen width.
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
       color: Colors.white,
@@ -26,6 +27,7 @@ class ExploreAFloorFragment extends StatelessWidget {
         },
         child: Container(
           height: height,
+          // Give button the correct width.
           width: fullWidth ? screenWidth : screenWidth / 2,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 2.0)
@@ -57,6 +59,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   int _calcRowCount() {
     int rows = 0;
     for(int i = 0; i < _floorCount; i++) {
+      // A new row is required if conditions are true.
       if (i % 3 == 0 || i % 3 == 2) {
         rows++;
       }
@@ -70,6 +73,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   List<Widget> _buildFloorButtonList(context, rowHeight) {
     var rows = <Widget>[];
     for(int i = 0; i < _floorCount; i++) {
+      // If on a 2 wide row.
       if(i % 3 == 0 && i + 1 < _floorCount) {
         rows.add(
           Row(
@@ -79,6 +83,7 @@ class ExploreAFloorFragment extends StatelessWidget {
             ],
           ),
         );
+        // If on a 1 wide row or only 1 item left.
       } else if (i % 3 == 0 || i % 3 == 2) {
         rows.add(
           Row(

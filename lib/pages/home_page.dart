@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Loads a new [_HomePageState] with the correct app section displayed.
   void _onItemPressed(index) {
+    // Update the state to show the correct fragment.
     setState(() {
       _selectedFragmentIndex = index;
     });
@@ -74,6 +75,7 @@ class _HomePageState extends State<HomePage> {
   /// Builds the [ListTile]s to be displayed in the [Drawer].
   List<Widget> _buildDrawerTiles() {
     var tiles = <Widget>[];
+    // Create a drawer entry for each app section.
     for(int i = 0; i < widget._drawerTiles.length; i++) {
       tiles.add(
           ListTile(

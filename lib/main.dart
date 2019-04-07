@@ -12,7 +12,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Load the database for use by the app.
     DatabaseHelper.loadSingular(context, 'data.db');
+    // Return the app
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF9DAF59),

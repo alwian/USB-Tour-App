@@ -32,7 +32,9 @@ class DatabaseHelper {
 
   /// Loads in multiple database assets.
   static Future<bool> loadAll(BuildContext context, List<String> dbNames) async {
+    // Path on device where databases are stored.
     String dbsPath = await getDatabasesPath();
+    // Execute the method for loading a single DB for all to be loaded.
     for(String dbName in dbNames) {
       await _load(context, dbsPath, dbName);
     }
@@ -41,9 +43,12 @@ class DatabaseHelper {
 
   /// Returns the results of a database query.
   static Future<List<Map<String, dynamic>>> query(query) async {
+    // Path on device where databases are stored.
     String dbsPath = await getDatabasesPath();
+    // Required name of a database in the app.
     String dbPath = join(dbsPath, "data.db");
 
+    //Connect to database and return query results.
     Database database = await openDatabase(dbPath);
     List<Map<String, dynamic>> queryResults;
     await database.transaction((txn) async {

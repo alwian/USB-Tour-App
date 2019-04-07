@@ -40,6 +40,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
         appBar: AppBar(
           title: Text(widget.roomName),
         ),
+        // Until features are loaded display a loading indicator.
         body: _features == null ? Center(
           child: CircularProgressIndicator(),
         ) : _listUI()
@@ -49,9 +50,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
   /// Gets a [List] of [RoomFeature]s to display.
   Future<void> _loadFeatures() async {
     _features = await ExploreAFloorManager.getRoomFeatures(widget.roomName);
-    setState(() {
-
-    });
+    setState(() {}); // Update the state to show features.
   }
 
   /// Returns a [Widget] containing a [Room]s [RoomFeature]s.

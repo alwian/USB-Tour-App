@@ -90,6 +90,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                     floatingActionButton: FloatingActionButton(
                         backgroundColor: Color(0xFF96B24A),
                         child: Icon(Icons.refresh),
+                        // Only refresh if a room has been selected.
                         onPressed: () => _currentRoom != null ? _loadSensorData(_currentRoom) : {}
                     ),
                     body: Padding(
@@ -115,6 +116,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                                 ),
                               ),
                               Expanded(
+                                // Display relevant Widget.
                                 child: !connection ? Center(
                                   child: Text("Please check your internet connection"),
                                 ) : _fetching ? Center(
@@ -141,7 +143,9 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
 
   /// Loads the sensor data for [room].
   Future<void> _loadSensorData(room) async {
+    // set current room so data can be refreshed.
     _currentRoom = room;
+    // Only load data if there is an internet connection.
     if (await checkConnection()) {
       setState(() {
         connection = true;
@@ -160,6 +164,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
 
   /// Checks for an internet connection.
   Future<bool> checkConnection() async {
+    // Try to connect to the Urban Observatory website.
     try {
       final result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
@@ -172,6 +177,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   Widget _listUI() {
     return Padding(
         padding: EdgeInsets.only(top: 16.0),
+        // Create list of sensor data.
         child: ListView.builder(
             shrinkWrap: true,
             itemCount: _dataPoints.length,
