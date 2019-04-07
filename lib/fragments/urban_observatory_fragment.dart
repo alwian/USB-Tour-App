@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/urban_observatory_manager.dart';
 
@@ -22,6 +23,7 @@ class UrbanObservatoryFragment extends StatefulWidget {
 class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   List<Sensor> _dataPoints;
   bool _fetching = false;
+  bool connection = true;
   final _controller = TextEditingController();
   String _currentRoom;
 
@@ -93,7 +95,9 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                                 ),
                               ),
                               Expanded(
-                                child: _fetching ? Center(
+                                child: !connection ? Center(
+                                  child: Text("Please check your internet connection"),
+                                ) : _fetching ? Center(
                                   child: CircularProgressIndicator(),
                                 ) : !_fetching && _dataPoints == null ? Center(
                                   child: Text('No data requested'),
@@ -116,14 +120,30 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   }
 
   Future<void> _loadSensorData(room) async {
-    setState(() {
-      _fetching = true;
-      _currentRoom = room;
-    });
-    _dataPoints = await UrbanObservatoryManager.getSensorData(room);
-    setState(() {
-      _fetching = false;
-    });
+    _currentRoom = room;
+    if (await checkConnection()) {
+      setState(() {
+        connection = true;
+        _fetching = true;
+      });
+      _dataPoints = await UrbanObservatoryManager.getSensorData(room);
+      setState(() {
+        _fetching = false;
+      });
+    } else {
+      setState(() {
+        connection = false;
+      });
+    }
+  }
+
+  Future<bool> checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 
   Widget _listUI() {
