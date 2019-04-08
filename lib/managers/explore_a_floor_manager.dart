@@ -32,6 +32,18 @@ class RoomFeature {
 /// Handles data retrieval for a [FloorFeatureListPage] or a [RoomFeatureListPage].
 class ExploreAFloorManager {
 
+  /// Returns a [List] of all floor numbers in the Urban Sciences Building.
+  static Future<List<int>> getFloors() async {
+    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
+      'SELECT * FROM floors'
+    );
+    List<int> floors = [];
+    for(Map<String, dynamic> m in queryResults) {
+      floors.add(m['floorId']);
+    }
+    return floors;
+  }
+
   /// Returns all the notable [Room]s for a given floor.
   static Future<List<Room>> getRooms(floor) async {
     // Execute query to get required database rows.
