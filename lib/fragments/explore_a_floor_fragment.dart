@@ -2,14 +2,31 @@
 /// Student No: 170453905
 
 import 'package:flutter/material.dart';
+import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
 import 'package:csc2022_app/pages/floor_feature_list_page.dart';
 
 /// Allows users to view information about different floors in the Urban Sciences Building.
-class ExploreAFloorFragment extends StatelessWidget {
+class ExploreAFloorFragment extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _ExploreAFragmentState();
+  }
+}
 
-  /// The number of floors to be displayed.
-  final int _floorCount = 5;
+class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
 
+  List<int> _floors;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFloors();
+  }
+
+  Future<void> _loadFloors() async {
+    _floors = await ExploreAFloorManager.getFloors();
+    setState(() {});
+  }
   /// Returns a button which navigates to a [FloorFeatureListPage].
   Material _buildFloorButton(context, floorNo, height, fullWidth) {
     // Get screen width.
@@ -20,9 +37,9 @@ class ExploreAFloorFragment extends StatelessWidget {
         splashColor: Color(0xFFD5E3AF),
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => FloorFeatureListPage(floorNo)  
-            )
+              MaterialPageRoute(
+                  builder: (context) => FloorFeatureListPage(floorNo)
+              )
           );
         },
         child: Container(
@@ -30,26 +47,26 @@ class ExploreAFloorFragment extends StatelessWidget {
           // Give button the correct width.
           width: fullWidth ? screenWidth : screenWidth / 2,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 2.0)
+              border: Border.all(color: Colors.black, width: 2.0)
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'FLOOR',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'FLOOR',
+                style: TextStyle(
+                  fontSize: 15.0,
                 ),
-                Text(
-                  floorNo.toString(),
-                  style: TextStyle(
+              ),
+              Text(
+                floorNo.toString(),
+                style: TextStyle(
                     fontSize: 36.0
-                  ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -58,7 +75,7 @@ class ExploreAFloorFragment extends StatelessWidget {
   /// Returns how many rows of buttons shall be created.
   int _calcRowCount() {
     int rows = 0;
-    for(int i = 0; i < _floorCount; i++) {
+    for(int i = 0; i < _floors.length; i++) {
       // A new row is required if conditions are true.
       if (i % 3 == 0 || i % 3 == 2) {
         rows++;
@@ -67,19 +84,20 @@ class ExploreAFloorFragment extends StatelessWidget {
     return rows;
   }
 
+
   /// Returns a [List] of buttons.
   ///
   /// Buttons are created n a 2:1:2:1:... pattern.
   List<Widget> _buildFloorButtonList(context, rowHeight) {
     var rows = <Widget>[];
-    for(int i = 0; i < _floorCount; i++) {
+    for(int i = 0; i < _floors.length; i++) {
       // If on a 2 wide row.
-      if(i % 3 == 0 && i + 1 < _floorCount) {
+      if(i % 3 == 0 && i + 1 < _floors.length) {
         rows.add(
           Row(
             children: <Widget>[
-              _buildFloorButton(context, i, rowHeight, false),
-              _buildFloorButton(context, i + 1, rowHeight, false),
+              _buildFloorButton(context, _floors[i], rowHeight, false),
+              _buildFloorButton(context, _floors[i] + 1, rowHeight, false),
             ],
           ),
         );
@@ -88,7 +106,7 @@ class ExploreAFloorFragment extends StatelessWidget {
         rows.add(
           Row(
             children: <Widget>[
-              _buildFloorButton(context, i, rowHeight, true),
+              _buildFloorButton(context, _floors[i], rowHeight, true),
             ],
           ),
         );
@@ -97,7 +115,7 @@ class ExploreAFloorFragment extends StatelessWidget {
     return rows;
   }
 
-  /// Builds the fragment.
+  /// Builds the state.
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -108,16 +126,16 @@ class ExploreAFloorFragment extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/images/usb.jpg'),
           Expanded(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Column(
-                  children: _buildFloorButtonList(
-                      context,
-                      constraints.maxHeight / _calcRowCount()
-                  ),
-                );
-              }
-            )
+              child: _floors == null ? CircularProgressIndicator() : LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Column(
+                      children: _buildFloorButtonList(
+                          context,
+                          constraints.maxHeight / _calcRowCount()
+                      ),
+                    );
+                  }
+              )
           )
         ],
       ),
