@@ -126,16 +126,19 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
         children: <Widget>[
           Image.asset('assets/images/usb.jpg'),
           Expanded(
-              child: _floors == null ? CircularProgressIndicator() : LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Column(
-                      children: _buildFloorButtonList(
-                          context,
-                          constraints.maxHeight / _calcRowCount()
-                      ),
-                    );
-                  }
-              )
+            child: _floors == null ? CircularProgressIndicator()
+                : _floors.isEmpty ? Center(
+              child: Text('No floors found'),
+            ) : LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Column(
+                  children: _buildFloorButtonList(
+                      context,
+                      constraints.maxHeight / _calcRowCount()
+                  ),
+                );
+              }
+            )
           )
         ],
       ),
