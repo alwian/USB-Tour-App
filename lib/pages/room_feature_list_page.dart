@@ -43,6 +43,8 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
         // Until features are loaded display a loading indicator.
         body: _features == null ? Center(
           child: CircularProgressIndicator(),
+        ) : _features.isEmpty ? Center(
+          child: Text('No features found in this room'),
         ) : _listUI()
     );
   }
