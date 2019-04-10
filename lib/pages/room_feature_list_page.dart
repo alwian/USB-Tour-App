@@ -70,14 +70,10 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   color: Color(0xFFE0E0E0),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        child: Text(_features[index].description),
-                        padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 10.0),
-                      )
-                    ],
-                  ),
+                  child: Padding(
+                    child: Text(_features[index].description, maxLines: 3, overflow: TextOverflow.ellipsis,),
+                    padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 10.0),
+                  )
                 )
               ],
             ),
