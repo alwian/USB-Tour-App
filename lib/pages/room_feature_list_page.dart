@@ -45,7 +45,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
           child: CircularProgressIndicator(),
         ) : _features.isEmpty ? Center(
           child: Text('No features found in this room'),
-        ) : _listUI()
+        ) : _listUI(context)
     );
   }
 
@@ -56,26 +56,36 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
   }
 
   /// Returns a [Widget] containing a [Room]s [RoomFeature]s.
-  Widget _listUI() {
+  Widget _listUI(BuildContext context) {
     return ListView.builder(
         itemCount: _features.length,
         itemBuilder: (context, index) {
-          return  Card(
-            margin: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image.asset('assets/images/' + _features[index].image),
-                Container(
-                  margin: EdgeInsets.only(top: 10.0),
-                  color: Color(0xFFE0E0E0),
-                  child: Padding(
-                    child: Text(_features[index].description, maxLines: 3, overflow: TextOverflow.ellipsis,),
-                    padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 10.0),
+          return GestureDetector(
+            onTap: () => showDialog(context: context, builder: (BuildContext context) {
+              return Dialog(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(_features[index].description),
+                ),
+              );
+            }),
+            child: Card(
+              margin: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset('assets/images/' + _features[index].image),
+                  Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      color: Color(0xFFE0E0E0),
+                      child: Padding(
+                        child: Text(_features[index].description, maxLines: 3, overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 10.0),
+                      )
                   )
-                )
-              ],
+                ],
+              ),
             ),
           );
         }
