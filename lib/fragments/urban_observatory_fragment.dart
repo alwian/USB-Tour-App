@@ -200,7 +200,17 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                               fontSize: 22.0
                             ),
                         )
-                        : Text(_dataPoints[index].toString()),
+                        : Row(
+                      children: <Widget>[
+                        Text(_dataPoints[index].metric + ': '),
+                        Text(
+                          _dataPoints[index].value + ' ' + _dataPoints[index].unit,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
+                    ),
                   )
               );
             }
