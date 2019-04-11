@@ -37,6 +37,9 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   /// Whether data is currently being fetched.
   bool _fetching = false;
 
+  /// Whether a refresh was triggered by a pull to refresh.
+  bool _pullRefresh = false;
+
   /// Whether there is an internet connection.
   bool connection = true;
 
@@ -104,7 +107,10 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                         backgroundColor: Color(0xFF96B24A),
                         child: Icon(Icons.refresh),
                         // Only refresh if a room has been selected.
-                        onPressed: () => _currentRoom != null ? _loadSensorData(_currentRoom) : {}
+                        onPressed: () => _currentRoom != null ? {
+                          _pullRefresh = false,
+                          _loadSensorData(_currentRoom)
+                        } : {}
                     ),
                     body: Padding(
                         padding: EdgeInsets.all(16.0),
@@ -132,13 +138,20 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                                 // Display relevant Widget.
                                 child: !connection ? Center(
                                   child: Text("Please check your internet connection"),
-                                ) : _fetching ? Center(
+                                ) : _fetching && !_pullRefresh ? Center(
                                   child: CircularProgressIndicator(),
-                                ) : !_fetching && _dataPoints == null ? Center(
+                                ) : _fetching && _pullRefresh ? Container()
+                                  : !_fetching && _dataPoints == null ? Center(
                                   child: Text('No data requested'),
                                 ) : _dataPoints.length == 0 ? Center(
                                   child: Text('No sensors available in this room'),
-                                ) :_listUI(),
+                                ) : RefreshIndicator(
+                                  child: _listUI(),
+                                  onRefresh: () {
+                                    _pullRefresh = true;
+                                    return _loadSensorData(_currentRoom);
+                                  },
+                                )
                               )
                             ],
                           ),
@@ -192,6 +205,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
         padding: EdgeInsets.only(top: 16.0),
         // Create list of sensor data.
         child: ListView.builder(
+            physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: _dataPoints.length,
             itemBuilder: (context, index) {
