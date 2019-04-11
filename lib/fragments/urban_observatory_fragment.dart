@@ -3,6 +3,7 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:csc2022_app/managers/urban_observatory_manager.dart';
 
 /// Allows users to view sensor data about rooms in the Urban Sciences Building.
@@ -50,6 +51,18 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  /// Runs on initial build of the state.
+  @override
+  void initState() {
+    super.initState();
+    // When connection changes, reload data.
+    final subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (_currentRoom != null) {
+        _loadSensorData(_currentRoom);
+      }
+    });
   }
 
   /// Builds the fragment.
