@@ -62,11 +62,16 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () => showDialog(context: context, builder: (BuildContext context) {
-              return Dialog(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(_features[index].description),
-                ),
+              return AlertDialog(
+                content: Text(_features[index].description),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
               );
             }),
             child: Card(
