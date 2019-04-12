@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
     for(int i = 0; i < widget._drawerTiles.length; i++) {
       tiles.add(
           ListTile(
+            key: Key(widget._drawerTiles[i].tileTitle.toLowerCase().split(' ').join('_') + '_tile'),
             title: Text(widget._drawerTiles[i].tileTitle),
             leading: Icon(widget._drawerTiles[i].icon),
             selected: _selectedFragmentIndex == i,

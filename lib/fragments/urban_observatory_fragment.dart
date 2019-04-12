@@ -84,7 +84,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
               labelColor: Color(0xFF96B24A),
               tabs: <Widget>[
                 Tab(text: 'About'),
-                Tab(text: 'Pick a room'),
+                Tab(text: 'Pick a room', key: Key('pick_a_room_tab'),),
               ],
             ),
             Expanded(
@@ -118,6 +118,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                           child: Column(
                             children: <Widget>[
                               TextField(
+                                key: Key('room_input'),
                                 controller: _controller,
                                 style: TextStyle(
                                     fontSize: 20.0
@@ -126,6 +127,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                                     border: OutlineInputBorder(),
                                     hintText: 'Enter a room...',
                                     suffixIcon: IconButton(
+                                        key: Key('search_btn'),
                                         icon: Icon(Icons.search),
                                         onPressed: () => {
                                           FocusScope.of(context).requestFocus(FocusNode()),
@@ -202,6 +204,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   /// Returns a [Widget] containing the values for the sensors in [_currentRoom].
   Widget _listUI() {
     return Padding(
+        key: Key('sensor_data'),
         padding: EdgeInsets.only(top: 16.0),
         // Create list of sensor data.
         child: ListView.builder(
