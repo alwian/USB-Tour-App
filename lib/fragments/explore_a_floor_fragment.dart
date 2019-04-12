@@ -118,30 +118,25 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
   /// Builds the state.
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          color: Color(0xFF333333)
-      ),
-      child: Column(
-        children: <Widget>[
-          Image.asset('assets/images/usb.jpg'),
-          Expanded(
-            child: _floors == null ? CircularProgressIndicator()
-                : _floors.isEmpty ? Center(
-              child: Text('No floors found'),
-            ) : LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Column(
-                  children: _buildFloorButtonList(
-                      context,
-                      constraints.maxHeight / _calcRowCount()
-                  ),
-                );
-              }
-            )
+    return Column(
+      children: <Widget>[
+        Image.asset('assets/images/usb.jpg'),
+        Expanded(
+          child: _floors == null ? CircularProgressIndicator()
+              : _floors.isEmpty ? Center(
+            child: Text('No floors found'),
+          ) : LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Column(
+                children: _buildFloorButtonList(
+                    context,
+                    constraints.maxHeight / _calcRowCount()
+                ),
+              );
+            }
           )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
