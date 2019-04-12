@@ -32,6 +32,7 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
     // Get screen width.
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
+      key: Key('floor_btn_' + floorNo.toString()),
       color: Colors.white,
       child: InkWell(
         splashColor: Color(0xFFD5E3AF),

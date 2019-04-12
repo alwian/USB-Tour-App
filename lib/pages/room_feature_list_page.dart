@@ -61,6 +61,7 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
         itemCount: _features.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            key: Key('feature_btn_' + index.toString()),
             onTap: () => showDialog(context: context, builder: (BuildContext context) {
               return AlertDialog(
                 content: Text(_features[index].description),

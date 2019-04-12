@@ -62,6 +62,7 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
       itemCount: _rooms.length,
       itemBuilder: (context, index) {
         return Padding(
+            key: Key('room_btn_' + index.toString()),
             padding: EdgeInsets.only(
                 bottom: index != _rooms.length - 1 ? 30.0 : 0.0
             ),
