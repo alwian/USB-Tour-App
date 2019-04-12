@@ -35,6 +35,48 @@ void main() {
     });
   });
 
+  group('Urban Observatory:', () {
+    SerializableFinder searchFieldFinder = find.byValueKey('room_input');
+    SerializableFinder searchButtonFinder = find.byValueKey('search_btn');
+    final String invalidRoom = '_____';
+    final String validRoom = 'G.009';
+
+    setUpAll(() async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('urban_observatory_tile'));
+    });
+
+    group('Pick a room:', () {
+      setUpAll(() async {
+        await driver.tap(find.byValueKey('pick_a_room_tab'));
+      });
+
+      group('Searching:', () {
+        test('No data requested', () async {
+          await driver.waitFor(find.text('No data requested'));
+        });
+
+        test('Invalid search', () async {
+          await driver.tap(searchFieldFinder);
+          await driver.enterText(invalidRoom);
+          await driver.tap(searchButtonFinder);
+          await Future.delayed(Duration(seconds: 5));
+          await driver.waitFor(find.text('No sensors available in this room'));
+        });
+
+        group('Valid search', () {
+          test('', () async {
+            await driver.tap(searchFieldFinder);
+            await driver.enterText(validRoom);
+            await driver.tap(searchButtonFinder);
+            await Future.delayed(Duration(seconds: 5));
+            await driver.waitFor(find.byValueKey('sensor_data'));
+          });
+        });
+      });
+    });
+  });
+
   tearDownAll(() async {
     if(driver != null) {
       driver.close();
