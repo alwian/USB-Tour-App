@@ -34,22 +34,6 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
     _loadRooms();
   }
 
-  /// Builds the page.
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Floor ' + widget._floor.toString()),
-      ),
-      // Until features are loaded display a loading indicator.
-      body: _rooms == null ? Center(
-        child: CircularProgressIndicator(),
-      ) : _rooms.isEmpty ? Center(
-        child: Text('No rooms found on this floor'),
-      ) : _listUI()
-    );
-  }
-
   /// Gets a [List] of [Rooms]s to display.
   Future<void> _loadRooms() async {
     _rooms = await ExploreAFloorManager.getRooms(widget._floor);
@@ -68,10 +52,12 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
             ),
             child: GestureDetector(
               onTap: () {
+                // Go to feature page when tapped.
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => RoomFeatureListPage(_rooms[index].name))
                 );
               },
+              // Represents a room.
               child: Stack(
                 children: <Widget>[
                   Image.asset('assets/images/' + _rooms[index].image),
@@ -92,6 +78,24 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
             )
         );
       },
+    );
+  }
+
+  /// Builds the page.
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          // Current floor.
+          title: Text('Floor ' + widget._floor.toString()),
+        ),
+        // Until features are loaded display a loading indicator.
+        body: _rooms == null ? Center(
+          child: CircularProgressIndicator(),
+        ) : _rooms.isEmpty ? Center(
+          // Display when no rooms found.
+          child: Text('No rooms found on this floor'),
+        ) : _listUI()
     );
   }
 }

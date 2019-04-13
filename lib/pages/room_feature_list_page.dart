@@ -33,22 +33,6 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
     _loadFeatures();
   }
 
-  /// Builds the page.
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.roomName),
-        ),
-        // Until features are loaded display a loading indicator.
-        body: _features == null ? Center(
-          child: CircularProgressIndicator(),
-        ) : _features.isEmpty ? Center(
-          child: Text('No features found in this room'),
-        ) : _listUI(context)
-    );
-  }
-
   /// Gets a [List] of [RoomFeature]s to display.
   Future<void> _loadFeatures() async {
     _features = await ExploreAFloorManager.getRoomFeatures(widget.roomName);
@@ -61,8 +45,10 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
         itemCount: _features.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            // Key used for testing.
             key: Key('feature_btn_' + index.toString()),
             onTap: () => showDialog(context: context, builder: (BuildContext context) {
+              // Display full description when tapped.
               return AlertDialog(
                 content: Text(_features[index].description),
                 actions: <Widget>[
@@ -81,11 +67,13 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  // Image representing the feature.
                   Image.asset('assets/images/' + _features[index].image),
                   Container(
                       margin: EdgeInsets.only(top: 10.0),
                       color: Color(0xFFE0E0E0),
                       child: Padding(
+                        // Text describing the feature.
                         child: Text(_features[index].description, maxLines: 3, overflow: TextOverflow.ellipsis,),
                         padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0, bottom: 10.0),
                       )
@@ -95,6 +83,23 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
             ),
           );
         }
+    );
+  }
+
+  /// Builds the page.
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.roomName),
+        ),
+        // Until features are loaded display a loading indicator.
+        body: _features == null ? Center(
+          child: CircularProgressIndicator(),
+        ) : _features.isEmpty ? Center(
+          // Display when no features found.
+          child: Text('No features found in this room'),
+        ) : _listUI(context)
     );
   }
 }

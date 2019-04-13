@@ -13,30 +13,36 @@ class ExploreAFloorFragment extends StatefulWidget {
   }
 }
 
+/// A [State] of an [ExploreAfloorFragment]
 class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
 
+  /// The floors in the Urban Sciences Building.
   List<int> _floors;
 
+  /// Loads floors when the state is created.
   @override
   void initState() {
     super.initState();
     _loadFloors();
   }
 
+  /// Gets the floors in the Urban Sciences Building.
   Future<void> _loadFloors() async {
     _floors = await ExploreAFloorManager.getFloors();
     setState(() {});
   }
   /// Returns a button which navigates to a [FloorFeatureListPage].
-  Material _buildFloorButton(context, floorNo, height, fullWidth) {
+  Material _buildFloorButton(BuildContext context, int floorNo, double height, bool fullWidth) {
     // Get screen width.
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
+      // Key used for testing.
       key: Key('floor_btn_' + floorNo.toString()),
       color: Colors.white,
       child: InkWell(
         splashColor: Color(0xFFD5E3AF),
         onTap: () {
+          // Go to room page when tapped.
           Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => FloorFeatureListPage(floorNo)
@@ -85,12 +91,11 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
     return rows;
   }
 
-
   /// Returns a [List] of buttons.
   ///
   /// Buttons are created n a 2:1:2:1:... pattern.
-  List<Widget> _buildFloorButtonList(context, rowHeight) {
-    var rows = <Widget>[];
+  List<Widget> _buildFloorButtonList(BuildContext context, double rowHeight) {
+    List<Widget> rows = <Widget>[];
     for(int i = 0; i < _floors.length; i++) {
       // If on a 2 wide row.
       if(i % 3 == 0 && i + 1 < _floors.length) {
