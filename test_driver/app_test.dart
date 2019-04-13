@@ -172,7 +172,7 @@ void main() {
       });
 
       // Try refreshing with no data requested.
-      test('Refresh with no data requested', () async {
+      test('Refresh button with no data requested', () async {
         // Refresh and check correct message is still displayed.
         await driver.tap(refreshFinder);
         await driver.waitFor(find.text('No data requested'));
@@ -190,7 +190,7 @@ void main() {
       });
 
       // Try refreshing an invalid room.
-      test('refresh with an invalid search', () async {
+      test('Refresh button with an invalid search', () async {
         // refresh and check the correct message is still displayed.
         await driver.tap(refreshFinder);
         await driver.waitFor(find.text('No sensors available in this room'));
@@ -208,9 +208,15 @@ void main() {
         });
 
         // Try refreshing currently loaded data.
-        test('Refresh with a valid room', () async {
+        test('Refresh button with a valid room', () async {
           //Refresh and check data is still displayed.
           await driver.tap(refreshFinder);
+          await driver.waitFor(find.byValueKey('sensor_data'));
+        });
+
+        // Try refreshing using pull to refresh.
+        test('Scroll to refresh with a valid room', () async {
+          await driver.scroll(find.byType('ListView'), 0, 500, Duration(milliseconds: 250));
           await driver.waitFor(find.byValueKey('sensor_data'));
         });
       });
