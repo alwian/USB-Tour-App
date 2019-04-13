@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
     for(int i = 0; i < widget._drawerTiles.length; i++) {
       tiles.add(
           ListTile(
+            // Key used for testing.
             key: Key(widget._drawerTiles[i].tileTitle.toLowerCase().split(' ').join('_') + '_tile'),
             title: Text(widget._drawerTiles[i].tileTitle),
             leading: Icon(widget._drawerTiles[i].icon),
@@ -95,15 +96,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // The title of the current section.
         title: Text(widget._drawerTiles[_selectedFragmentIndex].appbarTitle),
       ),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
             DrawerHeader(
+              // University logo.
               child: Image.asset('assets/images/ncl_logo.jpg'),
             ),
             Column(
+              // List of tiles.
               children: _buildDrawerTiles()
             ),
           ],

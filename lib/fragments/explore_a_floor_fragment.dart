@@ -13,16 +13,20 @@ class ExploreAFloorFragment extends StatefulWidget {
   }
 }
 
+/// A [State] of an [ExploreAfloorFragment]
 class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
 
+  /// The floors in the Urban Sciences Building.
   List<int> _floors;
 
+  /// Loads floors when the state is created.
   @override
   void initState() {
     super.initState();
     _loadFloors();
   }
 
+  /// Gets the floors in the Urban Sciences Building.
   Future<void> _loadFloors() async {
     _floors = await ExploreAFloorManager.getFloors();
     setState(() {});
@@ -32,11 +36,13 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
     // Get screen width.
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
+      // Key used for testing.
       key: Key('floor_btn_' + floorNo.toString()),
       color: Colors.white,
       child: InkWell(
         splashColor: Color(0xFFD5E3AF),
         onTap: () {
+          // Go to room page when tapped.
           Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => FloorFeatureListPage(floorNo)

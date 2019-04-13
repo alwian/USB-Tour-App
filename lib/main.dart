@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'helpers/database_helper.dart';
 import 'package:csc2022_app/pages/home_page.dart';
 
-/// Calls on the [MyApp] to be ran.
+/// Starts the app.
 void main() => runApp(MyApp());
 
-/// The main application.
+/// The main app.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

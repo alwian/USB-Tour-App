@@ -84,7 +84,11 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
               labelColor: Color(0xFF96B24A),
               tabs: <Widget>[
                 Tab(text: 'About'),
-                Tab(text: 'Pick a room', key: Key('pick_a_room_tab'),),
+                Tab(
+                  // Key used for testing
+                  key: Key('pick_a_room_tab'),
+                  text: 'Pick a room',
+                ),
               ],
             ),
             Expanded(
