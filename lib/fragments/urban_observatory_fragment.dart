@@ -68,111 +68,6 @@ class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
     });
   }
 
-  /// Builds the fragment.
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            TabBar(
-              indicatorColor: Color(0xFF96B24A),
-              unselectedLabelColor: Colors.black,
-              labelColor: Color(0xFF96B24A),
-              tabs: <Widget>[
-                Tab(text: 'About'),
-                Tab(
-                  // Key used for testing
-                  key: Key('pick_a_room_tab'),
-                  text: 'Pick a room',
-                ),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/images/observatory.png'),
-                        Container(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text(widget._placeholderAbout),
-                        )
-                      ],
-                    ),
-                  ),
-                  Scaffold(
-                    floatingActionButton: FloatingActionButton(
-                        backgroundColor: Color(0xFF96B24A),
-                        child: Icon(Icons.refresh),
-                        // Only refresh if a room has been selected.
-                        onPressed: () => _currentRoom != null ? {
-                          _pullRefresh = false,
-                          _loadSensorData(_currentRoom)
-                        } : {}
-                    ),
-                    body: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              TextField(
-                                key: Key('room_input'),
-                                controller: _controller,
-                                style: TextStyle(
-                                    fontSize: 20.0
-                                ),
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: 'Enter a room...',
-                                    suffixIcon: IconButton(
-                                        key: Key('search_btn'),
-                                        icon: Icon(Icons.search),
-                                        onPressed: () => {
-                                          FocusScope.of(context).requestFocus(FocusNode()),
-                                          _loadSensorData(_controller.text)
-                                        }
-                                    )
-                                ),
-                              ),
-                              Expanded(
-                                // Display relevant Widget.
-                                child: !_connection ? Center(
-                                  child: Text("Please check your internet connection"),
-                                ) : _fetching && !_pullRefresh ? Center(
-                                  child: CircularProgressIndicator(),
-                                ) : _fetching && _pullRefresh ? Container()
-                                  : !_fetching && _dataPoints == null ? Center(
-                                  child: Text('No data requested'),
-                                ) : _dataPoints.length == 0 ? Center(
-                                  child: Text('No sensors available in this room'),
-                                ) : RefreshIndicator(
-                                  child: _listUI(),
-                                  onRefresh: () {
-                                    _pullRefresh = true;
-                                    return _loadSensorData(_currentRoom);
-                                  },
-                                )
-                              )
-                            ],
-                          ),
-                        )
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   /// Loads the sensor data for [room].
   Future<void> _loadSensorData(String room) async {
     // Set current room so data can be refreshed.
@@ -249,6 +144,111 @@ class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
               );
             }
         ),
+    );
+  }
+
+  /// Builds the fragment.
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: <Widget>[
+            TabBar(
+              indicatorColor: Color(0xFF96B24A),
+              unselectedLabelColor: Colors.black,
+              labelColor: Color(0xFF96B24A),
+              tabs: <Widget>[
+                Tab(text: 'About'),
+                Tab(
+                  // Key used for testing
+                  key: Key('pick_a_room_tab'),
+                  text: 'Pick a room',
+                ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/observatory.png'),
+                        Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(widget._placeholderAbout),
+                        )
+                      ],
+                    ),
+                  ),
+                  Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                        backgroundColor: Color(0xFF96B24A),
+                        child: Icon(Icons.refresh),
+                        // Only refresh if a room has been selected.
+                        onPressed: () => _currentRoom != null ? {
+                        _pullRefresh = false,
+                        _loadSensorData(_currentRoom)
+                        } : {}
+                    ),
+                    body: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              TextField(
+                                key: Key('room_input'),
+                                controller: _controller,
+                                style: TextStyle(
+                                    fontSize: 20.0
+                                ),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Enter a room...',
+                                    suffixIcon: IconButton(
+                                        key: Key('search_btn'),
+                                        icon: Icon(Icons.search),
+                                        onPressed: () => {
+                                        FocusScope.of(context).requestFocus(FocusNode()),
+                                        _loadSensorData(_controller.text)
+                                        }
+                                    )
+                                ),
+                              ),
+                              Expanded(
+                                // Display relevant Widget.
+                                  child: !_connection ? Center(
+                                    child: Text("Please check your internet connection"),
+                                  ) : _fetching && !_pullRefresh ? Center(
+                                    child: CircularProgressIndicator(),
+                                  ) : _fetching && _pullRefresh ? Container()
+                                      : !_fetching && _dataPoints == null ? Center(
+                                    child: Text('No data requested'),
+                                  ) : _dataPoints.length == 0 ? Center(
+                                    child: Text('No sensors available in this room'),
+                                  ) : RefreshIndicator(
+                                    child: _listUI(),
+                                    onRefresh: () {
+                                      _pullRefresh = true;
+                                      return _loadSensorData(_currentRoom);
+                                    },
+                                  )
+                              )
+                            ],
+                          ),
+                        )
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

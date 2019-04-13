@@ -91,7 +91,6 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
     return rows;
   }
 
-
   /// Returns a [List] of buttons.
   ///
   /// Buttons are created n a 2:1:2:1:... pattern.
