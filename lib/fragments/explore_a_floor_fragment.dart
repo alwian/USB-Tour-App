@@ -28,7 +28,7 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
     setState(() {});
   }
   /// Returns a button which navigates to a [FloorFeatureListPage].
-  Material _buildFloorButton(context, floorNo, height, fullWidth) {
+  Material _buildFloorButton(BuildContext context, int floorNo, double height, bool fullWidth) {
     // Get screen width.
     double screenWidth = MediaQuery.of(context).size.width;
     return Material(
@@ -89,8 +89,8 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
   /// Returns a [List] of buttons.
   ///
   /// Buttons are created n a 2:1:2:1:... pattern.
-  List<Widget> _buildFloorButtonList(context, rowHeight) {
-    var rows = <Widget>[];
+  List<Widget> _buildFloorButtonList(BuildContext context, double rowHeight) {
+    List<Widget> rows = <Widget>[];
     for(int i = 0; i < _floors.length; i++) {
       // If on a 2 wide row.
       if(i % 3 == 0 && i + 1 < _floors.length) {

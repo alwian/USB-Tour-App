@@ -37,7 +37,7 @@ class ExploreAFloorManager {
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
       'SELECT * FROM floors'
     );
-    List<int> floors = [];
+    List<int> floors = <int>[];
     for(Map<String, dynamic> m in queryResults) {
       floors.add(m['floorId']);
     }
@@ -45,12 +45,12 @@ class ExploreAFloorManager {
   }
 
   /// Returns all the notable [Room]s for a given floor.
-  static Future<List<Room>> getRooms(floor) async {
+  static Future<List<Room>> getRooms(int floor) async {
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
         'SELECT * FROM rooms WHERE floorId=$floor'
     );
-    List<Room> rooms = [];
+    List<Room> rooms = <Room>[];
     // Create a [Room] for a ll rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
       rooms.add(
@@ -61,12 +61,12 @@ class ExploreAFloorManager {
   }
 
   /// Returns all the notable [RoomFeature]s for a [Room].
-  static Future<List<RoomFeature>> getRoomFeatures(room) async {
+  static Future<List<RoomFeature>> getRoomFeatures(String room) async {
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
         "SELECT * FROM room_features WHERE room='$room'"
     );
-    List<RoomFeature> features = [];
+    List<RoomFeature> features = <RoomFeature>[];
     // Create a [RoomFeature] for a all rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
       features.add(

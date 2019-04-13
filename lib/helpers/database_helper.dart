@@ -42,7 +42,7 @@ class DatabaseHelper {
   }
 
   /// Returns the results of a database query.
-  static Future<List<Map<String, dynamic>>> query(query) async {
+  static Future<List<Map<String, dynamic>>> query(String query) async {
     // Path on device where databases are stored.
     String dbsPath = await getDatabasesPath();
     // Required name of a database in the app.

@@ -27,7 +27,7 @@ class _DrawerTile {
 class HomePage extends StatefulWidget {
 
   /// The [_DrawerTiles] to display in the [Drawer].
-  final _drawerTiles = [
+  final List<_DrawerTile> _drawerTiles = <_DrawerTile>[
     _DrawerTile('Find a room', Icons.navigation, 'Find a room'),
     _DrawerTile('Explore a floor', Icons.map, 'Explore'),
     _DrawerTile('Building information', Icons.info, 'Building information'),
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Loads a new [_HomePageState] with the correct app section displayed.
-  void _onItemPressed(index) {
+  void _onItemPressed(int index) {
     // Update the state to show the correct fragment.
     setState(() {
       _selectedFragmentIndex = index;
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Builds the [ListTile]s to be displayed in the [Drawer].
   List<Widget> _buildDrawerTiles() {
-    var tiles = <Widget>[];
+    List<Widget> tiles = <Widget>[];
     // Create a drawer entry for each app section.
     for(int i = 0; i < widget._drawerTiles.length; i++) {
       tiles.add(

@@ -31,7 +31,7 @@ class Sensor {
 class UrbanObservatoryManager {
 
   /// Conversion table for translating full units into abbreviations.
-  static final Map<String, String> _units = {
+  static final Map<String, String> _units = <String, String>{
     'degrees celsius' : '°C',
     'parts per million' : 'ppm',
     'percent' : '%',
@@ -42,21 +42,21 @@ class UrbanObservatoryManager {
   };
 
   /// Returns a [List] of [Sensor]s for a given room.
-  static Future<List<Sensor>> getSensorData(room) async {
+  static Future<List<Sensor>> getSensorData(String room) async {
     String json = await  _getJson(room);
     List<Sensor> extractedData = _extractSensorData(json);
     return extractedData;
   }
 
   /// Returns the JSON representation of sensor data.
-  static Future<String> _getJson(room) async {
+  static Future<String> _getJson(String room) async {
     String url = 'https://api.usb.urbanobservatory.ac.uk/api/v2.0a/sensors/entity/?meta:roomNumber=' + room;
     http.Response response = await http.get(url);
     return response.body;
   }
 
   /// Returns the relevant sensor data extracted from JSON.
-  static List<Sensor> _extractSensorData(json) {
+  static List<Sensor> _extractSensorData(String json) {
     List<Sensor> sensorData = [];
     RegExp zoneExp = RegExp('Zone [0-9]+');
     Map decoded = jsonDecode(json);

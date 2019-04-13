@@ -10,7 +10,7 @@ import 'package:csc2022_app/managers/urban_observatory_manager.dart';
 class UrbanObservatoryFragment extends StatefulWidget {
 
   /// The text to display in the about section of the page.
-  final _placeholderAbout = 'Lorem ipsum dolor sit amet, consectetur adipiscing'
+  final String _placeholderAbout = 'Lorem ipsum dolor sit amet, consectetur adipiscing'
       ' elit. Aliquam tempus ac risus in iaculis. Quisque placerat a lectus '
       'non pretium. Cras congue aliquam arcu, eget dictum ipsum ornare quis. '
       'Sed quis ipsum nec odio pulvinar ullamcorper eget vel turpis. '
@@ -44,7 +44,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   bool connection = true;
 
   /// Controller for the room input field.
-  final _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   /// The room currently being viewed.
   String _currentRoom;
@@ -61,7 +61,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   void initState() {
     super.initState();
     // When connection changes, reload data.
-    final subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (_currentRoom != null) {
         _loadSensorData(_currentRoom);
       }
@@ -170,8 +170,8 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   }
 
   /// Loads the sensor data for [room].
-  Future<void> _loadSensorData(room) async {
-    // set current room so data can be refreshed.
+  Future<void> _loadSensorData(String room) async {
+    // Set current room so data can be refreshed.
     _currentRoom = room;
     // Only load data if there is an internet connection.
     if (await checkConnection()) {
@@ -194,7 +194,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   Future<bool> checkConnection() async {
     // Try to connect to the Urban Observatory website.
     try {
-      final result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
+      final List<InternetAddress> result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
     } on SocketException catch (_) {
       return false;
