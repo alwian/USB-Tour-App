@@ -24,12 +24,12 @@ class UrbanObservatoryFragment extends StatefulWidget {
   /// Returns a [UrbanObservatoryFragmentState].
   @override
   State<StatefulWidget> createState() {
-    return UrbanObservatoryFragmentState();
+    return _UrbanObservatoryFragmentState();
   }
 }
 
 /// A [State] of a [UrbanObservatoryFragment].
-class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
+class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
 
   /// Sensors that need to be displayed.
   List<Sensor> _dataPoints;
@@ -41,7 +41,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
   bool _pullRefresh = false;
 
   /// Whether there is an internet connection.
-  bool connection = true;
+  bool _connection = true;
 
   /// Controller for the room input field.
   final TextEditingController _controller = TextEditingController();
@@ -142,7 +142,7 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                               ),
                               Expanded(
                                 // Display relevant Widget.
-                                child: !connection ? Center(
+                                child: !_connection ? Center(
                                   child: Text("Please check your internet connection"),
                                 ) : _fetching && !_pullRefresh ? Center(
                                   child: CircularProgressIndicator(),
@@ -178,9 +178,9 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
     // Set current room so data can be refreshed.
     _currentRoom = room;
     // Only load data if there is an internet connection.
-    if (await checkConnection()) {
+    if (await _checkConnection()) {
       setState(() {
-        connection = true;
+        _connection = true;
         _fetching = true;
       });
       _dataPoints = await UrbanObservatoryManager.getSensorData(room);
@@ -189,13 +189,13 @@ class UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
       });
     } else {
       setState(() {
-        connection = false;
+        _connection = false;
       });
     }
   }
 
   /// Checks for an internet connection.
-  Future<bool> checkConnection() async {
+  Future<bool> _checkConnection() async {
     // Try to connect to the Urban Observatory website.
     try {
       final List<InternetAddress> result = await InternetAddress.lookup('api.usb.urbanobservatory.ac.uk');
