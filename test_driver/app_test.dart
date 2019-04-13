@@ -10,7 +10,7 @@ void main() {
   FlutterDriver driver;
 
   // Button to open navigation drawer.
-  final drawerButtonFinder = find.byTooltip('Open navigation menu');
+  final SerializableFinder drawerButtonFinder = find.byTooltip('Open navigation menu');
 
   // Executes before all tests.
   setUpAll(() async {
@@ -52,7 +52,7 @@ void main() {
   // Tests for the 'Explore a floor' section.
   group('Explore a floor:', () {
     int maxFloor;
-    Map<int, int> maxRoomNos = {};
+    Map<int, int> maxRoomNos = <int, int>{};
 
     // Executes before all tests in the group.
     setUpAll(() async {
@@ -175,7 +175,7 @@ void main() {
           await driver.tap(searchFieldFinder);
           await driver.enterText(invalidRoom);
           await driver.tap(searchButtonFinder);
-          await Future.delayed(Duration(seconds: 5));
+          await Future<void>.delayed(Duration(seconds: 5));
 
           // Check correct text is displayed.
           await driver.waitFor(find.text('No sensors available in this room'));
@@ -187,7 +187,7 @@ void main() {
             await driver.tap(searchFieldFinder);
             await driver.enterText(validRoom);
             await driver.tap(searchButtonFinder);
-            await Future.delayed(Duration(seconds: 5));
+            await Future<void>.delayed(Duration(seconds: 5));
 
             // Check a list of data is displayed.
             await driver.waitFor(find.byValueKey('sensor_data'));
