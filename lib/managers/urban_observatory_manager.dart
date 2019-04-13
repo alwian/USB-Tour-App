@@ -19,12 +19,6 @@ class Sensor {
 
   /// Defines a [Sensor].
   Sensor(this.metric, this.value, this.unit);
-
-  /// Returns a [String] representation of a [Sensor].
-  @override
-  String toString() {
-    return '$metric: $value $unit';
-  }
 }
 
 /// Handles data retrieval for an [UrbanObservatoryFragmentState].
