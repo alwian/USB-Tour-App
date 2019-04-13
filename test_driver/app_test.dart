@@ -145,6 +145,7 @@ void main() {
     // Find the search box and submit button needed for following tests.
     SerializableFinder searchFieldFinder = find.byValueKey('room_input');
     SerializableFinder searchButtonFinder = find.byValueKey('search_btn');
+    SerializableFinder refreshFinder = find.byValueKey('sensor_refresh');
 
     // Known good/bad room values.
     final String invalidRoom = '_____';
@@ -163,35 +164,54 @@ void main() {
       });
 
       // Tests for searching rooms.
-      group('Searching:', () {
+    group('Searching:', () {
 
-        // Test for correct text when no rooms have been searched.
-        test('No data requested', () async {
-          await driver.waitFor(find.text('No data requested'));
-        });
+      // Test for correct text when no rooms have been searched.
+      test('No data requested', () async {
+        await driver.waitFor(find.text('No data requested'));
+      });
 
-        // search for an invalid room.
-        test('Invalid search', () async {
+      // Try refreshing with no data requested.
+      test('Refresh with no data requested', () async {
+        // Refresh and check correct message is still displayed.
+        await driver.tap(refreshFinder);
+        await driver.waitFor(find.text('No data requested'));
+      });
+
+      // search for an invalid room.
+      test('Invalid search', () async {
+        await driver.tap(searchFieldFinder);
+        await driver.enterText(invalidRoom);
+        await driver.tap(searchButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
+
+        // Check correct text is displayed.
+        await driver.waitFor(find.text('No sensors available in this room'));
+      });
+
+      // Try refreshing an invalid room.
+      test('refresh with an invalid search', () async {
+        // refresh and check the correct message is still displayed.
+        await driver.tap(refreshFinder);
+        await driver.waitFor(find.text('No sensors available in this room'));
+      });
+
+      // Search for a valid room.
+        test('Valid search', () async {
           await driver.tap(searchFieldFinder);
-          await driver.enterText(invalidRoom);
+          await driver.enterText(validRoom);
           await driver.tap(searchButtonFinder);
           await Future<void>.delayed(Duration(seconds: 5));
 
-          // Check correct text is displayed.
-          await driver.waitFor(find.text('No sensors available in this room'));
+          // Check a list of data is displayed.
+          await driver.waitFor(find.byValueKey('sensor_data'));
         });
 
-        // Search for a valid room.
-        group('Valid search', () {
-          test('', () async {
-            await driver.tap(searchFieldFinder);
-            await driver.enterText(validRoom);
-            await driver.tap(searchButtonFinder);
-            await Future<void>.delayed(Duration(seconds: 5));
-
-            // Check a list of data is displayed.
-            await driver.waitFor(find.byValueKey('sensor_data'));
-          });
+        // Try refreshing currently loaded data.
+        test('Refresh with a valid room', () async {
+          //Refresh and check data is still displayed.
+          await driver.tap(refreshFinder);
+          await driver.waitFor(find.byValueKey('sensor_data'));
         });
       });
     });

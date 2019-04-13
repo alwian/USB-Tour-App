@@ -187,6 +187,7 @@ class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                   ),
                   Scaffold(
                     floatingActionButton: FloatingActionButton(
+                        key: Key('sensor_refresh'),
                         backgroundColor: Color(0xFF96B24A),
                         child: Icon(Icons.refresh),
                         // Only refresh if a room has been selected.
