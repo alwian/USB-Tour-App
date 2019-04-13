@@ -10,7 +10,7 @@ void main() {
   FlutterDriver driver;
 
   // Button to open navigation drawer.
-  final drawerButtonFinder = find.byTooltip('Open navigation menu');
+  final SerializableFinder drawerButtonFinder = find.byTooltip('Open navigation menu');
 
   // Executes before all tests.
   setUpAll(() async {
@@ -52,7 +52,7 @@ void main() {
   // Tests for the 'Explore a floor' section.
   group('Explore a floor:', () {
     int maxFloor;
-    Map<int, int> maxRoomNos = {};
+    Map<int, int> maxRoomNos = <int, int>{};
 
     // Executes before all tests in the group.
     setUpAll(() async {
@@ -145,6 +145,7 @@ void main() {
     // Find the search box and submit button needed for following tests.
     SerializableFinder searchFieldFinder = find.byValueKey('room_input');
     SerializableFinder searchButtonFinder = find.byValueKey('search_btn');
+    SerializableFinder refreshFinder = find.byValueKey('sensor_refresh');
 
     // Known good/bad room values.
     final String invalidRoom = '_____';
@@ -163,35 +164,60 @@ void main() {
       });
 
       // Tests for searching rooms.
-      group('Searching:', () {
+    group('Searching:', () {
 
-        // Test for correct text when no rooms have been searched.
-        test('No data requested', () async {
-          await driver.waitFor(find.text('No data requested'));
-        });
+      // Test for correct text when no rooms have been searched.
+      test('No data requested', () async {
+        await driver.waitFor(find.text('No data requested'));
+      });
 
-        // search for an invalid room.
-        test('Invalid search', () async {
+      // Try refreshing with no data requested.
+      test('Refresh button with no data requested', () async {
+        // Refresh and check correct message is still displayed.
+        await driver.tap(refreshFinder);
+        await driver.waitFor(find.text('No data requested'));
+      });
+
+      // search for an invalid room.
+      test('Invalid search', () async {
+        await driver.tap(searchFieldFinder);
+        await driver.enterText(invalidRoom);
+        await driver.tap(searchButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
+
+        // Check correct text is displayed.
+        await driver.waitFor(find.text('No sensors available in this room'));
+      });
+
+      // Try refreshing an invalid room.
+      test('Refresh button with an invalid search', () async {
+        // refresh and check the correct message is still displayed.
+        await driver.tap(refreshFinder);
+        await driver.waitFor(find.text('No sensors available in this room'));
+      });
+
+      // Search for a valid room.
+        test('Valid search', () async {
           await driver.tap(searchFieldFinder);
-          await driver.enterText(invalidRoom);
+          await driver.enterText(validRoom);
           await driver.tap(searchButtonFinder);
-          await Future.delayed(Duration(seconds: 5));
+          await Future<void>.delayed(Duration(seconds: 5));
 
-          // Check correct text is displayed.
-          await driver.waitFor(find.text('No sensors available in this room'));
+          // Check a list of data is displayed.
+          await driver.waitFor(find.byValueKey('sensor_data'));
         });
 
-        // Search for a valid room.
-        group('Valid search', () {
-          test('', () async {
-            await driver.tap(searchFieldFinder);
-            await driver.enterText(validRoom);
-            await driver.tap(searchButtonFinder);
-            await Future.delayed(Duration(seconds: 5));
+        // Try refreshing currently loaded data.
+        test('Refresh button with a valid room', () async {
+          //Refresh and check data is still displayed.
+          await driver.tap(refreshFinder);
+          await driver.waitFor(find.byValueKey('sensor_data'));
+        });
 
-            // Check a list of data is displayed.
-            await driver.waitFor(find.byValueKey('sensor_data'));
-          });
+        // Try refreshing using pull to refresh.
+        test('Scroll to refresh with a valid room', () async {
+          await driver.scroll(find.byType('ListView'), 0, 500, Duration(milliseconds: 250));
+          await driver.waitFor(find.byValueKey('sensor_data'));
         });
       });
     });
