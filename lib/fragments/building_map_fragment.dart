@@ -19,102 +19,90 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   Node _target;
   _Route route;
   Queue path = new Queue();
+  List<Node> floorNodes = new List<Node>();
+
+  bool sourceListOpen = false;
+
+  bool targetListOpen = false;
 
   @override
   void initState() {
     super.initState();
     //Initial test code until connection to database is established
-    _source = a;
+    floorNodes.add(a);
+    floorNodes.add(g);
+    /*_source = a;
     _target = g;
-    path = _Route(_source, _target).generateRoute();
+    path = _Route(_source, _target).generateRoute();*/
   }
 
   @override
   Widget build(BuildContext context) {
-    if (path.isNotEmpty) {
-      return Scaffold(
-        body: Container(
-          child: PhotoView.customChild(
-            child: new CustomPaint(
-                foregroundPainter: RoutePainter(path),
-                child: Image(image: AssetImage(selectedImage))),
-            minScale: PhotoViewComputedScale.contained,
-            maxScale: 1.5,
-            childSize: Size(4961, 3508),
-          ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-            child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.trip_origin),
-                  onPressed: () {
+    if (sourceListOpen == true) {
+      return ListView.builder(
+          padding: const EdgeInsets.all(10.0),
+          itemCount: floorNodes.length, //list of all the nodes on the floor
+          itemBuilder: (context, i) {
+            return new ListTile(
+                title: Text(floorNodes[i].name),
+                onTap: () {
+                  if(floorNodes[i] == _target){
+
+                } else {
                     setState(() {
-                      _sourceList();
+                     _source = floorNodes[i];
+                     sourceListOpen = false;
                     });
-                    /*ListView(children: <Widget>[
-                  Container(
-                      child: RaisedButton(
-                    onPressed: () {
-                      source = a;
-                    },
-                    child: const Text('Node a'),
-                  )),
-                ]);*/
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.lens),
-                  onPressed: () {
-                    ListView(children: <Widget>[
-                      Container(
-                          child: RaisedButton(
-                            onPressed: () {
-                              setState(() {
-                                _target = g;
-                              });
-                            },
-                            child: const Text('Node a'),
-                          )),
-                    ]);
-                  },
-                ),
-              ],
-            )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              path = _Route(_source, _target).generateRoute();
-            });
-          },
-          tooltip: 'draw route',
-          child: Icon(Icons.near_me),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      );
+                  }
+                }
+
+            );
+          });
+    } else if (targetListOpen == true) {
+      return ListView.builder(
+          padding: const EdgeInsets.all(10.0),
+          itemCount: floorNodes.length, //list of all the nodes on the floor
+          itemBuilder: (context, i) {
+            return new ListTile(
+                title: Text(floorNodes[i].name),
+                onTap: () {
+                  if (floorNodes[i] == _source) {
+
+                  } else {
+                    setState(() {
+                      _target = floorNodes[i];
+                      targetListOpen = false;
+                    });
+                  }
+                }
+            );
+          });
     } else {
-      return Scaffold(
-        body: Container(
-          child: PhotoView(
-            imageProvider: AssetImage(selectedImage),
-            minScale: PhotoViewComputedScale.contained,
-            maxScale: 1.5,
+
+      if (path.isNotEmpty) {
+        return Scaffold(
+          body: Container(
+            child: PhotoView.customChild(
+              child: new CustomPaint(
+                  foregroundPainter: RoutePainter(path),
+                  child: Image(image: AssetImage(selectedImage))),
+              minScale: PhotoViewComputedScale.contained,
+              maxScale: 1.5,
+              childSize: Size(4961, 3508),
+            ),
           ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-            child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.trip_origin),
-                  onPressed: () {
-                    setState(() {
-                      _sourceList();
-                    });
-                    /*ListView(children: <Widget>[
+          bottomNavigationBar: BottomAppBar(
+              child: new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.trip_origin),
+                    onPressed: () {
+                      setState(() {
+                        sourceListOpen = true;
+                      });
+                      /*ListView(children: <Widget>[
                   Container(
                       child: RaisedButton(
                     onPressed: () {
@@ -123,53 +111,92 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: const Text('Node a'),
                   )),
                 ]);*/
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.lens),
-                  onPressed: () {
-                    setState(() {
-                      ListView(children: <Widget>[
-                        Container(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _target = g;
-                                });
-                              },
-                              child: const Text('Node a'),
-                            )),
-                      ]);
-                    });
-                  },
-                ),
-              ],
-            )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //path = _Route(source, _target).generateRoute();
-          },
-          tooltip: 'draw route',
-          child: Icon(Icons.near_me),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.lens),
+                    onPressed: () {
+                      setState(() {
+                        targetListOpen = true;
+                      });
+                    },
+                  ),
+                ],
+              )),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                path = _Route(_source, _target).generateRoute();
+              });
+            },
+            tooltip: 'draw route',
+            child: Icon(Icons.near_me),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation
+              .centerDocked,
+        );
+      } else {
+        return Scaffold(
+          body: Container(
+            child: PhotoView(
+              imageProvider: AssetImage(selectedImage),
+              minScale: PhotoViewComputedScale.contained,
+              maxScale: 1.5,
+            ),
+          ),
+          bottomNavigationBar: BottomAppBar(
+              child: new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.trip_origin),
+                    onPressed: () {
+                      setState(() {
+                        sourceListOpen = true;
+                      });
+                      /*ListView(children: <Widget>[
+                  Container(
+                      child: RaisedButton(
+                    onPressed: () {
+                      source = a;
+                    },
+                    child: const Text('Node a'),
+                  )),
+                ]);*/
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.lens),
+                    onPressed: () {
+                      setState(() {
+                        targetListOpen = true;
+                      });
+                    },
+                  ),
+                ],
+              )),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                path = _Route(_source, _target).generateRoute();
+              });
+            },
+            tooltip: 'draw route',
+            child: Icon(Icons.near_me),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation
+              .centerDocked,
+        );
+      }
     }
   }
 
 
   Widget _sourceList() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(10.0),
-        itemBuilder: (context, i) {
 
-          return _buildRow();
-        });
   }
 
-  Widget _buildRow() {
-    return new ListTile(title: Text(a.name));
-  }
 }
 
 class RoutePainter extends CustomPainter {
