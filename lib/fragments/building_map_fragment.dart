@@ -11,7 +11,13 @@ class BuildingMapFragment extends StatefulWidget {
 }
 
 class _BuildingMapState extends State<BuildingMapFragment> {
-  final String selectedImage = 'assets/images/floor1_temp.png';
+
+  String floor0 = 'assets/images/floor0_temp.png';
+  String floor1 = 'assets/images/floor1.png';
+  String floor2 = 'assets/images/floor2.png';
+  String floor3 = 'assets/images/floor3.png';
+  String floor4 = 'assets/images/floor4.png';
+  String selectedFloor;
   int i = 1;
   final Node a = new Node('a');
   final Node g = new Node('g');
@@ -31,6 +37,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     //Initial test code until connection to database is established
     floorNodes.add(a);
     floorNodes.add(g);
+    selectedFloor = floor0;
     /*_source = a;
     _target = g;
     path = _Route(_source, _target).generateRoute();*/
@@ -46,17 +53,18 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             return new ListTile(
                 title: Text(floorNodes[i].name),
                 onTap: () {
-                  if(floorNodes[i] == _target){
-
-                } else {
+                  if (floorNodes[i] == _target) {
+                    Scaffold.of(context).showSnackBar(new SnackBar(
+                      content:
+                          new Text("Can't have matching source and target"),
+                    ));
+                  } else {
                     setState(() {
-                     _source = floorNodes[i];
-                     sourceListOpen = false;
+                      _source = floorNodes[i];
+                      sourceListOpen = false;
                     });
                   }
-                }
-
-            );
+                });
           });
     } else if (targetListOpen == true) {
       return ListView.builder(
@@ -67,42 +75,47 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                 title: Text(floorNodes[i].name),
                 onTap: () {
                   if (floorNodes[i] == _source) {
-
+                    Scaffold.of(context).showSnackBar(new SnackBar(
+                      content:
+                          new Text("Can't have matching source and target"),
+                    ));
                   } else {
                     setState(() {
                       _target = floorNodes[i];
                       targetListOpen = false;
                     });
                   }
-                }
-            );
+                });
           });
     } else {
-
       if (path.isNotEmpty) {
         return Scaffold(
           body: Container(
+            color: Colors.white,
             child: PhotoView.customChild(
               child: new CustomPaint(
                   foregroundPainter: RoutePainter(path),
-                  child: Image(image: AssetImage(selectedImage))),
+                  child: Image(image: AssetImage(selectedFloor))),
               minScale: PhotoViewComputedScale.contained,
               maxScale: 1.5,
               childSize: Size(4961, 3508),
+              backgroundDecoration: new BoxDecoration(
+                color: Colors.white,
+              ),
             ),
           ),
           bottomNavigationBar: BottomAppBar(
               child: new Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.trip_origin),
-                    onPressed: () {
-                      setState(() {
-                        sourceListOpen = true;
-                      });
-                      /*ListView(children: <Widget>[
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.trip_origin),
+                onPressed: () {
+                  setState(() {
+                    sourceListOpen = true;
+                  });
+                  /*ListView(children: <Widget>[
                   Container(
                       child: RaisedButton(
                     onPressed: () {
@@ -111,18 +124,18 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: const Text('Node a'),
                   )),
                 ]);*/
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.lens),
-                    onPressed: () {
-                      setState(() {
-                        targetListOpen = true;
-                      });
-                    },
-                  ),
-                ],
-              )),
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.lens),
+                onPressed: () {
+                  setState(() {
+                    targetListOpen = true;
+                  });
+                },
+              ),
+            ],
+          )),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {
@@ -132,30 +145,33 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             tooltip: 'draw route',
             child: Icon(Icons.near_me),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation
-              .centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         );
       } else {
         return Scaffold(
           body: Container(
             child: PhotoView(
-              imageProvider: AssetImage(selectedImage),
+              imageProvider: AssetImage(selectedFloor),
               minScale: PhotoViewComputedScale.contained,
               maxScale: 1.5,
+              backgroundDecoration: new BoxDecoration(
+                color: Colors.white,
+              ),
             ),
           ),
           bottomNavigationBar: BottomAppBar(
               child: new Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.trip_origin),
-                    onPressed: () {
-                      setState(() {
-                        sourceListOpen = true;
-                      });
-                      /*ListView(children: <Widget>[
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.trip_origin),
+                onPressed: () {
+                  setState(() {
+                    sourceListOpen = true;
+                  });
+                  /*ListView(children: <Widget>[
                   Container(
                       child: RaisedButton(
                     onPressed: () {
@@ -164,39 +180,39 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: const Text('Node a'),
                   )),
                 ]);*/
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.lens),
-                    onPressed: () {
-                      setState(() {
-                        targetListOpen = true;
-                      });
-                    },
-                  ),
-                ],
-              )),
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.lens),
+                onPressed: () {
+                  setState(() {
+                    targetListOpen = true;
+                  });
+                },
+              ),
+            ],
+          )),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {
-                path = _Route(_source, _target).generateRoute();
+                if (_source == null || _target == null) {
+                    Scaffold.of(context).showSnackBar(new SnackBar(
+                      content: new Text("Both source and target must be selected first"),
+                    ));
+                  } else {
+                    path = _Route(_source, _target).generateRoute();
+                  }
               });
             },
             tooltip: 'draw route',
             child: Icon(Icons.near_me),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation
-              .centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         );
       }
     }
   }
-
-
-  Widget _sourceList() {
-
-  }
-
 }
 
 class RoutePainter extends CustomPainter {
@@ -215,25 +231,25 @@ class RoutePainter extends CustomPainter {
     p.lineTo(size.height - , size.width);
 
     canvas.drawPath(p,paint); */
-    Node node1 = path.elementAt(path.length-1);
-    Node node2 = path.elementAt(path.length-2);
-    int length = path.length -3;
+    Node node1 = path.elementAt(path.length - 1);
+    Node node2 = path.elementAt(path.length - 2);
+    int length = path.length - 3;
     canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
         Offset(node2.coordsX, node2.coordsY), paint);
-    canvas.drawCircle(Offset(node1.coordsX, node1.coordsY), size.width/60, paint);
+    canvas.drawCircle(
+        Offset(node1.coordsX, node1.coordsY), size.width / 60, paint);
 
-    for (int i = length; i >=0; i--) {
+    for (int i = length; i >= 0; i--) {
       node1 = node2.copy();
       node2 = path.elementAt(i);
       canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
           Offset(node2.coordsX, node2.coordsY), paint);
-      canvas.drawCircle(Offset(node1.coordsX, node1.coordsY), size.width/90, paint);
-      if(i == 0) {
-        canvas.drawCircle(Offset(node2.coordsX, node2.coordsY), size.width/60, paint);
+      canvas.drawCircle(
+          Offset(node1.coordsX, node1.coordsY), size.width / 90, paint);
+      if (i == 0) {
+        canvas.drawCircle(
+            Offset(node2.coordsX, node2.coordsY), size.width / 60, paint);
       }
-
-
-
     }
     /*canvas.drawLine(Offset(size.width/2, (size.height/2)+200),
     Offset((size.width/2)-1100, (size.height/2)+550), paint);
@@ -294,7 +310,6 @@ class _Route {
 
     g.coordsX = 964;
     g.coordsY = 2872;
-
 
     graph.addNode(a);
     graph.addNode(b);
