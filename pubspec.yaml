@@ -23,14 +23,22 @@ dependencies:
 
   flutter:
     sdk: flutter
+  sqflite: ^1.1.0
+  http: ^0.12.0+1
+  connectivity: ^0.4.2+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  flutter_driver:
+    sdk: flutter
   flutter_test:
     sdk: flutter
+
+  test: 1.5.3
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -52,6 +60,9 @@ flutter:
     - assets/images/ncl_logo.jpg
     - assets/images/usb.jpg
     - assets/images/lecture_theatre.jpg
+    - assets/images/flat_floor.jpg
+    - assets/images/observatory.png
+    - assets/databases/data.db
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
