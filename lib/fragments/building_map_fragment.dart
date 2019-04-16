@@ -11,13 +11,15 @@ class BuildingMapFragment extends StatefulWidget {
 }
 
 class _BuildingMapState extends State<BuildingMapFragment> {
-
   String floor0 = 'assets/images/floor0_temp.png';
   String floor1 = 'assets/images/floor1.png';
   String floor2 = 'assets/images/floor2.png';
   String floor3 = 'assets/images/floor3.png';
   String floor4 = 'assets/images/floor4.png';
   String selectedFloor;
+  String dropdownValue;
+  Map<String, String> dropdownSelection = new HashMap<String, String>();
+
   int i = 1;
   final Node a = new Node('a');
   final Node g = new Node('g');
@@ -38,6 +40,12 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     floorNodes.add(a);
     floorNodes.add(g);
     selectedFloor = floor0;
+    dropdownValue = 'Ground floor';
+    dropdownSelection['Ground floor'] = floor0;
+    dropdownSelection['Floor 1'] = floor1;
+    dropdownSelection['Floor 2'] = floor2;
+    dropdownSelection['Floor 3'] = floor3;
+    dropdownSelection['Floor 4'] = floor4;
     /*_source = a;
     _target = g;
     path = _Route(_source, _target).generateRoute();*/
@@ -90,20 +98,46 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     } else {
       if (path.isNotEmpty) {
         return Scaffold(
-          body: Container(
-            color: Colors.white,
-            child: PhotoView.customChild(
-              child: new CustomPaint(
-                  foregroundPainter: RoutePainter(path),
-                  child: Image(image: AssetImage(selectedFloor))),
-              minScale: PhotoViewComputedScale.contained,
-              maxScale: 1.5,
-              childSize: Size(4961, 3508),
-              backgroundDecoration: new BoxDecoration(
-                color: Colors.white,
-              ),
+          body: Column(children: <Widget>[
+            DropdownButton<String>(
+              value: dropdownValue,
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                  selectedFloor = dropdownSelection[newValue];
+                  path = new Queue();
+                });
+              },
+              items: <String>[
+                'Ground floor',
+                'Floor 1',
+                'Floor 2',
+                'Floor 3',
+                'Floor 4'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
-          ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: PhotoView.customChild(
+                  child: new CustomPaint(
+                      foregroundPainter: RoutePainter(path),
+                      child: Image(image: AssetImage(selectedFloor))),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: 1.5,
+                  childSize: Size(4961, 3508),
+                  backgroundDecoration: new BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )
+          ]),
           bottomNavigationBar: BottomAppBar(
               child: new Row(
             mainAxisSize: MainAxisSize.max,
@@ -150,16 +184,41 @@ class _BuildingMapState extends State<BuildingMapFragment> {
         );
       } else {
         return Scaffold(
-          body: Container(
-            child: PhotoView(
-              imageProvider: AssetImage(selectedFloor),
-              minScale: PhotoViewComputedScale.contained,
-              maxScale: 1.5,
-              backgroundDecoration: new BoxDecoration(
-                color: Colors.white,
+          body: Column(children: <Widget>[
+            DropdownButton<String>(
+              value: dropdownValue,
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                  selectedFloor = dropdownSelection[newValue];
+                });
+              },
+              items: <String>[
+                'Ground floor',
+                'Floor 1',
+                'Floor 2',
+                'Floor 3',
+                'Floor 4'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            Expanded(
+              child: Container(
+                child: PhotoView(
+                  imageProvider: AssetImage(selectedFloor),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: 1.5,
+                  backgroundDecoration: new BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ),
+          ]),
           bottomNavigationBar: BottomAppBar(
               child: new Row(
             mainAxisSize: MainAxisSize.max,
@@ -196,12 +255,13 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             onPressed: () {
               setState(() {
                 if (_source == null || _target == null) {
-                    Scaffold.of(context).showSnackBar(new SnackBar(
-                      content: new Text("Both source and target must be selected first"),
-                    ));
-                  } else {
-                    path = _Route(_source, _target).generateRoute();
-                  }
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: new Text(
+                        "Both source and target must be selected first"),
+                  ));
+                } else {
+                  path = _Route(_source, _target).generateRoute();
+                }
               });
             },
             tooltip: 'draw route',
