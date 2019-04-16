@@ -63,7 +63,27 @@ class FindARoomFragment extends StatelessWidget {
 
                 Padding(
                     padding: EdgeInsets.all(15.0),
-                    child: RaisedButton(
+                    child: new MaterialButton(
+                      height: 75.0,
+                      minWidth: 125.0,
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      child: new Text(
+                        'Find your room',
+                        style: new TextStyle(
+                          fontSize: 22.0,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SearchResultsPage()),
+                        );
+                      },
+                      splashColor: Colors.redAccent,
+                    ),
+                    /*child: RaisedButton(
                         child: new Text('Find your room'),
                         onPressed: () {
                           Navigator.push(
@@ -71,7 +91,7 @@ class FindARoomFragment extends StatelessWidget {
                             MaterialPageRoute(builder: (context) => SearchResultsPage()),
                           );
                         }
-                    ),
+                    ),*/
                 ),
               ],
             ),
