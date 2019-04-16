@@ -13,6 +13,7 @@ class FindARoomFragment extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration( color: Color(0xFFFFFF)),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Stack(
                   children: <Widget>[
@@ -21,15 +22,15 @@ class FindARoomFragment extends StatelessWidget {
                       margin: EdgeInsets.all(50.0),
                       padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
                       color: Color(0xFF313131),
-                      child: Center(child: new Text(
+                      child: Text(
                         'Search for a room!',
                         //@todo center text in stack
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 20.0,
+                          fontSize: 27.0,
                         ),
                         textAlign: TextAlign.center,
-                      ),),
+                      ),
 
                     ),
                   ],
@@ -62,36 +63,33 @@ class FindARoomFragment extends StatelessWidget {
                 ),
 
                 Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: new MaterialButton(
-                      height: 75.0,
-                      minWidth: 125.0,
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
-                      child: new Text(
-                        'Find your room',
-                        style: new TextStyle(
-                          fontSize: 22.0,
-                          color: Colors.white70,
+                  padding: EdgeInsets.all(15.0),
+                  child: new MaterialButton(
+                    height: 75.0,
+                    minWidth: 125.0,
+                    color: Colors.black54,
+                    textColor: Colors.white,
+
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchResultsPage()),
+                      );
+                    },
+                    splashColor: Theme.of(context).primaryColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Find your room now!',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SearchResultsPage()),
-                        );
-                      },
-                      splashColor: Colors.redAccent,
+                      ],
                     ),
-                    /*child: RaisedButton(
-                        child: new Text('Find your room'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SearchResultsPage()),
-                          );
-                        }
-                    ),*/
+                  ),
                 ),
               ],
             ),
