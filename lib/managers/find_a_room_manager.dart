@@ -22,4 +22,21 @@ class FindARoomManager {
     }
     return rooms;
   }
+
+  /// Returns all [Room]s where name exists in the database.
+  ///
+  static Future<List<Room>> getRoom(String room) async {
+    // Execute query, return rows
+    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
+        "SELECT * FROM rooms WHERE room='$room'"
+    );
+    List<Room> rooms = <Room>[];
+    // Create a [Room] for a ll rows returned from the DB query.
+    for (Map<String, dynamic> m in queryResults) {
+      rooms.add(
+          Room(m['name'], m['image'])
+      );
+    }
+    return rooms;
+  }
 }
