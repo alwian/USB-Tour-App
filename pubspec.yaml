@@ -17,6 +17,10 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  #flutter_typeahead textField dropdown autocomplete package
+  #https://pub.dartlang.org/packages/flutter_typeahead#-installing-tab-
+  flutter_typeahead: ^1.4.0
+
   flutter:
     sdk: flutter
 

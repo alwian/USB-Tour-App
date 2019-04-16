@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/search_results_page.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class FindARoomFragment extends StatelessWidget {
 
@@ -38,26 +39,39 @@ class FindARoomFragment extends StatelessWidget {
                 //@todo Hard code suggestion dropdowns
                 //@todo add new search page
 
-                TextFormField(
-                  autofocus: false,
-                  decoration: InputDecoration(
-                      labelText: 'Enter Destination'
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: TextFormField(
+                    autofocus: false,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Enter Destination'
+                    ),
                   ),
                 ),
-                TextFormField(
-                  autofocus: false,
-                  decoration: InputDecoration(
-                      labelText: 'Enter Current Location'
+
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: TextFormField(
+                    autofocus: false,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Enter Current Location'
+                    ),
                   ),
                 ),
-                RaisedButton(
-                    child: new Text('Find your room'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SearchResultsPage()),
-                      );
-                    }
+
+                Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: RaisedButton(
+                        child: new Text('Find your room'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SearchResultsPage()),
+                          );
+                        }
+                    ),
                 ),
               ],
             ),
