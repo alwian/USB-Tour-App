@@ -43,7 +43,7 @@ class FindARoomManager {
   static Future<List<String>> getRoomSuggestions(String pattern) async {
     // Execute query, return rows
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        "SELECT * FROM rooms WHERE room LIKE '$pattern'"
+        "SELECT * FROM rooms WHERE name LIKE'$pattern'"
     );
     List<String> rooms = <String>[];
     // Create a [Room] for a ll rows returned from the DB query.
