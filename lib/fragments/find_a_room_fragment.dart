@@ -20,7 +20,23 @@ class _FindARoomState extends State<FindARoomFragment> {
   ///Strings to store results from the form text fields
   String _firstSelectedRoom;
 
-  ///Load all [Room]s from database into List
+  ///List to store the text of default suggestions (frequently used room names)
+  List<String> _frequentlyUsedRoomNames = [
+    "Cafe", "Lecture Theater", "Flat Floor", "Floor 2 Room", "MSc"
+  ];
+
+  ///Create method to create ListTile to display default suggestions to TextFields
+  List<ListTile> _createDefaultSuggestions(){
+    //Create List of ListTiles
+    List<ListTile> defaultSuggestions = new List<ListTile>();
+
+    //Iterate over _frequentlyUsedRoomNames and create new list tiles
+    _frequentlyUsedRoomNames.forEach((elem) =>
+      defaultSuggestions.add(new ListTile(title: new Text(elem))),
+    );
+
+    return defaultSuggestions;
+  }
 
 
   @override
@@ -113,10 +129,23 @@ class _FindARoomState extends State<FindARoomFragment> {
 
                              ///Validation method @todo add more comprehensive checks
                              validator: (value) {
-                               if (value.isEmpty) {
+                               /*if (value.isEmpty) {
+                                 //If empty, return default suggestions
                                  return 'Please select a room';
-                               }
+                               }*/
                              },
+
+                             noItemsFoundBuilder: (BuildContext context) =>
+                              ListView(
+                                children: <Widget>[
+                                  ListTile(
+                                    title: Text("Lecture Theater")
+                                  ),
+                                  ListTile(
+                                      title: Text("Flat Floor")
+                                  ),
+                                ],
+                              ),
 
                              ///Set string to selected value
                              onSaved: (value) => this._firstSelectedRoom = value,
