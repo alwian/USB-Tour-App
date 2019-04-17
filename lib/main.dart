@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF96B24A),
         backgroundColor: Color(0xFFBDBDBD),
-        accentColor: Color(0xFFE0E0E0),
-        iconTheme: IconThemeData(color: Colors.white),
+        accentColor: Color(0xFF96B24A),
+        accentIconTheme: IconThemeData(color: Colors.white),
         fontFamily: 'Ayuthaya',
         indicatorColor: Color(0xFFD5E3AF),
         splashColor: Color(0xFFD5E3AF),
@@ -30,8 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
-          textTheme:
-              TextTheme(title: TextStyle(color: Colors.white, fontSize: 25.0, fontFamily: 'Ayuthaya')),
+          textTheme: TextTheme(
+              title: TextStyle(color: Colors.white, fontSize: 20.0, fontFamily: 'Ayuthaya')
+          ),
         ),
       ),
       routes: {
