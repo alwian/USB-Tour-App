@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:csc2022_app/fragments/fragments.dart';
+import 'package:csc2022_app/fragments/find_a_room_fragment.dart';
+import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
+import 'package:csc2022_app/fragments/building_information_fragment.dart';
+import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
+import 'package:csc2022_app/fragments/history_fragment.dart';
 
 class _DrawerTile {
   String tileTitle;
