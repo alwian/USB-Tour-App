@@ -10,6 +10,9 @@ class Node {
 
   int _distance = 9223372036854775807;  //No max value constant in Dart
 
+  double coordsX = 0;
+  double coordsY = 0;
+
   int get distance => _distance;
 
   set distance(int value) {
@@ -36,6 +39,17 @@ class Node {
 
   String toString(){
     return _name;
+  }
+
+  Node copy() {
+    Node n = new Node(_name);
+    n.coordsY = this.coordsY;
+    n.coordsX = this.coordsX;
+    n.adjacentNodes = Map.from(this.adjacentNodes);
+    n.distance = this.distance;
+    n.shortestPath = List.from(this.shortestPath);
+
+    return n;
   }
 
 }
