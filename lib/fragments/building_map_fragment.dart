@@ -1,3 +1,6 @@
+/// Author: Mason Powell
+/// Student No. 170256018
+
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:photo_view/photo_view.dart';
@@ -5,50 +8,60 @@ import 'package:csc2022_app/algorithm/graph.dart';
 import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/navigation.dart';
 
+class Floor {
+  //Stores info for each floor
+  const Floor(this.name, this.path, this.floorNumber);
+
+  final String name;
+  final String path;
+  final int floorNumber;
+}
+
 class BuildingMapFragment extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BuildingMapState();
 }
 
 class _BuildingMapState extends State<BuildingMapFragment> {
-  String floor0 = 'assets/images/floor0_temp.png';
-  String floor1 = 'assets/images/floor1.png';
-  String floor2 = 'assets/images/floor2.png';
-  String floor3 = 'assets/images/floor3.png';
-  String floor4 = 'assets/images/floor4.png';
-  String selectedFloor;
-  String dropdownValue;
-  Map<String, String> dropdownSelection = new HashMap<String, String>();
+  Floor floor0 = Floor('Ground floor', 'assets/images/floor0_temp.png', 0);
+  Floor floor1 = Floor('Floor 1', 'assets/images/floor1.png', 1);
+  Floor floor2 = Floor('Floor 2', 'assets/images/floor2.png', 2);
+  Floor floor3 = Floor('Floor 3', 'assets/images/floor3.png', 3);
+  Floor floor4 = Floor('Floor 4', 'assets/images/floor4.png', 4);
+  Floor selectedFloor;
+  Floor dropdownValue;
+  int floorNum;
+  List<Floor> floors;
 
-  int i = 1;
-  final Node a = new Node('a');
-  final Node g = new Node('g');
   Node _source;
   Node _target;
   _Route route;
   Queue path = new Queue();
-  List<Node> floorNodes = new List<Node>();
+  List<List<Node>> floorNodes = new List<List<Node>>();
+
+  //test code
+  //final Node a = new Node('a');
+  //final Node g = new Node('g');
 
   bool sourceListOpen = false;
-
   bool targetListOpen = false;
 
   @override
   void initState() {
     super.initState();
+    for (int i = 0; i < 6; i++) {
+      floorNodes.add(new List<Node>());
+    }
+    floors = <Floor>[floor0, floor1, floor2, floor3, floor4];
+
     //Initial test code until connection to database is established
-    floorNodes.add(a);
-    floorNodes.add(g);
+    //floorNodes[1].add(a);
+    //floorNodes[1].add(g);
+
+    //initialisation for the floor selection
     selectedFloor = floor0;
-    dropdownValue = 'Ground floor';
-    dropdownSelection['Ground floor'] = floor0;
-    dropdownSelection['Floor 1'] = floor1;
-    dropdownSelection['Floor 2'] = floor2;
-    dropdownSelection['Floor 3'] = floor3;
-    dropdownSelection['Floor 4'] = floor4;
-    /*_source = a;
-    _target = g;
-    path = _Route(_source, _target).generateRoute();*/
+    dropdownValue = floor0;
+    floorNum = 0;
   }
 
   @override
@@ -56,20 +69,21 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     if (sourceListOpen == true) {
       return ListView.builder(
           padding: const EdgeInsets.all(10.0),
-          itemCount: floorNodes.length, //list of all the nodes on the floor
+          itemCount:
+              floorNodes[floorNum].length, //list of all the nodes on the specified floor (floorNum)
           itemBuilder: (context, i) {
             return new ListTile(
-                title: Text(floorNodes[i].name),
+                title: Text(floorNodes[floorNum][i].name),  //the name of node i in list floorNum
                 onTap: () {
-                  if (floorNodes[i] == _target) {
+                  if (floorNodes[floorNum][i] == _target) {
                     Scaffold.of(context).showSnackBar(new SnackBar(
                       content:
                           new Text("Can't have matching source and target"),
                     ));
                   } else {
                     setState(() {
-                      _source = floorNodes[i];
-                      sourceListOpen = false;
+                      _source = floorNodes[floorNum][i];
+                      sourceListOpen = false; //closes list
                     });
                   }
                 });
@@ -77,20 +91,21 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     } else if (targetListOpen == true) {
       return ListView.builder(
           padding: const EdgeInsets.all(10.0),
-          itemCount: floorNodes.length, //list of all the nodes on the floor
+          itemCount:
+              floorNodes[floorNum].length, //list of all the nodes on the specified floor (floorNum)
           itemBuilder: (context, i) {
             return new ListTile(
-                title: Text(floorNodes[i].name),
+                title: Text(floorNodes[floorNum][i].name),  //the name of node i in list floorNum
                 onTap: () {
-                  if (floorNodes[i] == _source) {
+                  if (floorNodes[floorNum][i] == _source) {
                     Scaffold.of(context).showSnackBar(new SnackBar(
                       content:
                           new Text("Can't have matching source and target"),
                     ));
                   } else {
                     setState(() {
-                      _target = floorNodes[i];
-                      targetListOpen = false;
+                      _target = floorNodes[floorNum][i];
+                      targetListOpen = false; //closes list
                     });
                   }
                 });
@@ -99,38 +114,32 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       if (path.isNotEmpty) {
         return Scaffold(
           body: Column(children: <Widget>[
-            DropdownButton<String>(
+            DropdownButton<Floor>(
               value: dropdownValue,
-              onChanged: (String newValue) {
+              onChanged: (Floor newValue) {
                 setState(() {
                   dropdownValue = newValue;
-                  selectedFloor = dropdownSelection[newValue];
-                  path = new Queue();
+                  selectedFloor = newValue;
+                  floorNum = newValue.floorNumber;
+                  path = new Queue(); //empties the path
                 });
               },
-              items: <String>[
-                'Ground floor',
-                'Floor 1',
-                'Floor 2',
-                'Floor 3',
-                'Floor 4'
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
+              items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
+                return DropdownMenuItem<Floor>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value.name),
                 );
               }).toList(),
             ),
             Expanded(
               child: Container(
-                color: Colors.white,
                 child: PhotoView.customChild(
                   child: new CustomPaint(
                       foregroundPainter: RoutePainter(path),
-                      child: Image(image: AssetImage(selectedFloor))),
+                      child: Image(image: AssetImage(selectedFloor.path))),
                   minScale: PhotoViewComputedScale.contained,
                   maxScale: 1.5,
-                  childSize: Size(4961, 3508),
+                  childSize: Size(4961, 3508),  //the height of the currently used images, need changing from magic numbers
                   backgroundDecoration: new BoxDecoration(
                     color: Colors.white,
                   ),
@@ -149,15 +158,6 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                   setState(() {
                     sourceListOpen = true;
                   });
-                  /*ListView(children: <Widget>[
-                  Container(
-                      child: RaisedButton(
-                    onPressed: () {
-                      source = a;
-                    },
-                    child: const Text('Node a'),
-                  )),
-                ]);*/
                 },
               ),
               IconButton(
@@ -185,31 +185,27 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       } else {
         return Scaffold(
           body: Column(children: <Widget>[
-            DropdownButton<String>(
+            DropdownButton<Floor>(
               value: dropdownValue,
-              onChanged: (String newValue) {
+              onChanged: (Floor newValue) {
                 setState(() {
                   dropdownValue = newValue;
-                  selectedFloor = dropdownSelection[newValue];
+                  selectedFloor = newValue;
+                  floorNum = newValue.floorNumber;
+                  path = new Queue(); //empties the path
                 });
               },
-              items: <String>[
-                'Ground floor',
-                'Floor 1',
-                'Floor 2',
-                'Floor 3',
-                'Floor 4'
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
+              items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
+                return DropdownMenuItem<Floor>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value.name),
                 );
               }).toList(),
             ),
             Expanded(
               child: Container(
                 child: PhotoView(
-                  imageProvider: AssetImage(selectedFloor),
+                  imageProvider: AssetImage(selectedFloor.path),
                   minScale: PhotoViewComputedScale.contained,
                   maxScale: 1.5,
                   backgroundDecoration: new BoxDecoration(
@@ -230,15 +226,6 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                   setState(() {
                     sourceListOpen = true;
                   });
-                  /*ListView(children: <Widget>[
-                  Container(
-                      child: RaisedButton(
-                    onPressed: () {
-                      source = a;
-                    },
-                    child: const Text('Node a'),
-                  )),
-                ]);*/
                 },
               ),
               IconButton(
@@ -287,10 +274,6 @@ class RoutePainter extends CustomPainter {
     paint.color = Colors.indigoAccent;
     paint.strokeWidth = 20;
 
-    /* Path p = new Path();
-    p.lineTo(size.height - , size.width);
-
-    canvas.drawPath(p,paint); */
     Node node1 = path.elementAt(path.length - 1);
     Node node2 = path.elementAt(path.length - 2);
     int length = path.length - 3;
@@ -311,11 +294,6 @@ class RoutePainter extends CustomPainter {
             Offset(node2.coordsX, node2.coordsY), size.width / 60, paint);
       }
     }
-    /*canvas.drawLine(Offset(size.width/2, (size.height/2)+200),
-    Offset((size.width/2)-1100, (size.height/2)+550), paint);
-
-    canvas.drawCircle(Offset(size.width/2, (size.height/2)+200), size.width/45, paint);
-    canvas.drawCircle(Offset((size.width/2)-1100, (size.height/2)+550), size.width/45, paint);*/
   }
 
   @override
@@ -331,17 +309,17 @@ class _Route {
   Queue route;
 
   //these nodes would already be in the database, but for now they're just local for testing
-  Node a = new Node("a");
+  /*Node a = new Node("a");
   Node b = new Node("b");
   Node c = new Node("c");
   Node d = new Node("d");
   Node e = new Node("e");
   Node f = new Node("f");
-  Node g = new Node("g");
+  Node g = new Node("g");*/
 
   _Route(Node source, Node target) {
     //pre-initialisation test code start
-    a.addDestination(b, 10);
+    /*a.addDestination(b, 10);
     a.addDestination(c, 15);
     a.coordsX = 3112;
     a.coordsY = 1176;
@@ -377,7 +355,7 @@ class _Route {
     graph.addNode(d);
     graph.addNode(e);
     graph.addNode(f);
-    graph.addNode(g);
+    graph.addNode(g);*/
     //end
 
     this.source = source;
