@@ -40,16 +40,16 @@ class FindARoomManager {
   }
 
   /// Returns all [Room]s where name is similar to a name in the database.
-  static Future<List<Room>> getRoomSuggestions(String pattern) async {
+  static Future<List<String>> getRoomSuggestions(String pattern) async {
     // Execute query, return rows
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
         "SELECT * FROM rooms WHERE room LIKE '$pattern'"
     );
-    List<Room> rooms = <Room>[];
+    List<String> rooms = <String>[];
     // Create a [Room] for a ll rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
       rooms.add(
-          Room(m['name'], m['image'])
+          Room(m['name'], m['image']).name
       );
     }
     return rooms;
