@@ -53,6 +53,9 @@ flutter:
     - assets/images/ncl_logo.jpg
     - assets/images/usb.jpg
     - assets/images/lecture_theatre.jpg
+
+
+    # Floor images
     - assets/images/floor0_temp.png
     - assets/images/floor1.png
     - assets/images/floor2.png
