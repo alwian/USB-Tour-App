@@ -25,15 +25,18 @@ class BuildingInformationFragment extends StatelessWidget {
                 child: TabBarView(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20, right: 20),
                       color: Colors.grey[400],
                       child: ListView(
                         children: <Widget>[
                           Text(
-                            '\n\nAbout title',
+                            '\n\nAbout the building',
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          Text('\nAbout text'),
+                          Text(
+                            '\nDescribed as a living laboratory, the Urban Sciences Building is home to Newcastle Universitiy\'s School of Computing and several world-leading research facilities, such as the National Green Infrastructure Facility and the Digital Economy Research Centre. Projects include the Urban Observatory, Smart Grid and Building as a Power Plant. With a total development cost of £58 million and a size of 12,800m\u00B2, the USB is the recipient of multiple awards for best practice in sustainability, including the BREEAM Innovation Credit.',
+                            style: TextStyle(height: 1.25),
+                          ),
                         ],
                       ),
                     ),
