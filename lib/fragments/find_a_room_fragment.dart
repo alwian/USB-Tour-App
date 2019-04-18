@@ -26,7 +26,7 @@ class _FindARoomState extends State<FindARoomFragment> {
   ];
 
   ///Create method to create ListTile to display default suggestions to TextFields
-  List<ListTile> _createDefaultSuggestions(){
+  List<Widget> _createDefaultSuggestions(){
     //Create List of ListTiles
     List<ListTile> defaultSuggestions = new List<ListTile>();
 
@@ -89,6 +89,8 @@ class _FindARoomState extends State<FindARoomFragment> {
                        children: <Widget>[
                          Padding(
                            padding: EdgeInsets.all(15.0),
+
+                           ///First TextField (\enter Destination)
                            child: TypeAheadFormField(
                              textFieldConfiguration: TextFieldConfiguration(
                                  controller: this._typeAheadController,
@@ -129,22 +131,15 @@ class _FindARoomState extends State<FindARoomFragment> {
 
                              ///Validation method @todo add more comprehensive checks
                              validator: (value) {
-                               /*if (value.isEmpty) {
+                               if (value.isEmpty) {
                                  //If empty, return default suggestions
                                  return 'Please select a room';
-                               }*/
+                               }
                              },
 
                              noItemsFoundBuilder: (BuildContext context) =>
                               ListView(
-                                children: <Widget>[
-                                  ListTile(
-                                    title: Text("Lecture Theater")
-                                  ),
-                                  ListTile(
-                                      title: Text("Flat Floor")
-                                  ),
-                                ],
+                                children: _createDefaultSuggestions()
                               ),
 
                              ///Set string to selected value
