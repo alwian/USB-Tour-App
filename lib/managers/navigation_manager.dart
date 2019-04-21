@@ -29,16 +29,16 @@ class NavigationManager {
     String f;
 
     if (floor == 0) {
-      f = 'g';
+      f = 'G';
     }
 
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        'SELECT Room 1 ID, Room 2 ID, Weight FROM Edge WHERE Room 1 ID LIKE $f%'
+        'SELECT Room_1_ID, Room_2_ID, Weight FROM Edge WHERE Room_1_ID LIKE $f% AND Room_2_ID LIKE $f%'
     );
 
     for (Map<String, dynamic> m in queryResults) {
-      nodes[m['Room 1 ID']].addDestination(nodes[m['Room 2 ID']], m['Weight']);
+      nodes[m['Room_1_ID']].addDestination(nodes[m['Room_2_ID']], m['Weight']);
     }
 
     nodes.forEach((key, value) {
