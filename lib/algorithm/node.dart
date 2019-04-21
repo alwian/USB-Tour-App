@@ -1,6 +1,6 @@
-//Author: Mason Powell
-//StuNo: 170256018
-//Purpose: represents a node and the necessary describing data
+/// Author Mason Powell
+/// Student No. 170256018
+/// Purpose: represents a node and the necessary describing data
 
 class Node {
 
@@ -29,9 +29,9 @@ class Node {
 
   Map<Node, int> adjacentNodes = {};
 
-  Node(String name) {
-    this._name = name;
-  }
+  Node(this._name);
+
+  Node.fromDB(this._name, this.coordsX, this.coordsY);
 
   void addDestination(Node destination, int distance) {
     adjacentNodes[destination] = distance;
