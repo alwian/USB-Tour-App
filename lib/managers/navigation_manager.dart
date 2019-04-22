@@ -36,6 +36,8 @@ class NavigationManager {
   static Future<Graph> getGraph(int floor) async {
     Graph graph = Graph.floor(floor);
     String f;
+    String id;
+    String id2;
 
     if (floor == 0) {
       f = 'G';
@@ -49,14 +51,17 @@ class NavigationManager {
     );
 
     for (Map<String, dynamic> m in queryResults) {
-      nodes[m['Room_1_ID']].addDestination(nodes[m['Room_2_ID']], m['Weight']);
-      nodes[m['Room_2_ID']].addDestination(nodes[m['Room_1_ID']], m['Weight']);
+      
+      id = m['Room_1_ID'].toString().padRight(5, '0');
+      id2 = m['Room_2_ID'].toString().padRight(5, '0');
+
+      nodes[id].addDestination(nodes[id2], m['Weight']);
+      nodes[id2].addDestination(nodes[id], m['Weight']);
     }
 
     nodes.forEach((key, value) {
       graph.addNode(value);
     });
-
     return graph;
   }
 
