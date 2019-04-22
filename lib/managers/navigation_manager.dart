@@ -1,24 +1,25 @@
 /// Author Mason Powell
 /// Student No. 170256018
 
+import 'dart:collection';
 import 'package:csc2022_app/helpers/database_helper.dart';
 import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/graph.dart';
 
 class NavigationManager {
 
-  static Map<String, Node> nodes;
+  static Map<String, Node> nodes = new HashMap<String, Node>();
 
   /// Returns all the [Node]s for a given floor.
   static Future<Map<String, Node>> getNodes(int floor) async {
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        'SELECT Name, XCoord, YCoord FROM Room WHERE ID LIKE $floor%'
+        'SELECT Name, XCoord, YCoord FROM Room WHERE ID LIKE \'$floor%\''
     );
 
     // Create a [Node] for all rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
-      nodes[m['ID']] = Node.fromDB(m['Name'], m['XCoord'], m['YCoord']);
+      nodes[m['ID']] = Node.fromDB(m['Name'], m['XCoord'].toDouble(), m['YCoord'].toDouble());
     }
 
     return nodes;
@@ -34,7 +35,7 @@ class NavigationManager {
 
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        'SELECT Room_1_ID, Room_2_ID, Weight FROM Edge WHERE Room_1_ID LIKE $f% AND Room_2_ID LIKE $f%'
+        'SELECT Room_1_ID, Room_2_ID, Weight FROM Edge WHERE Room_1_ID LIKE \'$f\'% AND Room_2_ID LIKE \'$f%\''
     );
 
     for (Map<String, dynamic> m in queryResults) {
