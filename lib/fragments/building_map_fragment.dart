@@ -7,6 +7,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:csc2022_app/algorithm/graph.dart';
 import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/navigation.dart';
+import 'package:csc2022_app/managers/navigation_manager.dart';
 
 class Floor {
   //Stores info for each floor
@@ -33,15 +34,13 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   int floorNum;
   List<Floor> floors;
 
+
   Node _source;
   Node _target;
   _Route route;
-  Queue path = new Queue();
+  Queue<Node> path = new Queue<Node>();
   List<List<Node>> floorNodes = new List<List<Node>>();
 
-  //test code
-  //final Node a = new Node('a');
-  //final Node g = new Node('g');
 
   bool sourceListOpen = false;
   bool targetListOpen = false;
@@ -51,17 +50,21 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     super.initState();
     for (int i = 0; i < 6; i++) {
       floorNodes.add(new List<Node>());
+      _loadNodes(i, floorNodes[i]);
     }
     floors = <Floor>[floor0, floor1, floor2, floor3, floor4];
-
-    //Initial test code until connection to database is established
-    //floorNodes[1].add(a);
-    //floorNodes[1].add(g);
 
     //initialisation for the floor selection
     selectedFloor = floor0;
     dropdownValue = floor0;
     floorNum = 0;
+  }
+
+  Future<void> _loadNodes(int floor, List<Node> floorList) async {
+
+    floorList = (await NavigationManager.getNodes(floor)).values;
+
+    setState(() {});
   }
 
   @override
@@ -121,7 +124,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                   dropdownValue = newValue;
                   selectedFloor = newValue;
                   floorNum = newValue.floorNumber;
-                  path = new Queue(); //empties the path
+                  path = new Queue<Node>(); //empties the path
                 });
               },
               items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
@@ -173,7 +176,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {
-                path = _Route(_source, _target).generateRoute();
+                path = _Route(_source, _target, floorNum).generateRoute();
               });
             },
             tooltip: 'draw route',
@@ -192,7 +195,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                   dropdownValue = newValue;
                   selectedFloor = newValue;
                   floorNum = newValue.floorNumber;
-                  path = new Queue(); //empties the path
+                  path = new Queue<Node>(); //empties the path
                 });
               },
               items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
@@ -247,7 +250,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                         "Both source and target must be selected first"),
                   ));
                 } else {
-                  path = _Route(_source, _target).generateRoute();
+                  path = _Route(_source, _target, floorNum).generateRoute();
                 }
               });
             },
@@ -263,9 +266,9 @@ class _BuildingMapState extends State<BuildingMapFragment> {
 }
 
 class RoutePainter extends CustomPainter {
-  ListQueue path;
-  RoutePainter(Queue path) {
-    this.path = Queue.from(path);
+  ListQueue<Node> path;
+  RoutePainter(Queue<Node> path) {
+    this.path = Queue<Node>.from(path);
   }
 
   @override
@@ -305,8 +308,8 @@ class RoutePainter extends CustomPainter {
 class _Route {
   Node source;
   Node target;
-  Graph graph = new Graph();
-  Queue route;
+  Graph graph;
+  Queue<Node> route;
 
   //these nodes would already be in the database, but for now they're just local for testing
   /*Node a = new Node("a");
@@ -317,7 +320,12 @@ class _Route {
   Node f = new Node("f");
   Node g = new Node("g");*/
 
-  _Route(Node source, Node target) {
+  Future<void> _loadGraph(int floor) async{
+    graph = await NavigationManager.getGraph(floor);
+  }
+
+  _Route(Node source, Node target, int floor) {
+    _loadGraph(floor);
     //pre-initialisation test code start
     /*a.addDestination(b, 10);
     a.addDestination(c, 15);
@@ -364,8 +372,8 @@ class _Route {
     graph = Navigation.calculateShortestPathFromSource(graph, this.source);
   }
 
-  Queue generateRoute() {
-    route = Queue.from(Navigation.pathToTarget(graph, source, target));
+  Queue<Node> generateRoute() {
+    route = Queue<Node>.from(Navigation.pathToTarget(graph, source, target));
     return route;
   }
 }

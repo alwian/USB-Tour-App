@@ -6,6 +6,10 @@ import 'node.dart';
 
 class Graph {
    Set<Node> nodes = {};
+   int floorNumber;
+
+   Graph();
+   Graph.floor(this.floorNumber);
 
    void addNode(Node nodeA) {
      nodes.add(nodeA);
