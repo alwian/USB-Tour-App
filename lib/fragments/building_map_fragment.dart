@@ -11,11 +11,12 @@ import 'package:csc2022_app/managers/navigation_manager.dart';
 
 class Floor {
   //Stores info for each floor
-  const Floor(this.name, this.path, this.floorNumber);
+  Floor(this.name, this.path, this.floorNumber);
 
   final String name;
   final String path;
   final int floorNumber;
+  Graph graph;
 }
 
 class BuildingMapFragment extends StatefulWidget {
@@ -24,7 +25,7 @@ class BuildingMapFragment extends StatefulWidget {
 }
 
 class _BuildingMapState extends State<BuildingMapFragment> {
-  Floor floor0 = Floor('Ground floor', 'assets/images/floor0_temp.png', 0);
+  Floor floor0 = Floor('Ground floor', 'assets/images/floor0.png', 0);
   Floor floor1 = Floor('Floor 1', 'assets/images/floor1.png', 1);
   Floor floor2 = Floor('Floor 2', 'assets/images/floor2.png', 2);
   Floor floor3 = Floor('Floor 3', 'assets/images/floor3.png', 3);
@@ -33,14 +34,15 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   Floor dropdownValue;
   int floorNum;
   List<Floor> floors;
-
+  Map<String, Node> nodes;
 
   Node _source;
   Node _target;
   _Route route;
+  //Graph graph;
+
   Queue<Node> path = new Queue<Node>();
   List<List<Node>> floorNodes = new List<List<Node>>();
-
 
   bool sourceListOpen = false;
   bool targetListOpen = false;
@@ -48,11 +50,11 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 6; i++) {
-      floorNodes.add(new List<Node>());
-      _loadNodes(i, floorNodes[i]);
-    }
     floors = <Floor>[floor0, floor1, floor2, floor3, floor4];
+    for (int i = 0; i < 5; i++) {
+      floorNodes.add(new List<Node>());
+    }
+    _loadElements(floorNodes, floors);
 
     //initialisation for the floor selection
     selectedFloor = floor0;
@@ -61,10 +63,26 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   }
 
   Future<void> _loadNodes(int floor, List<Node> floorList) async {
+    nodes = await NavigationManager.getNodes(floor);
 
-    floorList = (await NavigationManager.getNodes(floor)).values;
+    setState(() {
+      for (Node n in nodes.values) {
+        floorList.add(n);
+      }
+    });
+  }
 
+  Future<void> _loadGraph(Floor floor) async {
+    floor.graph = await NavigationManager.getGraph(floor.floorNumber);
     setState(() {});
+  }
+
+  Future<void> _loadElements(
+      List<List<Node>> floorNodes, List<Floor> floors) async {
+    for (int i = 0; i < 5; i++) {
+      await _loadNodes(i, floorNodes[i]);
+      await _loadGraph(floors[i]);
+    }
   }
 
   @override
@@ -72,11 +90,12 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     if (sourceListOpen == true) {
       return ListView.builder(
           padding: const EdgeInsets.all(10.0),
-          itemCount:
-              floorNodes[floorNum].length, //list of all the nodes on the specified floor (floorNum)
+          itemCount: floorNodes[floorNum]
+              .length, //list of all the nodes on the specified floor (floorNum)
           itemBuilder: (context, i) {
             return new ListTile(
-                title: Text(floorNodes[floorNum][i].name),  //the name of node i in list floorNum
+                title: Text(floorNodes[floorNum][i]
+                    .name), //the name of node i in list floorNum
                 onTap: () {
                   if (floorNodes[floorNum][i] == _target) {
                     Scaffold.of(context).showSnackBar(new SnackBar(
@@ -94,11 +113,12 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     } else if (targetListOpen == true) {
       return ListView.builder(
           padding: const EdgeInsets.all(10.0),
-          itemCount:
-              floorNodes[floorNum].length, //list of all the nodes on the specified floor (floorNum)
+          itemCount: floorNodes[floorNum]
+              .length, //list of all the nodes on the specified floor (floorNum)
           itemBuilder: (context, i) {
             return new ListTile(
-                title: Text(floorNodes[floorNum][i].name),  //the name of node i in list floorNum
+                title: Text(floorNodes[floorNum][i]
+                    .name), //the name of node i in list floorNum
                 onTap: () {
                   if (floorNodes[floorNum][i] == _source) {
                     Scaffold.of(context).showSnackBar(new SnackBar(
@@ -124,6 +144,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                   dropdownValue = newValue;
                   selectedFloor = newValue;
                   floorNum = newValue.floorNumber;
+
                   path = new Queue<Node>(); //empties the path
                 });
               },
@@ -142,7 +163,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                       child: Image(image: AssetImage(selectedFloor.path))),
                   minScale: PhotoViewComputedScale.contained,
                   maxScale: 1.5,
-                  childSize: Size(4961, 3508),  //the height of the currently used images, need changing from magic numbers
+                  childSize: Size(4961,
+                      3508), //the height of the currently used images, need changing from magic numbers
                   backgroundDecoration: new BoxDecoration(
                     color: Colors.white,
                   ),
@@ -176,7 +198,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {
-                path = _Route(_source, _target, floorNum).generateRoute();
+                path = _Route(_source, _target, floorNum, selectedFloor.graph)
+                    .generateRoute();
               });
             },
             tooltip: 'draw route',
@@ -250,7 +273,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                         "Both source and target must be selected first"),
                   ));
                 } else {
-                  path = _Route(_source, _target, floorNum).generateRoute();
+                  path = _Route(_source, _target, floorNum, selectedFloor.graph)
+                      .generateRoute();
                 }
               });
             },
@@ -308,7 +332,7 @@ class RoutePainter extends CustomPainter {
 class _Route {
   Node source;
   Node target;
-  Graph graph;
+  Graph currentGraph;
   Queue<Node> route;
 
   //these nodes would already be in the database, but for now they're just local for testing
@@ -320,12 +344,8 @@ class _Route {
   Node f = new Node("f");
   Node g = new Node("g");*/
 
-  Future<void> _loadGraph(int floor) async{
-    graph = await NavigationManager.getGraph(floor);
-  }
-
-  _Route(Node source, Node target, int floor) {
-    _loadGraph(floor);
+  _Route(Node source, Node target, int floor, Graph graph) {
+    currentGraph = graph;
     //pre-initialisation test code start
     /*a.addDestination(b, 10);
     a.addDestination(c, 15);
@@ -368,12 +388,15 @@ class _Route {
 
     this.source = source;
     this.target = target;
-
-    graph = Navigation.calculateShortestPathFromSource(graph, this.source);
+    if (currentGraph != null) {
+      currentGraph =
+          Navigation.calculateShortestPathFromSource(currentGraph, this.source);
+    }
   }
 
   Queue<Node> generateRoute() {
-    route = Queue<Node>.from(Navigation.pathToTarget(graph, source, target));
+    route =
+        Queue<Node>.from(Navigation.pathToTarget(currentGraph, source, target));
     return route;
   }
 }

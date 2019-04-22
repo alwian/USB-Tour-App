@@ -51,7 +51,7 @@ class NavigationManager {
     );
 
     for (Map<String, dynamic> m in queryResults) {
-      
+
       id = m['Room_1_ID'].toString().padRight(5, '0');
       id2 = m['Room_2_ID'].toString().padRight(5, '0');
 
