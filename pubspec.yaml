@@ -68,7 +68,7 @@ flutter:
     - assets/databases/data.db
 
     # Floor images
-    - assets/images/floor0_temp.png
+    - assets/images/floor0.png
     - assets/images/floor1.png
     - assets/images/floor2.png
     - assets/images/floor3.png
