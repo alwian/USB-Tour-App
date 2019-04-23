@@ -81,6 +81,15 @@ class FindARoomManager {
     } else {
       startFloor = int.parse(rooms[0].substring(0, 1));
     }
+
+    //Import Nodes
+    Map<String, Node> nodes = await NavigationManager.getNodes(0);
+    nodes = await NavigationManager.getNodes(1);
+    nodes = await NavigationManager.getNodes(2);
+    nodes = await NavigationManager.getNodes(3);
+    nodes = await NavigationManager.getNodes(4);
+    nodes = await NavigationManager.getNodes(5);
+
     // Build Graph for floor of start node
     Graph startGraph = await NavigationManager.getGraph(startFloor);
 
