@@ -65,8 +65,8 @@ class FindARoomManager {
   /// Easy user interface method to take rooms as [List] of [String]s
   /// and return directions as [List] of [String]s
   static Future<List<String>> getDirections(List<String> formRooms) async {
-    Future<Queue<Node>> directionsQueue = getDirectionsQueue(formRooms);
-    Future<List<String>> directionsList = getDirectionDetails(directionsQueue);
+    Queue<Node> directionsQueue = await getDirectionsQueue(formRooms);
+    List<String> directionsList = await getDirectionDetails(directionsQueue);
 
     return directionsList;
   }
@@ -115,27 +115,27 @@ class FindARoomManager {
   }
   
   /// Return [List] of [String]s storing directions given a queue of [Node]s
-  static Future<List<String>> getDirectionDetails(Future<Queue<Node>> nodeQueue) async {
-    Queue<Node> nodeQueue1 = await nodeQueue;
+  static Future<List<String>> getDirectionDetails(Queue<Node> nodeQueue) async {
+
     //List to store directions
     List<String> directions = new List<String>();
 
     //Iterate over all but last node
-    for(int i = 0; i < nodeQueue1.length; i++) {
+    for(int i = 0; i < nodeQueue.length; i++) {
       //Store name of node and if not null next node
-      String destA = nodeQueue1.removeLast().name;
-      String destB = nodeQueue1.removeLast().name;
+      String destA = nodeQueue.removeLast().name;
+      String destB = nodeQueue.removeLast().name;
       debugPrint('dd: $destA');
       debugPrint('db: $destB');
 
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-          "SELECT `A to B` FROM Edge where `Room 1 ID` = " + destA + " AND `Room 2 ID` = " + destB
+          "SELECT A_to_B FROM Edge where Room_1_ID = " + destA + " AND Room_2_ID = " + destB
       );
 
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        directions.add(m["`A to B`"]);
+        directions.add(m["A_to_B"]);
       }
     }
 

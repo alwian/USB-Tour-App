@@ -50,7 +50,7 @@ class FindARoomFragment extends StatelessWidget {
   ///Method to build map content
   Widget _buildMapBody(BuildContext context) {
     return Container(
-      height: 450.0,
+      height: 375.0,
       decoration: const BoxDecoration(
         image: DecorationImage(
             alignment: Alignment(-.2, 0),
@@ -63,12 +63,14 @@ class FindARoomFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ///@todo replace image with map when finished
-        _buildMapBody(context),
-        _buildButton(context)
-      ]
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          ///@todo replace image with map when finished
+          _buildMapBody(context),
+          _buildButton(context)
+        ]
+      ),
     );
   }
 }
