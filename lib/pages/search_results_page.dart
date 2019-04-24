@@ -79,42 +79,25 @@ class _SearchResultsState extends State<SearchResultsPage> {
       appBar: AppBar(
         title: Text("Find a room"),
       ),
-      body: Column(
-        children: <Widget>[
-          ///@todo replace image with map when finished
-          _buildMapBody(context),
-
-          /*Expanded(
-            //ListView
-            child: ListView(
-              children: <Widget>[
-                //Destination [ListTile]
-                ListTile(
-                  title: Text(widget.formRooms[0], textAlign: TextAlign.start,),
-                  subtitle: Text('From ' + widget.formRooms[1], textAlign: TextAlign.start,),
-                ),
-              ],
-            ),
-          ),*/
-          FutureBuilder(
-            future: _directions(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return new Center(
-                    child: CircularProgressIndicator()
-                  );
-                default:
-                  if (snapshot.hasError)
-                    return new Text('Error: ${snapshot.error}');
-                  else
-                    return createListView(context, snapshot);
-              }
-            },
-          ),
-        ]
-      )
+      body: FutureBuilder<List<String>>(
+        future: _directions(),
+        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                String item = snapshot.data[index];
+                return ListTile(
+                  title: Text(item),
+                  leading: Text(item),
+                );
+              },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 

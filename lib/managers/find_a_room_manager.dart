@@ -79,26 +79,31 @@ class FindARoomManager {
     if(rooms[0].substring(0, 1) == "G") {
       startFloor = 0;
     } else {
-      startFloor = int.parse(rooms[0].substring(0, 1));
+      //startFloor = int.parse(rooms[0].substring(0, 1));
     }
 
     //Import Nodes
-    Map<String, Node> nodes = await NavigationManager.getNodes(0);
-    nodes = await NavigationManager.getNodes(1);
-    nodes = await NavigationManager.getNodes(2);
-    nodes = await NavigationManager.getNodes(3);
-    nodes = await NavigationManager.getNodes(4);
+    Map<String, Node> nodes = await NavigationManager.getNodes(1);
+    //nodes = await NavigationManager.getNodes(1);
+    //nodes = await NavigationManager.getNodes(2);
+    //nodes = await NavigationManager.getNodes(3);
+    //nodes = await NavigationManager.getNodes(4);
     nodes = await NavigationManager.getNodes(5);
 
     // Build Graph for floor of start node
-    Graph startGraph = await NavigationManager.getGraph(startFloor);
+    Graph startGraph = await NavigationManager.getGraph(1);
+    //startGraph = await NavigationManager.getGraph(1);
+    //startGraph = await NavigationManager.getGraph(2);
+    //startGraph = await NavigationManager.getGraph(3);
+    //startGraph = await NavigationManager.getGraph(4);
+    startGraph = await NavigationManager.getGraph(5);
 
     Node source;
     Node destination;
 
     // Store rooms as source and target nodes
     for (Node w in startGraph.nodes) {
-      if (w.name == rooms[0]) {
+      if (w.id == rooms[0]) {
         source = w;
 
         break;
@@ -106,12 +111,15 @@ class FindARoomManager {
     }
 
     for (Node v in startGraph.nodes) {
-      if (v.name == rooms[1]) {
+      if (v.id == rooms[1]) {
 
         destination = v;
         break;
       }
     }
+
+    //Init graph
+    startGraph = Navigation.calculateShortestPathFromSource(startGraph, source);
 
     // Store directions from algorithm
     Queue<Node> directions = Navigation.pathToTarget(startGraph, source, destination);
@@ -128,23 +136,29 @@ class FindARoomManager {
 
     //List to store directions
     List<String> directions = new List<String>();
+    List<Node> nodeList = nodeQueue.toList();
 
     //Iterate over all but last node
-    for(int i = 0; i < nodeQueue.length; i++) {
+    for(int i = nodeList.length-1; i >= 1; i--) {
       //Store name of node and if not null next node
-      String destA = nodeQueue.removeLast().name;
-      String destB = nodeQueue.removeLast().name;
+      String destA = nodeList[i-1].id;
+      String destB = nodeList[i].id;
+
       debugPrint('dd: $destA');
       debugPrint('db: $destB');
 
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-          "SELECT A_to_B FROM Edge where Room_1_ID = " + destA + " AND Room_2_ID = " + destB
+          'SELECT A_to_B FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
       );
+
+      debugPrint('Got here 1');
+      debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        directions.add(m["A_to_B"]);
+        debugPrint(m["A_to_B"].toString());
+        directions.add(m["A_to_B"].toString());
       }
     }
 
