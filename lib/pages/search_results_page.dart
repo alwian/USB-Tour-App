@@ -32,13 +32,17 @@ class _SearchResultsState extends State<SearchResultsPage> {
         if (snapshot.hasData) {
           // Store directions
           List<String> values = snapshot.data;
-          debugPrint('_-_-_-' + snapshot.data.toString());
           return ListView.builder(
             padding: EdgeInsets.all(8.0),
             itemCount: values.length,
             itemBuilder: (BuildContext context, int index) {
               ListTile(
-                title: Text(values[index]),
+                title: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(values[index])
+                  ]
+                ),
               );
             },
           );
@@ -95,7 +99,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
                       return Column(
                         children: <Widget>[
                           ListTile(
-                            title: Text(item, style: TextStyle(fontSize: 20.0),),
+                            title: Center(
+                              child: Text(item, style: TextStyle(fontSize: 20.0),)
+                            ),
                           ),
                           Divider(height: 7.0,)
                         ],
