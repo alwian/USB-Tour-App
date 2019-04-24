@@ -32,16 +32,13 @@ class _SearchResultsState extends State<SearchResultsPage> {
         if (snapshot.hasData) {
           // Store directions
           List<String> values = snapshot.data;
+          debugPrint('_-_-_-' + snapshot.data.toString());
           return ListView.builder(
+            padding: EdgeInsets.all(8.0),
             itemCount: values.length,
             itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text(values[index]),
-                  ),
-                  Divider(height: 2.0,),
-                ],
+              ListTile(
+                title: Text(values[index]),
               );
             },
           );
@@ -79,24 +76,40 @@ class _SearchResultsState extends State<SearchResultsPage> {
       appBar: AppBar(
         title: Text("Find a room"),
       ),
-      body: FutureBuilder<List<String>>(
-        future: _directions(),
-        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                String item = snapshot.data[index];
-                return ListTile(
-                  title: Text(item),
-                  leading: Text(item),
-                );
+      body: Column(
+        children: <Widget>[
+          _buildMapBody(context),
+          Expanded(
+            child: FutureBuilder<List<String>>(
+              future: _directions(),
+              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    padding: EdgeInsets.all(8.0),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String item = snapshot.data[index];
+
+                      return Column(
+                        children: <Widget>[
+                          ListTile(
+                            title: Text(item, style: TextStyle(fontSize: 20.0),),
+                          ),
+                          Divider(height: 7.0,)
+                        ],
+                      );
+
+                    },
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
               },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+            ),
+          ),
+        ]
       ),
     );
   }
