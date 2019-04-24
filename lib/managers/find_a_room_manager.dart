@@ -68,6 +68,8 @@ class FindARoomManager {
     Queue<Node> directionsQueue = await getDirectionsQueue(formRooms);
     List<String> directionsList = await getDirectionDetails(directionsQueue);
 
+    debugPrint(directionsList.toString());
+
     return directionsList;
   }
 
@@ -83,19 +85,19 @@ class FindARoomManager {
     }
 
     //Import Nodes
-    Map<String, Node> nodes = await NavigationManager.getNodes(1);
-    //nodes = await NavigationManager.getNodes(1);
-    //nodes = await NavigationManager.getNodes(2);
-    //nodes = await NavigationManager.getNodes(3);
-    //nodes = await NavigationManager.getNodes(4);
+    Map<String, Node> nodes = await NavigationManager.getNodes(0);
+    nodes = await NavigationManager.getNodes(1);
+    nodes = await NavigationManager.getNodes(2);
+    nodes = await NavigationManager.getNodes(3);
+    nodes = await NavigationManager.getNodes(4);
     nodes = await NavigationManager.getNodes(5);
 
     // Build Graph for floor of start node
-    Graph startGraph = await NavigationManager.getGraph(1);
-    //startGraph = await NavigationManager.getGraph(1);
-    //startGraph = await NavigationManager.getGraph(2);
-    //startGraph = await NavigationManager.getGraph(3);
-    //startGraph = await NavigationManager.getGraph(4);
+    Graph startGraph = await NavigationManager.getGraph(0);
+    startGraph = await NavigationManager.getGraph(1);
+    startGraph = await NavigationManager.getGraph(2);
+    startGraph = await NavigationManager.getGraph(3);
+    startGraph = await NavigationManager.getGraph(4);
     startGraph = await NavigationManager.getGraph(5);
 
     Node source;
@@ -141,8 +143,11 @@ class FindARoomManager {
     //Iterate over all but last node
     for(int i = nodeList.length-1; i >= 1; i--) {
       //Store name of node and if not null next node
-      String destA = nodeList[i-1].id;
-      String destB = nodeList[i].id;
+      String destA = nodeList[i].id;
+      String destB = nodeList[i-1].id;
+
+      String r1;
+      String r2;
 
       debugPrint('dd: $destA');
       debugPrint('db: $destB');
@@ -152,14 +157,42 @@ class FindARoomManager {
           'SELECT A_to_B FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
       );
 
-      debugPrint('Got here 1');
       debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        debugPrint(m["A_to_B"].toString());
-        directions.add(m["A_to_B"].toString());
+        debugPrint("r1: " + m["A_to_B"].toString());
+        r1 = m["A_to_B"].toString();
       }
+
+      //Search for link in other direction
+      //Query edge table for edge between the first and second nodes
+      List<Map<String, dynamic>> queryResults2 = await DatabaseHelper.query(
+          'SELECT B_to_A FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
+      );
+
+      debugPrint(queryResults.toString());
+
+      //For results, add to directions list
+      for (Map<String, dynamic> n in queryResults2) {
+        debugPrint("r2: " + n["B_to_A"].toString());
+        r2 = n["B_to_A"].toString();
+      }
+
+      //Check if directions are null
+      if(r1 != null) {
+        //Result 1 has results. Populate list
+        directions.add(r1);
+      } else if (r2 != null) {
+        //r1 is null, r2 not. Add r2
+        directions.add(r2);
+      } else {
+        //Error. Add error text and return list
+        directions.add("Error. No route found between nodes: " + destA
+        + ", " + destB);
+        return directions;
+      }
+
     }
 
     return directions;
