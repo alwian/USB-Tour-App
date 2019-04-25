@@ -58,7 +58,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
   ///Method to build map content
   Widget _buildMapBody(BuildContext context) {
     return Container(
-      height: 350.0,
+      height: (MediaQuery.of(context).size.height) / 2,
       decoration: const BoxDecoration(
         image: DecorationImage(
             alignment: Alignment(-.2, 0),
@@ -81,7 +81,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
               subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
           )
         )
-
       ],
     );
   }
