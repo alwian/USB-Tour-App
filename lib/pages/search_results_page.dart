@@ -69,9 +69,22 @@ class _SearchResultsState extends State<SearchResultsPage> {
   }
 
   ///Method to build [ListTiles] to display route instructions.
-  //Widget _buildInstructionDisplay(BuildContext context) {
-    //return
-  //}
+  Widget _buildInstructionDisplay(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
+          child: ListTile(
+            // Title is the Destination from form (formRooms)
+              title: Text("To " + widget.formRooms[0], style: TextStyle(fontSize: 24.0),),
+              // Leading is source
+              subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
+          )
+        )
+
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,38 +96,45 @@ class _SearchResultsState extends State<SearchResultsPage> {
       body: Column(
         children: <Widget>[
           _buildMapBody(context),
-          Expanded(
-            child: FutureBuilder<List<String>>(
+
+          _buildInstructionDisplay(context),
+          Divider(height: 20.0, color: Colors.black,),
+
+
+          FutureBuilder<List<String>>(
               future: _directions(),
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
-                    padding: EdgeInsets.all(8.0),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String item = snapshot.data[index];
+                  return MediaQuery.removePadding(
+                    removeTop: true,
+                    removeBottom: true,
+                    context: context,
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(0.0),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        String item = snapshot.data[index];
 
-                      return Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Center(
-                              child: Text(item, style: TextStyle(fontSize: 20.0),)
+                        return Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Center(
+                                  child: Text(item, style: TextStyle(fontSize: 20.0),)
+                              ),
                             ),
-                          ),
-                          Divider(height: 7.0,)
-                        ],
-                      );
-
-                    },
+                            Divider(height: 7.0,)
+                          ],
+                        );
+                      },
+                    )
                   );
                 } else {
                   return Center(child: CircularProgressIndicator());
                 }
               },
             ),
-          ),
         ]
       ),
     );
