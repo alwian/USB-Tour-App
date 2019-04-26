@@ -50,7 +50,7 @@ class FindARoomFragment extends StatelessWidget {
   ///Method to build map content
   Widget _buildMapBody(BuildContext context) {
     return Container(
-      height: 375.0,
+      height: (MediaQuery.of(context).size.height) * 0.66,
       decoration: const BoxDecoration(
         image: DecorationImage(
             alignment: Alignment(-.2, 0),
@@ -68,7 +68,9 @@ class FindARoomFragment extends StatelessWidget {
         children: <Widget>[
           ///@todo replace image with map when finished
           _buildMapBody(context),
-          _buildButton(context)
+          Center(
+            child: _buildButton(context),
+          )
         ]
       ),
     );
