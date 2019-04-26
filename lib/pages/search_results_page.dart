@@ -58,6 +58,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
                 padding: EdgeInsets.all(0.0),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
+                physics: ScrollPhysics(),
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   String item = snapshot.data[index];
@@ -113,7 +114,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-    log('LOG');
     return Scaffold(
       appBar: AppBar(
         title: Text("Find a room"),
