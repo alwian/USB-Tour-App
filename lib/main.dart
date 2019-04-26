@@ -17,21 +17,26 @@ class MyApp extends StatelessWidget {
     // Return the app
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Color(0xFF9DAF59),
+        primaryColor: Color(0xFF96B24A),
+        backgroundColor: Color(0xFFBDBDBD),
+        accentColor: Color(0xFF96B24A),
+        accentIconTheme: IconThemeData(color: Colors.white),
+        fontFamily: 'Ayuthaya',
+        indicatorColor: Color(0xFFD5E3AF),
+        splashColor: Color(0xFFD5E3AF),
+        tabBarTheme: TabBarTheme(
+          labelColor: Color(0xFF96B24A),
+          unselectedLabelColor: Colors.black,
+        ),
         appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white
-          ),
+          iconTheme: IconThemeData(color: Colors.white),
           textTheme: TextTheme(
-            title: TextStyle(
-              color: Colors.white,
-              fontSize: 25.0
-            )
-          )
-        )
+              title: TextStyle(color: Colors.white, fontSize: 20.0, fontFamily: 'Ayuthaya')
+          ),
+        ),
       ),
       routes: {
-        '/' : (context) => HomePage() // Home route
+        '/': (context) => HomePage() // Home route
       },
     );
   }
