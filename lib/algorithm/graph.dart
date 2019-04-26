@@ -1,9 +1,10 @@
-//Author: Mason Powell
-//StuNo: 170256018
-//Purpose: Represents a graph, just a set of nodes but could be expanded
+/// Author: Mason Powell.
+/// Student No. 170256018.
+
 
 import 'node.dart';
 
+/// Represents a graph, just a set of nodes but could be expanded.
 class Graph {
    Set<Node> nodes = {};
    int floorNumber;
@@ -11,6 +12,7 @@ class Graph {
    Graph();
    Graph.floor(this.floorNumber);
 
+   /// Adds [nodeA] to the [nodes] [Set].
    void addNode(Node nodeA) {
      nodes.add(nodeA);
    }
