@@ -49,6 +49,9 @@ class _SearchFormState extends State<SearchFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Find a room"),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
