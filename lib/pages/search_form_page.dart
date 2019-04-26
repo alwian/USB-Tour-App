@@ -46,32 +46,31 @@ class _SearchFormState extends State<SearchFormPage> {
     super.dispose();
   }
 
-  ///Create method to create ListTile to display default suggestions to TextFields
+  ///Create method that creates widgets to display default suggestions to TextFields
   ///[bool] input to determine TextController to edit
   List<Widget> _createDefaultSuggestions(bool first) {
-    //Create List of ListTiles
-    List<Container> defaultSuggestions = new List<Container>();
+    //Create List to store suggestion widgets
+    List<Material> defaultSuggestions = new List<Material>();
 
     //Iterate over _frequentlyUsedRoomNames and create new list tiles
     for(int i = 0; i < _frequentlyUsedRoomNames.length; i++) {
       defaultSuggestions.add(
-        new Container(
-          padding: EdgeInsets.all(0.0),
-          margin: EdgeInsets.all(0.0),
+        Material(
           color: Colors.black12,
-          child: ListTile(
-            title: new Text(_frequentlyUsedRoomNames[i]),
-            ///Set TextField value to suggestion
-            onTap: () {
-              Color(0x96B24E);
-              //Edit firstTextField
-              if (first) {
-                _typeAheadControllerFirst.text = _frequentlyUsedRoomId[i];
-              } else {
-                //Edit second form field
-                _typeAheadControllerSecond.text = _frequentlyUsedRoomId[i];
-              }
-            },
+          child: InkWell(
+            child: ListTile(
+              title: new Text(_frequentlyUsedRoomNames[i]),
+              ///Set TextField value to suggestion
+              onTap: () {
+                //Edit firstTextField
+                if (first) {
+                  _typeAheadControllerFirst.text = _frequentlyUsedRoomId[i];
+                } else {
+                  //Edit second form field
+                  _typeAheadControllerSecond.text = _frequentlyUsedRoomId[i];
+                }
+              },
+            ),
           ),
         ),
       );
@@ -125,8 +124,14 @@ class _SearchFormState extends State<SearchFormPage> {
 
                 ///Build Dropdown menu
                 itemBuilder: (context, suggestion) {
-                  return ListTile(
-                    title: Text(suggestion),
+                  return Material(
+                    color: Colors.black12,
+                    child: InkWell(
+                      child: ListTile(
+                        title: Text(suggestion),
+                      ),
+                      splashColor: Theme.of(context).primaryColor,
+                    )
                   );
                 }, //itemBuilder
 
@@ -199,8 +204,15 @@ class _SearchFormState extends State<SearchFormPage> {
 
                 ///Build Dropdown menu
                 itemBuilder: (context, suggestion) {
-                  return ListTile(
-                    title: Text(suggestion),
+                  return Material(
+                    color: Colors.black12,
+                    child: InkWell(
+                      child: ListTile(
+                        title: Text(suggestion),
+                      ),
+                      splashColor: Theme.of(context).primaryColor,
+                    )
+
                   );
                 }, //itemBuilder
 
