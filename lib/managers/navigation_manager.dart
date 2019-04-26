@@ -94,5 +94,58 @@ class NavigationManager {
     return graph;
   }
 
+  /// Returns a [Graph] of all nodes in the database
+  static Future<Graph> allNodeGraph() async {
+    //Variable to store number of floors (s included) to remove magic number
+    int floorNo = 6;
 
+    //Graph for output
+    Graph graph = new Graph();
+
+    //First, populate static nodes HashMap with all nodes from every floor (inc. s)
+
+    //Add nodes for each floor in loop
+    //
+    for(int i = 0; i < floorNo; i++) {
+      NavigationManager.getNodesById(i);
+    }
+
+    //Add nodes from every floor to graph
+    for(int j = 0; j < floorNo; j++) {
+      graph = await NavigationManager.getGraph(j);
+    }
+
+    return graph;
+  }
+
+  /// Returns a [Future] of all the [Node]s for a given [floor].
+  ///
+  /// ```dart
+  /// nodes = await NavigationManager.getNodes(floor);
+  /// ```
+  static void getNodesById(int floor) async {
+    String f;
+    int s;
+    int s2;
+
+    if (floor == 0) {
+      f = 'G';
+      s = 1;
+      s2 = 1;
+    } else {
+      f = floor.toString();
+      s = floor;
+      s2 = floor + 1;
+    }
+    // Execute query to get required database rows.
+    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
+        'SELECT ID, Name, XCoord, YCoord FROM Room WHERE ID LIKE \'$f%\' OR (ID = \'S.00$s\' OR ID = \'S.00$s2\')'
+    );
+
+    // Create a [Node] for all rows returned from the DB query.
+    for (Map<String, dynamic> m in queryResults) {
+      nodes[m['ID']] = Node.fromDB(m['ID'], m['XCoord'].toDouble(), m['YCoord'].toDouble());
+    }
+
+  }
 }
