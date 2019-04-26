@@ -18,16 +18,36 @@ class SearchResultsPage extends StatefulWidget {
 }
 class _SearchResultsState extends State<SearchResultsPage> {
 
-  ///List of [String]s to store the route directions
-  Future<List<String>> _directions() async {
-    List<String> dir = await FindARoomManager.getDirections(widget.formRooms);
-    return dir;
+  Future<List<String>> _directionList;
+
+  /// Load [_directionList] when the [State] is created.
+  @override
+  void initState() {
+    super.initState();
+
+    // initial load
+    _directionList = updateAndGetList();
+  }
+
+  void refreshList() {
+    // reload
+    setState(() {
+      widget.formRooms[0] = "G.063";
+      _directionList = updateAndGetList();
+    });
+  }
+
+  Future<List<String>> updateAndGetList() async {
+    await FindARoomManager.getDirections(widget.formRooms);
+
+    // return the list here
+    return FindARoomManager.getDirections(widget.formRooms);
   }
 
   ///Method to build ListTiles as directions
   Widget _createDirectionTiles(BuildContext context) {
     FutureBuilder<List<String>>(
-      future: _directions(),
+      future: _directionList,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           // Store directions
@@ -102,7 +122,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
             // Build ListView
             FutureBuilder<List<String>>(
-              future: _directions(),
+              future: _directionList,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
                   return MediaQuery.removePadding(
@@ -142,7 +162,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
           height: 60.0,
           color: Colors.black87,
           child: FlatButton(
-            onPressed: null,
+            onPressed: () {
+                refreshList();
+            },
             child: Row(
               children: <Widget>[
                 Icon(Icons.search, color: Colors.black, size: 40.0),
