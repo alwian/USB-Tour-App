@@ -1,5 +1,5 @@
-/// Author: Mason Powell
-/// Student No. 170256018
+/// Author: Mason Powell.
+/// Student No. 170256018.
 
 import 'package:flutter/material.dart';
 import 'dart:collection';
