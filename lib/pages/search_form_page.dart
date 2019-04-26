@@ -19,6 +19,9 @@ class _SearchFormState extends State<SearchFormPage> {
   final TextEditingController _typeAheadControllerFirst = TextEditingController();
   final TextEditingController _typeAheadControllerSecond = TextEditingController();
 
+  ///[List] of [String]s containing all valid ids
+  List<String> validInputs;
+
   ///Strings to store results from the form text fields
   String _destinationRoom;
   String _currentRoom;
@@ -39,11 +42,19 @@ class _SearchFormState extends State<SearchFormPage> {
   @override
   void initState() {
     super.initState();
+    _getInputs();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  ///Method to get All [Room] ids as a [List] of [String]s from
+  ///FindARoomManager
+  void _getInputs() async {
+    validInputs = await FindARoomManager.getAllRooms();
+    setState(() {});
   }
 
   ///Create method that creates widgets to display default suggestions to TextFields
