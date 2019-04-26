@@ -52,34 +52,24 @@ class _SearchFormState extends State<SearchFormPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration( color: Color(0xFFFFFF)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Image.asset('assets/images/lecture_theatre.jpg'),
-                      Container(
-                        margin: EdgeInsets.all(50.0),
-                        padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
-                        color: Color(0xFF313131),
-                        child: Text(
-                          'Search for a room!',
-                          //@todo Add center wrapper back and chenage image + remove decorated box and text colour
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 27.0,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-
-                      ),
-                    ],
-                  ),
-                ],
+            Container(
+              height: (MediaQuery.of(context).size.height) / 3,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      alignment: Alignment(-.2, 0),
+                      image: AssetImage('assets/images/search_room_form_background.png'),
+                      fit: BoxFit.cover),
+                ),
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Search for a room here!",
+                  style: Theme.of(context)
+                      .textTheme
+                      .display1
+                      .copyWith(color: Colors.black),
+                ),
               ),
-            ),
 
             //@todo Improve styling - https://medium.com/flutter-community/breaking-layouts-in-rows-and-columns-in-flutter-8ea1ce4c1316
             //@todo Hard code suggestion dropdowns
