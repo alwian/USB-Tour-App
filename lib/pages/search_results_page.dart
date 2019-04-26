@@ -92,49 +92,65 @@ class _SearchResultsState extends State<SearchResultsPage> {
       appBar: AppBar(
         title: Text("Find a room"),
       ),
-      body: Column(
-        children: <Widget>[
-          _buildMapBody(context),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _buildMapBody(context),
 
-          _buildInstructionDisplay(context),
-          Divider(height: 20.0, color: Colors.black,),
+            _buildInstructionDisplay(context),
+            Divider(height: 20.0, color: Colors.black,),
 
-
-          FutureBuilder<List<String>>(
+            // Build ListView
+            FutureBuilder<List<String>>(
               future: _directions(),
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
                   return MediaQuery.removePadding(
-                    removeTop: true,
-                    removeBottom: true,
-                    context: context,
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(0.0),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String item = snapshot.data[index];
+                      removeTop: true,
+                      removeBottom: true,
+                      context: context,
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(0.0),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String item = snapshot.data[index];
 
-                        return Column(
-                          children: <Widget>[
-                            ListTile(
-                              title: Center(
-                                  child: Text(item, style: TextStyle(fontSize: 20.0),)
+                          return Column(
+                            children: <Widget>[
+                              ListTile(
+                                title: Text(item, style: TextStyle(fontSize: 20.0),
+                                ),
                               ),
-                            ),
-                            Divider(height: 7.0,)
-                          ],
-                        );
-                      },
-                    )
+                              Divider(height: 7.0,)
+                            ],
+                          );
+                        },
+                      )
                   );
                 } else {
                   return Center(child: CircularProgressIndicator());
                 }
               },
             ),
-        ]
+          ]
+        ),
+      ),
+      bottomNavigationBar: Opacity(opacity: 0.90,
+        child: Container(
+          height: 60.0,
+          color: Colors.black87,
+          child: FlatButton(
+            onPressed: null,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.search, color: Colors.black, size: 40.0),
+                Text("Find nearest exit", style: TextStyle(color: Colors.white, fontSize: 20.0, letterSpacing: 1.0, wordSpacing: 2.5),),
+              ],
+            )
+          ),
+        ),
       ),
     );
   }
