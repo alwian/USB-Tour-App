@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/search_results_page.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
-
 class SearchFormPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -29,18 +28,54 @@ class _SearchFormState extends State<SearchFormPage> {
 
   ///List to store the text of default suggestions (frequently used room names)
   List<String> _frequentlyUsedRoomNames = [
-    "Cafe", "Lecture Theater", "Flat Floor", "Floor 2 Room", "MSc"
+    "Cafe", "Lecture Theater", "Flat Floor", "MSc"
   ];
 
+  ///List to store the id of default suggestions (frequently used room ids)
+  List<String> _frequentlyUsedRoomId = [
+    "G.071", "1.006", "3.015", "4.005"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   ///Create method to create ListTile to display default suggestions to TextFields
-  List<Widget> _createDefaultSuggestions(){
+  ///[bool] input to determine TextController to edit
+  List<Widget> _createDefaultSuggestions(bool first) {
     //Create List of ListTiles
-    List<ListTile> defaultSuggestions = new List<ListTile>();
+    List<Container> defaultSuggestions = new List<Container>();
 
     //Iterate over _frequentlyUsedRoomNames and create new list tiles
-    _frequentlyUsedRoomNames.forEach((elem) =>
-        defaultSuggestions.add(new ListTile(title: new Text(elem))),
-    );
+    for(int i = 0; i < _frequentlyUsedRoomNames.length; i++) {
+      defaultSuggestions.add(
+        new Container(
+          padding: EdgeInsets.all(0.0),
+          margin: EdgeInsets.all(0.0),
+          color: Colors.black12,
+          child: ListTile(
+            title: new Text(_frequentlyUsedRoomNames[i]),
+            ///Set TextField value to suggestion
+            onTap: () {
+              Color(0x96B24E);
+              //Edit firstTextField
+              if (first) {
+                _typeAheadControllerFirst.text = _frequentlyUsedRoomId[i];
+              } else {
+                //Edit second form field
+                _typeAheadControllerSecond.text = _frequentlyUsedRoomId[i];
+              }
+            },
+          ),
+        ),
+      );
+    }
 
     return defaultSuggestions;
   }
@@ -61,12 +96,25 @@ class _SearchFormState extends State<SearchFormPage> {
               ///First TextField (Enter Destination)
               child: TypeAheadFormField(
                 textFieldConfiguration: TextFieldConfiguration(
-                    controller: this._typeAheadControllerFirst,
-                    autofocus: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Enter Destination',
-                    )
+                  controller: this._typeAheadControllerFirst,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.zero)
+                    ),
+                    labelText: 'Enter Destination',
+                    labelStyle: TextStyle(fontSize: 20.0, color: Colors.black, shadows:
+                      <Shadow>[
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 2.0,
+                          color: Colors.white70,
+                        ),
+                      ]
+                    ),
+                    fillColor: Colors.black12,
+                    filled: true,
+                  )
                 ),
 
                 ///Method to get suggestions to populate dropdown
@@ -107,7 +155,9 @@ class _SearchFormState extends State<SearchFormPage> {
 
                 noItemsFoundBuilder: (BuildContext context) =>
                     ListView(
-                        children: _createDefaultSuggestions()
+                        //If no suggestions then create default suggestions.
+                        //true param to act on first TextField
+                        children: _createDefaultSuggestions(true)
                     ),
 
                 ///Set string to selected value
@@ -123,8 +173,21 @@ class _SearchFormState extends State<SearchFormPage> {
                     controller: this._typeAheadControllerSecond,
                     autofocus: false,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.zero)
+                      ),
                       labelText: 'Enter Current Location',
+                      labelStyle: TextStyle(fontSize: 20.0, color: Colors.black, shadows:
+                        <Shadow>[
+                          Shadow(
+                            offset: Offset(1.0, 1.0),
+                            blurRadius: 2.0,
+                            color: Colors.white70,
+                          ),
+                        ]
+                      ),
+                      fillColor: Colors.black12,
+                      filled: true,
                     )
                 ),
 
@@ -165,8 +228,12 @@ class _SearchFormState extends State<SearchFormPage> {
                 },
 
                 noItemsFoundBuilder: (BuildContext context) =>
-                    ListView(
-                        children: _createDefaultSuggestions()
+                    MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: ListView(
+                          children: _createDefaultSuggestions(false)
+                      ),
                     ),
 
                 ///Set string to selected value
