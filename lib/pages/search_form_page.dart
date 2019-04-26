@@ -166,6 +166,9 @@ class _SearchFormState extends State<SearchFormPage> {
                   if (value.isEmpty) {
                     //If empty, return default suggestions
                     return 'Please select a room';
+                  } else if (!validInputs.contains(value)) {
+                    //Not a valid value
+                    return 'Please enter a valid value, e.g 1.006';
                   }
                 },
 
@@ -247,6 +250,9 @@ class _SearchFormState extends State<SearchFormPage> {
                   if (value.isEmpty) {
                     //If empty, return default suggestions
                     return 'Please select a room';
+                  } else if (!validInputs.contains(value)) {
+                    //Not a valid value
+                    return 'Please enter a valid value, e.g 1.006';
                   }
                 },
 
