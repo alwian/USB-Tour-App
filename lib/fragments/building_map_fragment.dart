@@ -9,8 +9,11 @@ import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/navigation.dart';
 import 'package:csc2022_app/managers/navigation_manager.dart';
 
+/// Stores info for a [Floor].
+///
+/// Stores the [name], its image file[path], [floorNumber] and
+/// the associated [graph] for each [Floor].
 class Floor {
-  //Stores info for each floor.
   Floor(this.name, this.path, this.floorNumber);
 
   final String name;
@@ -30,6 +33,9 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   Floor floor2 = Floor('Floor 2', 'assets/images/floor2.png', 2);
   Floor floor3 = Floor('Floor 3', 'assets/images/floor3.png', 3);
   Floor floor4 = Floor('Floor 4', 'assets/images/floor4.png', 4);
+  double imageWidth = 4961;
+  double imageHeight = 3508;
+
   Floor selectedFloor;
   Floor dropdownValue;
   int floorNum;
@@ -40,15 +46,14 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   Node _target;
   _Route route;
 
+  /// The path of nodes to be drawn.
   Queue<Node> path = new Queue<Node>();
   List<List<Node>> floorNodes = new List<List<Node>>();
-
-  bool sourceListOpen = false;
-  bool targetListOpen = false;
 
   @override
   void initState() {
     super.initState();
+
     floors = <Floor>[floor0, floor1, floor2, floor3, floor4];
     for (int i = 0; i < 5; i++) {
       floorNodes.add(new List<Node>());
@@ -59,9 +64,9 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     selectedFloor = floor0;
     dropdownValue = floor0;
     floorNum = 0;
-
   }
 
+  /// Loads the [Node]s from the database and puts them into the node list for the specified [floor].
   Future<void> _loadNodes(int floor, List<Node> floorList) async {
     nodes = await NavigationManager.getNodes(floor);
 
@@ -72,11 +77,16 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     });
   }
 
+  /// Loads a [Graph] of [Node]s for the specified [floor] using the Edge table from the database.
   Future<void> _loadGraph(Floor floor) async {
     floor.graph = await NavigationManager.getGraph(floor.floorNumber);
     setState(() {});
   }
 
+  /// Calls [_loadNodes()] and [_loadGraph()].
+  ///
+  /// Calls and waits for the two async functions sequentially to prevent
+  /// issues with [Future]s not being ready.
   Future<void> _loadElements(
       List<List<Node>> floorNodes, List<Floor> floors) async {
     for (int i = 0; i < 5; i++) {
@@ -85,6 +95,11 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     }
   }
 
+  /// Displays a floor plan and draws a [path] when the user inputs their [_source] and [_target]
+  ///
+  /// If the [path] has been set after the user has selected the [_source]
+  /// and [_target], refresh the display and draw out the [path] on top of
+  /// the image with [CustomPaint].
   @override
   Widget build(BuildContext context) {
     if (path.isNotEmpty) {
@@ -98,7 +113,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                 selectedFloor = newValue;
                 floorNum = newValue.floorNumber;
 
-                path = new Queue<Node>(); //Empties the path.
+                //Empties the path.
+                path = new Queue<Node>();
               });
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
@@ -116,8 +132,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                     child: Image(image: AssetImage(selectedFloor.path))),
                 minScale: PhotoViewComputedScale.contained,
                 maxScale: 1.5,
-                //The height of the currently used images, need changing from magic numbers.
-                childSize: Size(4961, 3508),
+                //The height of the currently used images.
+                childSize: Size(imageWidth, imageHeight),
                 backgroundDecoration: new BoxDecoration(
                   color: Colors.white,
                 ),
@@ -162,7 +178,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               }
             });
           },
-          tooltip: 'draw route',
+          tooltip: 'Draw route',
           child: Icon(Icons.near_me),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -177,7 +193,8 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                 dropdownValue = newValue;
                 selectedFloor = newValue;
                 floorNum = newValue.floorNumber;
-                path = new Queue<Node>(); //empties the path
+                //Empties the path.
+                path = new Queue<Node>();
               });
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
@@ -245,9 +262,11 @@ class _BuildingMapState extends State<BuildingMapFragment> {
     }
   }
 
+  /// Sets the [_source] or [_target] depending on [sot].
+  ///
+  /// Returns a [Future] for [_source] or [_target] that will
+  /// complete after we call [Navigator.pop] on [RoomList].
   _navigateAndDisplayRoomList(BuildContext context, int sot) async {
-    // returns a future that will complete after we call
-    // Navigator.pop on RoomList.
     if (sot == 1) {
       _source = await Navigator.push(
           context,
@@ -264,6 +283,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   }
 }
 
+/// Displays a list of [Node]s for the user to select.
 class RoomList extends StatelessWidget {
   int sot;
   int floorNum;
@@ -317,6 +337,8 @@ class RoomList extends StatelessWidget {
   }
 }
 
+
+/// [Paint]s the route based on the coordinates for the [Node]s in [path].
 class RoutePainter extends CustomPainter {
   ListQueue<Node> path;
   RoutePainter(Queue<Node> path) {
@@ -332,18 +354,24 @@ class RoutePainter extends CustomPainter {
     Node node1 = path.elementAt(path.length - 1);
     Node node2 = path.elementAt(path.length - 2);
     int length = path.length - 3;
+
     canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
         Offset(node2.coordsX, node2.coordsY), paint);
     canvas.drawCircle(
         Offset(node1.coordsX, node1.coordsY), size.width / 60, paint);
+    canvas.drawCircle(
+        Offset(node2.coordsX, node2.coordsY), size.width / 90, paint);
 
     for (int i = length; i >= 0; i--) {
       node1 = node2.copy();
       node2 = path.elementAt(i);
+
       canvas.drawLine(Offset(node1.coordsX, node1.coordsY),
           Offset(node2.coordsX, node2.coordsY), paint);
+
       canvas.drawCircle(
           Offset(node1.coordsX, node1.coordsY), size.width / 90, paint);
+
       if (i == 0) {
         canvas.drawCircle(
             Offset(node2.coordsX, node2.coordsY), size.width / 60, paint);
@@ -357,6 +385,11 @@ class RoutePainter extends CustomPainter {
   }
 }
 
+/// A route of nodes from [source] to [target].
+///
+/// If the [currentGraph] exists, run the algorithm by calling
+/// [Navigation.calculateShortestPathFromSource] to set the
+/// distances for the [Node]s.
 class _Route {
   Node source;
   Node target;
@@ -374,6 +407,7 @@ class _Route {
     }
   }
 
+  /// Calls [Navigation.pathToTarget] to create a [path].
   Queue<Node> generateRoute() {
     route =
         Queue<Node>.from(Navigation.pathToTarget(currentGraph, source, target));
