@@ -13,37 +13,20 @@ import 'dart:developer';
 
 class FindARoomManager {
 
-  /// Returns all [Room]s.
+  /// Returns all ids as a [List] of [String]s.
   /// Adapted from managers/explore_a_floor_manager getRooms method
-  static Future<List<Room>> getAllRooms() async {
+  static Future<List<String>> getAllRooms() async {
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        'SELECT * FROM rooms'
+        'SELECT * FROM Rooms'
     );
-    List<Room> rooms = <Room>[];
+    List<String> roomsId;
     // Create a [Room] for a ll rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
-      rooms.add(
-          Room(m['name'], m['image'])
-      );
+      roomsId.add(m['ID']);
     }
-    return rooms;
-  }
 
-  /// Returns all [Room]s where name exists in the database.
-  static Future<List<Room>> getRoom(String room) async {
-    // Execute query, return rows
-    List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        "SELECT * FROM rooms WHERE room='$room'"
-    );
-    List<Room> rooms = <Room>[];
-    // Create a [Room] for a ll rows returned from the DB query.
-    for (Map<String, dynamic> m in queryResults) {
-      rooms.add(
-          Room(m['name'], m['image'])
-      );
-    }
-    return rooms;
+    return roomsId;
   }
 
   /// Returns all [Room]s where name is similar to a name in the database.
@@ -56,7 +39,7 @@ class FindARoomManager {
     // Create a [Room] for a ll rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
       rooms.add(
-           m['ID']
+          m['ID']
       );
     }
     return rooms;
@@ -80,32 +63,17 @@ class FindARoomManager {
     int startFloor;
     if(rooms[0].substring(0, 1) == "G") {
       startFloor = 0;
-    } else {
-      //startFloor = int.parse(rooms[0].substring(0, 1));
     }
 
-    //Import Nodes
-    Map<String, Node> nodes = await NavigationManager.getNodes(0);
-    nodes = await NavigationManager.getNodes(1);
-    nodes = await NavigationManager.getNodes(2);
-    nodes = await NavigationManager.getNodes(3);
-    nodes = await NavigationManager.getNodes(4);
-    nodes = await NavigationManager.getNodes(5);
-
-    // Build Graph for floor of start node
-    Graph startGraph = await NavigationManager.getGraph(0);
-    startGraph = await NavigationManager.getGraph(1);
-    startGraph = await NavigationManager.getGraph(2);
-    startGraph = await NavigationManager.getGraph(3);
-    startGraph = await NavigationManager.getGraph(4);
-    startGraph = await NavigationManager.getGraph(5);
+    //Import nodes and populate Graph of Nodes
+    Graph startGraph = await NavigationManager.allNodeGraph();
 
     Node source;
     Node destination;
 
     // Store rooms as source and target nodes
     for (Node w in startGraph.nodes) {
-      if (w.id == rooms[0]) {
+      if (w.name == rooms[0]) {
         source = w;
 
         break;
@@ -113,7 +81,7 @@ class FindARoomManager {
     }
 
     for (Node v in startGraph.nodes) {
-      if (v.id == rooms[1]) {
+      if (v.name == rooms[1]) {
 
         destination = v;
         break;
@@ -132,7 +100,7 @@ class FindARoomManager {
 
     return directions;
   }
-  
+
   /// Return [List] of [String]s storing directions given a queue of [Node]s
   static Future<List<String>> getDirectionDetails(Queue<Node> nodeQueue) async {
 
@@ -143,8 +111,8 @@ class FindARoomManager {
     //Iterate over all but last node
     for(int i = nodeList.length-1; i >= 1; i--) {
       //Store name of node and if not null next node
-      String destA = nodeList[i].id;
-      String destB = nodeList[i-1].id;
+      String destA = nodeList[i].name;
+      String destB = nodeList[i-1].name;
 
       String r1;
       String r2;
@@ -154,29 +122,29 @@ class FindARoomManager {
 
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-          'SELECT A_to_B FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
+          'SELECT B_to_A FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
       );
 
       debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        debugPrint("r1: " + m["A_to_B"].toString());
-        r1 = m["A_to_B"].toString();
+        debugPrint("r1: " + m["B_to_A"].toString());
+        r1 = m["B_to_A"].toString();
       }
 
       //Search for link in other direction
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults2 = await DatabaseHelper.query(
-          'SELECT B_to_A FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
+          'SELECT A_to_B FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
       );
 
       debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> n in queryResults2) {
-        debugPrint("r2: " + n["B_to_A"].toString());
-        r2 = n["B_to_A"].toString();
+        debugPrint("r2: " + n["A_to_B"].toString());
+        r2 = n["A_to_B"].toString();
       }
 
       //Check if directions are null
@@ -189,10 +157,9 @@ class FindARoomManager {
       } else {
         //Error. Add error text and return list
         directions.add("Error. No route found between nodes: " + destA
-        + ", " + destB);
+            + ", " + destB);
         return directions;
       }
-
     }
 
     return directions;
