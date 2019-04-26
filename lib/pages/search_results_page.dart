@@ -32,7 +32,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
   void refreshList() {
     // reload
     setState(() {
-      widget.formRooms[0] = "G.063";
+      widget.formRooms[1] = "G.063";
       _directionList = updateAndGetList();
     });
   }
@@ -44,32 +44,38 @@ class _SearchResultsState extends State<SearchResultsPage> {
     return FindARoomManager.getDirections(widget.formRooms);
   }
 
-  ///Method to build ListTiles as directions
-  Widget _createDirectionTiles(BuildContext context) {
-    FutureBuilder<List<String>>(
+  ///Method to build return a [FutureBuilder] that generates a [ListView] of directions
+  FutureBuilder<List<String>> _createDirectionTiles(BuildContext context) {
+    return FutureBuilder<List<String>>(
       future: _directionList,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
         if (snapshot.hasData) {
-          // Store directions
-          List<String> values = snapshot.data;
-          return ListView.builder(
-            padding: EdgeInsets.all(8.0),
-            itemCount: values.length,
-            itemBuilder: (BuildContext context, int index) {
-              ListTile(
-                title: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Text(values[index])
-                  ]
-                ),
-              );
-            },
+          return MediaQuery.removePadding(
+              removeTop: true,
+              removeBottom: true,
+              context: context,
+              child: ListView.builder(
+                padding: EdgeInsets.all(0.0),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String item = snapshot.data[index];
+
+                  return Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(item, style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                      Divider(height: 7.0,)
+                    ],
+                  );
+                },
+              )
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -96,9 +102,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
           padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
           child: ListTile(
             // Title is the Destination from form (formRooms)
-              title: Text("To " + widget.formRooms[0], style: TextStyle(fontSize: 24.0),),
+              title: Text("To " + widget.formRooms[1], style: TextStyle(fontSize: 24.0),),
               // Leading is source
-              subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
+              subtitle: Text("From " + widget.formRooms[0], style: TextStyle(fontSize: 16.0),)
           )
         )
       ],
@@ -121,39 +127,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
             Divider(height: 20.0, color: Colors.black,),
 
             // Build ListView
-            FutureBuilder<List<String>>(
-              future: _directionList,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                if (snapshot.hasData) {
-                  return MediaQuery.removePadding(
-                      removeTop: true,
-                      removeBottom: true,
-                      context: context,
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(0.0),
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String item = snapshot.data[index];
-
-                          return Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(item, style: TextStyle(fontSize: 20.0),
-                                ),
-                              ),
-                              Divider(height: 7.0,)
-                            ],
-                          );
-                        },
-                      )
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
+            _createDirectionTiles(context)
           ]
         ),
       ),
@@ -176,22 +150,4 @@ class _SearchResultsState extends State<SearchResultsPage> {
       ),
     );
   }
-
-  Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
-    List<String> values = snapshot.data;
-    return new ListView.builder(
-      itemCount: values.length,
-      itemBuilder: (BuildContext context, int index) {
-        return new Column(
-          children: <Widget>[
-            new ListTile(
-              title: new Text(values[index]),
-            ),
-            new Divider(height: 2.0,),
-          ],
-        );
-      },
-    );
-  }
-
 }
