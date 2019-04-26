@@ -18,12 +18,13 @@ class FindARoomManager {
   static Future<List<String>> getAllRooms() async {
     // Execute query to get required database rows.
     List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-        'SELECT * FROM Rooms'
+        'SELECT * FROM Room'
     );
-    List<String> roomsId;
+
+    List<String> roomsId = List<String>();
     // Create a [Room] for a ll rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
-      roomsId.add(m['ID']);
+      roomsId.add(m['ID'].toString());
     }
 
     return roomsId;
