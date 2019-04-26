@@ -10,7 +10,8 @@ void main() {
   FlutterDriver driver;
 
   // Button to open navigation drawer.
-  final SerializableFinder drawerButtonFinder = find.byTooltip('Open navigation menu');
+  final SerializableFinder drawerButtonFinder =
+      find.byTooltip('Open navigation menu');
 
   // Executes before all tests.
   setUpAll(() async {
@@ -19,7 +20,6 @@ void main() {
 
   // Tests for the navigation drawer.
   group('Drawer:', () {
-
     // Test the 'Explore a floor' tile.
     test('Explore a floor', () async {
       await driver.tap(drawerButtonFinder);
@@ -63,15 +63,16 @@ void main() {
     // Test all floor buttons.
     test('Floor buttons', () async {
       // Keep trying to press floor buttons.
-      for(int i = 0; i > -1; i++) {
+      for (int i = 0; i > -1; i++) {
         try {
-          await driver.waitFor(find.byValueKey('floor_btn_' + i.toString()), timeout: Duration(milliseconds: 500));
+          await driver.waitFor(find.byValueKey('floor_btn_' + i.toString()),
+              timeout: Duration(milliseconds: 500));
           await driver.tap(find.byValueKey('floor_btn_' + i.toString()));
           await driver.waitFor(find.byType('FloorFeatureListPage'));
           await driver.tap(find.byType('IconButton'));
           // If no more buttons found, catch exception that is thrown.
         } on DriverError catch (_) {
-          if(i == 0) {
+          if (i == 0) {
             await driver.waitFor(find.text('No floors found'));
           }
           // Record maximum floor number.
@@ -84,19 +85,21 @@ void main() {
     // Test all room buttons.
     test('Room buttons', () async {
       // For all floor buttons.
-      for(int i = 0; i < maxFloor; i++) {
+      for (int i = 0; i < maxFloor; i++) {
         await driver.tap(find.byValueKey('floor_btn_' + i.toString()));
         // Try and tap all rooms on the floor.
-        for(int j = 0; j > -1; j++) {
+        for (int j = 0; j > -1; j++) {
           try {
-            await driver.waitFor(find.byValueKey('room_btn_' + j.toString()), timeout: Duration(milliseconds: 500));
-            await driver.scrollUntilVisible(find.byType('ListView'), find.byValueKey('room_btn_' + j.toString()));
+            await driver.waitFor(find.byValueKey('room_btn_' + j.toString()),
+                timeout: Duration(milliseconds: 500));
+            await driver.scrollUntilVisible(find.byType('ListView'),
+                find.byValueKey('room_btn_' + j.toString()));
             await driver.tap(find.byValueKey('room_btn_' + j.toString()));
             await driver.waitFor(find.byType('RoomFeatureListPage'));
             await driver.tap(find.byType('IconButton'));
             // If no more rooms found, catch the exception that is thrown.
           } on DriverError catch (_) {
-            if(j == 0) {
+            if (j == 0) {
               await driver.waitFor(find.text('No rooms found on this floor'));
             }
             // Record number of rooms on the current floor.
@@ -111,24 +114,29 @@ void main() {
     // Test all feature buttons.
     test('Feature buttons', () async {
       // For all floors.
-      for(int i = 0; i < maxFloor; i++) {
+      for (int i = 0; i < maxFloor; i++) {
         await driver.tap(find.byValueKey('floor_btn_' + i.toString()));
         // For all rooms on the current floor.
-        for(int j = 0; j < maxRoomNos[i]; j++) {
-          await driver.scrollUntilVisible(find.byType('ListView'), find.byValueKey('room_btn_' + j.toString()));
+        for (int j = 0; j < maxRoomNos[i]; j++) {
+          await driver.scrollUntilVisible(find.byType('ListView'),
+              find.byValueKey('room_btn_' + j.toString()));
           await driver.tap(find.byValueKey('room_btn_' + j.toString()));
           // Try and tap all features in the current room.
-          for(int k = 0; k > - 1; k++) {
+          for (int k = 0; k > -1; k++) {
             try {
-              await driver.waitFor(find.byValueKey('feature_btn_' + k.toString()), timeout: Duration(milliseconds: 500));
-              await driver.scrollUntilVisible(find.byType('ListView'), find.byValueKey('feature_btn_' + k.toString()));
+              await driver.waitFor(
+                  find.byValueKey('feature_btn_' + k.toString()),
+                  timeout: Duration(milliseconds: 500));
+              await driver.scrollUntilVisible(find.byType('ListView'),
+                  find.byValueKey('feature_btn_' + k.toString()));
               await driver.tap(find.byValueKey('feature_btn_' + k.toString()));
               await driver.waitFor(find.byType('Dialog'));
               await driver.tap(find.byType('FlatButton'));
               // If no more features found, catch the exception that is thrown.
             } on DriverError catch (_) {
-              if(k == 0) {
-                await driver.waitFor(find.text('No features found in this room'));
+              if (k == 0) {
+                await driver
+                    .waitFor(find.text('No features found in this room'));
               }
               break;
             }
@@ -139,6 +147,26 @@ void main() {
       }
     });
   }, timeout: Timeout(Duration(minutes: 10)));
+
+  //Tests for the "Building information" section.
+  group('Building information:', () {
+    setUpAll(() async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('building_information_tile'));
+    });
+
+    test('About tab', () async {
+      await driver.tap(find.byValueKey('about_tab'));
+    });
+
+    test('Opening tab', () async {
+      await driver.tap(find.byValueKey('opening_times_tab'));
+    });
+
+    test('Contact tab', () async {
+      await driver.tap(find.byValueKey('contact_tab'));
+    });
+  });
 
   // Tests for the 'Urban Observatory' section.
   group('Urban Observatory:', () {
@@ -164,39 +192,38 @@ void main() {
       });
 
       // Tests for searching rooms.
-    group('Searching:', () {
+      group('Searching:', () {
+        // Test for correct text when no rooms have been searched.
+        test('No data requested', () async {
+          await driver.waitFor(find.text('No data requested'));
+        });
 
-      // Test for correct text when no rooms have been searched.
-      test('No data requested', () async {
-        await driver.waitFor(find.text('No data requested'));
-      });
+        // Try refreshing with no data requested.
+        test('Refresh button with no data requested', () async {
+          // Refresh and check correct message is still displayed.
+          await driver.tap(refreshFinder);
+          await driver.waitFor(find.text('No data requested'));
+        });
 
-      // Try refreshing with no data requested.
-      test('Refresh button with no data requested', () async {
-        // Refresh and check correct message is still displayed.
-        await driver.tap(refreshFinder);
-        await driver.waitFor(find.text('No data requested'));
-      });
+        // search for an invalid room.
+        test('Invalid search', () async {
+          await driver.tap(searchFieldFinder);
+          await driver.enterText(invalidRoom);
+          await driver.tap(searchButtonFinder);
+          await Future<void>.delayed(Duration(seconds: 5));
 
-      // search for an invalid room.
-      test('Invalid search', () async {
-        await driver.tap(searchFieldFinder);
-        await driver.enterText(invalidRoom);
-        await driver.tap(searchButtonFinder);
-        await Future<void>.delayed(Duration(seconds: 5));
+          // Check correct text is displayed.
+          await driver.waitFor(find.text('No sensors available in this room'));
+        });
 
-        // Check correct text is displayed.
-        await driver.waitFor(find.text('No sensors available in this room'));
-      });
+        // Try refreshing an invalid room.
+        test('Refresh button with an invalid search', () async {
+          // refresh and check the correct message is still displayed.
+          await driver.tap(refreshFinder);
+          await driver.waitFor(find.text('No sensors available in this room'));
+        });
 
-      // Try refreshing an invalid room.
-      test('Refresh button with an invalid search', () async {
-        // refresh and check the correct message is still displayed.
-        await driver.tap(refreshFinder);
-        await driver.waitFor(find.text('No sensors available in this room'));
-      });
-
-      // Search for a valid room.
+        // Search for a valid room.
         test('Valid search', () async {
           await driver.tap(searchFieldFinder);
           await driver.enterText(validRoom);
@@ -216,7 +243,8 @@ void main() {
 
         // Try refreshing using pull to refresh.
         test('Scroll to refresh with a valid room', () async {
-          await driver.scroll(find.byType('ListView'), 0, 500, Duration(milliseconds: 250));
+          await driver.scroll(
+              find.byType('ListView'), 0, 500, Duration(milliseconds: 250));
           await driver.waitFor(find.byValueKey('sensor_data'));
         });
       });
@@ -225,7 +253,7 @@ void main() {
 
   // Executes after all tests.
   tearDownAll(() async {
-    if(driver != null) {
+    if (driver != null) {
       driver.close();
     }
   });
