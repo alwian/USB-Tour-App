@@ -6,11 +6,19 @@ import 'package:csc2022_app/helpers/database_helper.dart';
 import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/graph.dart';
 
+/// A manager to deal with database operations
+///
+/// Can obtain [Node]s from the Room table and can use the Edge
+/// table to generate a [Graph].
 class NavigationManager {
 
   static Map<String, Node> nodes = new HashMap<String, Node>();
 
-  /// Returns all the [Node]s for a given floor.
+  /// Returns a [Future] of all the [Node]s for a given [floor].
+  ///
+  /// ```dart
+  /// nodes = await NavigationManager.getNodes(floor);
+  /// ```
   static Future<Map<String, Node>> getNodes(int floor) async {
     nodes = new HashMap<String, Node>();
     String f;
@@ -39,6 +47,12 @@ class NavigationManager {
     return nodes;
   }
 
+  /// Returns a [Future] of a [Graph] for the given [floor]
+  ///
+  /// Queries the Edge table for all IDs and related weights for IDs that begin
+  /// with the [floor] number along with associated staircases, then adds
+  /// these edges to the [Node]s in [nodes] and finally adds these [Node]s
+  /// to the [Graph].
   static Future<Graph> getGraph(int floor) async {
     Graph graph = Graph.floor(floor);
     String f;
@@ -65,6 +79,8 @@ class NavigationManager {
 
     for (Map<String, dynamic> m in queryResults) {
 
+      // Adds a 0 onto the end of IDs that had their output shortened
+      // for example, 1.01 becomes 1.010.
       id = m['Room_1_ID'].toString().padRight(5, '0');
       id2 = m['Room_2_ID'].toString().padRight(5, '0');
 
