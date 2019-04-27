@@ -6,6 +6,7 @@ import 'package:csc2022_app/fragments/find_a_room_fragment.dart';
 import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
 import 'package:csc2022_app/fragments/building_information_fragment.dart';
 import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
+import 'package:csc2022_app/fragments/building_map_fragment.dart';
 
 /// Is used to collect data used to created a [ListTile].
 class _DrawerTile {
@@ -32,6 +33,7 @@ class HomePage extends StatefulWidget {
     _DrawerTile('Explore a floor', Icons.map, 'Explore'),
     _DrawerTile('Building information', Icons.info, 'Building information'),
     _DrawerTile('Urban Observatory', Icons.computer, 'Urban Observatory'),
+    _DrawerTile('Map', Icons.explore, 'Map'),
   ];
 
   /// Returns a [State] of a [HomePage].
@@ -58,6 +60,8 @@ class _HomePageState extends State<HomePage> {
         return BuildingInformationFragment();
       case 3:
         return UrbanObservatoryFragment();
+      case 4:
+        return BuildingMapFragment();
       default:
         return Text('Error');
     }

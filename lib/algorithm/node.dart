@@ -6,6 +6,8 @@ class Node {
 
   String _name;
 
+  String _id;
+
   /// A [List] of nodes for the shortest path to start node.
   List<Node> _shortestPath = [];
 
@@ -29,12 +31,14 @@ class Node {
 
   String get name => _name;
 
+  String get id => _id;
+
   /// A [Map] of the nodes and their [distance]s reachable from this [Node].
   Map<Node, int> adjacentNodes = {};
 
   Node(this._name);
 
-  Node.fromDB(this._name, this.coordsX, this.coordsY);
+  Node.fromDB(this._name, this.coordsX, this.coordsY, this._id);
 
   /// Adds a reachable [destination] and its [distance] to [adjacentNodes].
   void addDestination(Node destination, int distance) {
@@ -47,9 +51,7 @@ class Node {
 
   /// Creates a safe copy of this [Node].
   Node copy() {
-    Node n = new Node(_name);
-    n.coordsY = this.coordsY;
-    n.coordsX = this.coordsX;
+    Node n = new Node.fromDB(_name, this.coordsX, this.coordsY, this._id);
     n.adjacentNodes = Map.from(this.adjacentNodes);
     n.distance = this.distance;
     n.shortestPath = List.from(this.shortestPath);
