@@ -20,17 +20,28 @@ void main() {
       g = Graph.floor(expFloorNum);
       int actFloorNum = g.floorNumber;
 
-      expect(expFloorNum, actFloorNum);
+      expect(actFloorNum, expFloorNum);
     });
 
-    test('addNodes', () {
+    test('addNodes valid', () {
       Node expNode = Node("expNode");
       g.addNode(expNode);
 
       Node actNode = g.nodes.first;
 
-      expect(expNode, actNode);
+      expect(actNode, expNode);
     });
+
+    test('addNodes invalid', () {
+      Node testNode;
+
+      g.addNode(testNode);
+
+      expect(g.nodes, isEmpty);
+    });
+
+    
+
 
 
   });
