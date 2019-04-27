@@ -13,6 +13,7 @@ class _SearchFormState extends State<SearchFormPage> {
 
   ///Form keys and textEditingController
   ///For more info on TextEditingController, see https://pub.dartlang.org/packages/flutter_typeahead#-readme-tab-
+
   final GlobalKey<FormState> _findARoomFormKey = GlobalKey<FormState>();
 
   ///Controller for the first  and second s
@@ -45,6 +46,7 @@ class _SearchFormState extends State<SearchFormPage> {
     _formParameters = new List<String>();
     _typeAheadControllerFirst = TextEditingController();
     _typeAheadControllerSecond = TextEditingController();
+    //_findARoomFormKey.currentState.initState();
     _getInputs();
   }
 
@@ -98,7 +100,7 @@ class _SearchFormState extends State<SearchFormPage> {
   /// Method to create [Widget] tree containing the form to search for a room
   Form _createForm() {
     return Form(
-      key: this._findARoomFormKey,
+      key: _findARoomFormKey,
       child: Padding(
         padding: EdgeInsets.all(15.0),
         child: Column(
@@ -297,12 +299,19 @@ class _SearchFormState extends State<SearchFormPage> {
 
                     // Clear list for reuse
                     _formParameters.clear();
+
+                    // Clear [TextEditingControllers]
+                    _typeAheadControllerFirst.clear();
+                    _typeAheadControllerSecond.clear();
+
+                    // Clear formKey
+                    _findARoomFormKey.currentState.reset();
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: passedData)),
                     );
                   }
-
                 },
 
                 splashColor: Theme.of(context).primaryColor,
