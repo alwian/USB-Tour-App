@@ -1,10 +1,32 @@
+/// Author: Mason Powell
+/// Student No. 170256018
+
 import 'package:test/test.dart';
 import 'package:csc2022_app/algorithm/navigation.dart';
 import 'package:csc2022_app/algorithm/node.dart';
 import 'package:csc2022_app/algorithm/graph.dart';
 import 'dart:collection';
 
+
 void main() {
+  
+  group('Graph',() {
+    int expFloorNum = 1;
+
+    Graph g = Graph();
+    Graph gF;
+
+    test('get floorNumber', (){
+      gF = Graph.floor(expFloorNum);
+      int actFloorNum = gF.floorNumber;
+
+      expect(expFloorNum, actFloorNum);
+    });
+
+
+
+
+  });
   group('Nav', ()
   {
     Node a = new Node("a");
