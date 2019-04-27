@@ -37,7 +37,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
   void refreshList() {
     // reload
     setState(() {
-      widget.formRooms[1] = "G.063";
+      widget.formRooms[0] = "G.063";
       _directionList = updateAndGetList();
       updateAndGetQueue();
       debugPrint(_path.toString());
@@ -132,9 +132,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
             padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
             child: ListTile(
               // Title is the Destination from form (formRooms)
-                title: Text("To " + widget.formRooms[1], style: TextStyle(fontSize: 24.0),),
+                title: Text("To " + widget.formRooms[0], style: TextStyle(fontSize: 24.0),),
                 // Leading is source
-                subtitle: Text("From " + widget.formRooms[0], style: TextStyle(fontSize: 16.0),)
+                subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
             )
         )
       ],
