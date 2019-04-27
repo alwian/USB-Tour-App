@@ -15,9 +15,9 @@ class BuildingInformationFragment extends StatelessWidget {
                 unselectedLabelColor: Colors.black,
                 labelColor: Theme.of(context).primaryColor,
                 tabs: <Tab>[
-                  Tab(text: 'About'),
-                  Tab(text: 'Opening times'),
-                  Tab(text: 'Contact'),
+                  Tab(text: 'About', key: Key('about_tab'),),
+                  Tab(text: 'Opening times', key: Key('opening_times_tab'),),
+                  Tab(text: 'Contact', key: Key('contact_tab'),),
                 ],
               ),
               SizedBox(

@@ -13,11 +13,12 @@ class _SearchFormState extends State<SearchFormPage> {
 
   ///Form keys and textEditingController
   ///For more info on TextEditingController, see https://pub.dartlang.org/packages/flutter_typeahead#-readme-tab-
+
   final GlobalKey<FormState> _findARoomFormKey = GlobalKey<FormState>();
 
   ///Controller for the first  and second s
-  final TextEditingController _typeAheadControllerFirst = TextEditingController();
-  final TextEditingController _typeAheadControllerSecond = TextEditingController();
+  TextEditingController _typeAheadControllerFirst;
+  TextEditingController _typeAheadControllerSecond;
 
   ///[List] of [String]s containing all valid ids
   List<String> validInputs;
@@ -27,7 +28,7 @@ class _SearchFormState extends State<SearchFormPage> {
   String _currentRoom;
 
   ///List of Strings to send the results of the form to the algorithm on valid submission.
-  List<String> _formParameters = new List<String>();
+  List<String> _formParameters;
 
   ///List to store the text of default suggestions (frequently used room names)
   List<String> _frequentlyUsedRoomNames = [
@@ -42,11 +43,16 @@ class _SearchFormState extends State<SearchFormPage> {
   @override
   void initState() {
     super.initState();
+    _formParameters = new List<String>();
+    _typeAheadControllerFirst = TextEditingController();
+    _typeAheadControllerSecond = TextEditingController();
+    //_findARoomFormKey.currentState.initState();
     _getInputs();
   }
 
   @override
   void dispose() {
+    _formParameters = null;
     super.dispose();
   }
 
@@ -94,7 +100,7 @@ class _SearchFormState extends State<SearchFormPage> {
   /// Method to create [Widget] tree containing the form to search for a room
   Form _createForm() {
     return Form(
-      key: this._findARoomFormKey,
+      key: _findARoomFormKey,
       child: Padding(
         padding: EdgeInsets.all(15.0),
         child: Column(
@@ -282,16 +288,30 @@ class _SearchFormState extends State<SearchFormPage> {
                   if (this._findARoomFormKey.currentState.validate()) {
                     this._findARoomFormKey.currentState.save();
 
-                    ///Add TextField results to list and pass to the SearchResultsPage
+                    // Add TextField results to list and pass to the SearchResultsPage
                     _formParameters.add(_destinationRoom);
                     _formParameters.add(_currentRoom);
 
+                    // Loacal variable to pass data
+                    List<String> passedData = new List<String>();
+                    passedData.add(_formParameters[0]);
+                    passedData.add(_formParameters[1]);
+
+                    // Clear list for reuse
+                    _formParameters.clear();
+
+                    // Clear [TextEditingControllers]
+                    _typeAheadControllerFirst.clear();
+                    _typeAheadControllerSecond.clear();
+
+                    // Clear formKey
+                    _findARoomFormKey.currentState.reset();
+
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: _formParameters)),
+                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: passedData)),
                     );
                   }
-
                 },
 
                 splashColor: Theme.of(context).primaryColor,

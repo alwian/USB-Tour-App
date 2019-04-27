@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:csc2022_app/fragments/building_map_fragment.dart';
+import 'package:csc2022_app/algorithm/node.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
+import 'package:photo_view/photo_view.dart';
 
 class SearchResultsPage extends StatefulWidget {
   ///List of Strings to store the current and destination rooms from form in FindARoom fragment
@@ -17,9 +19,13 @@ class SearchResultsPage extends StatefulWidget {
   ///Constructor
   SearchResultsPage({Key key, @required this.formRooms}) : super(key: key);
 }
+
+///Builds the state
 class _SearchResultsState extends State<SearchResultsPage> {
 
+  // Init local variables
   Future<List<String>> _directionList;
+  Queue<Node> _path;
 
   /// Load [_directionList] when the [State] is created.
   @override
@@ -28,21 +34,33 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
     // initial load
     _directionList = updateAndGetList();
+    updateAndGetQueue();
   }
 
   void refreshList() {
     // reload
     setState(() {
-      widget.formRooms[1] = "G.063";
+      widget.formRooms[0] = "G.063";
       _directionList = updateAndGetList();
+      updateAndGetQueue();
+      debugPrint(_path.toString());
     });
   }
 
+  /// Get [List] of directions from FindARoomManager
   Future<List<String>> updateAndGetList() async {
     await FindARoomManager.getDirections(widget.formRooms);
 
     // return the list here
     return FindARoomManager.getDirections(widget.formRooms);
+  }
+
+  /// Set [_path] to [Queue] of [Node] directions from FindARoomManager
+  Future<void> updateAndGetQueue() async {
+    _path = await FindARoomManager.getDirectionsQueue(widget.formRooms);
+
+    // return the list here
+    setState(() {});
   }
 
   ///Method to build return a [FutureBuilder] that generates a [ListView] of directions
@@ -94,22 +112,21 @@ class _SearchResultsState extends State<SearchResultsPage> {
       floor = int.parse(widget.formRooms[0].substring(0, 1));
     }
 
-    return InkWell(
-      child: Container(
-        height: (MediaQuery.of(context).size.height) / 2,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              alignment: Alignment(-.2, 0),
-              image: AssetImage('assets/images/floor' + floor.toString() + '.png'),
-              fit: BoxFit.cover),
+    return Container(
+      height: (MediaQuery.of(context).size.height) / 2,
+        // If data has not loaded, display progress indicator
+        child: _path  == null ? Center(child: CircularProgressIndicator()) : PhotoView.customChild(
+          child: new CustomPaint(
+            foregroundPainter: RoutePainter(_path),
+              child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),
+        minScale: PhotoViewComputedScale.contained,
+        maxScale: 1.5,
+        //The height of the currently used images, need changing from magic numbers.
+        childSize: Size(4961, 3508),
+        backgroundDecoration: new BoxDecoration(
+          color: Colors.white,
         ),
       ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BuildingMapFragment()),
-        );
-      },
     );
   }
 
@@ -118,13 +135,13 @@ class _SearchResultsState extends State<SearchResultsPage> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
-          child: ListTile(
-            // Title is the Destination from form (formRooms)
-              title: Text("To " + widget.formRooms[1], style: TextStyle(fontSize: 24.0),),
-              // Leading is source
-              subtitle: Text("From " + widget.formRooms[0], style: TextStyle(fontSize: 16.0),)
-          )
+            padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
+            child: ListTile(
+              // Title is the Destination from form (formRooms)
+                title: Text("To " + widget.formRooms[0], style: TextStyle(fontSize: 24.0),),
+                // Leading is source
+                subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
+            )
         )
       ],
     );
@@ -138,15 +155,15 @@ class _SearchResultsState extends State<SearchResultsPage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-            _buildMapBody(context),
+            children: <Widget>[
+              _buildMapBody(context),
 
-            _buildInstructionDisplay(context),
-            Divider(height: 20.0, color: Colors.black,),
+              _buildInstructionDisplay(context),
+              Divider(height: 20.0, color: Colors.black,),
 
-            // Build ListView
-            _createDirectionTiles(context)
-          ]
+              // Build ListView
+              _createDirectionTiles(context)
+            ]
         ),
       ),
       bottomNavigationBar: Opacity(opacity: 0.90,
@@ -154,15 +171,15 @@ class _SearchResultsState extends State<SearchResultsPage> {
           height: 60.0,
           color: Colors.black87,
           child: FlatButton(
-            onPressed: () {
+              onPressed: () {
                 refreshList();
-            },
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.search, color: Colors.black, size: 40.0),
-                Text("Find nearest exit", style: TextStyle(color: Colors.white, fontSize: 20.0, letterSpacing: 1.0, wordSpacing: 2.5),),
-              ],
-            )
+              },
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.search, color: Colors.black, size: 40.0),
+                  Text("Find nearest exit", style: TextStyle(color: Colors.white, fontSize: 20.0, letterSpacing: 1.0, wordSpacing: 2.5),),
+                ],
+              )
           ),
         ),
       ),
