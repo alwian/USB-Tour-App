@@ -12,7 +12,7 @@ void main() {
   Node n;
 
   group('Node', () {
-    test('get name', () {
+    test('Node() get name', () {
       String expName = "test";
       n = Node(expName);
 
@@ -21,11 +21,94 @@ void main() {
       expect(actName, expName);
     });
 
-    
+    test('Node.fromDB() get name', () {
+      String expName = "test";
+      n = Node.fromDB(expName, null, null);
+
+      String actName = n.name;
+
+      expect(actName, expName);
+    });
+
+    test('Node.fromDB() get coordsX', () {
+      double expCoordsX = 1.1;
+      n = Node.fromDB(null, expCoordsX, null);
+
+      double actCoordsX = n.coordsX;
+
+      expect(actCoordsX, expCoordsX);
+    });
+
+    test('Node.fromDB() get coordsY', () {
+      double expCoordsY = 1.1;
+      n = Node.fromDB(null, null, expCoordsY);
+
+      double actCoordsY = n.coordsY;
+
+      expect(actCoordsY, expCoordsY);
+    });
+
+    test('addDestination valid Node', () {
+      n = Node("test");
+      Node adjNode = Node("test2");
+      int testDistance = 100;
+      n.addDestination(adjNode, testDistance);
+
+      expect(n.adjacentNodes, isNotEmpty);
+    });
+
+    test('addDestination invalid Node', () {
+      n = Node("test");
+      int testDistance = 100;
+
+      expect(() => n.addDestination(n, testDistance), throwsArgumentError);
+    });
+
+    test('addDestination valid distance', () {
+      n = Node("test");
+      Node adjNode = Node('test2');
+      int expDistance = 100;
+      n.addDestination(adjNode, expDistance);
+
+      int actDistance = n.adjacentNodes[adjNode];
+
+      expect(actDistance, expDistance);
+    });
+
+    test('addDestination invalid distance', () {
+      n = Node("test");
+      Node adjNode = Node('test2');
+      int expDistance = -1;
+
+      expect(() => n.addDestination(adjNode, expDistance), throwsArgumentError);
+    });
+
+    test('toString', () {
+      String expStringRep = "test";
+      n = Node(expStringRep);
+
+      String actStringRep = n.toString();
+
+      expect(actStringRep, expStringRep);
+    });
+
+    test('copy', () {
+      bool equal = false;
+
+      n = Node("test");
+      Node testNode = n.copy();
+
+      if(n == testNode) {
+        equal = true;
+      }
+
+      expect(equal, isFalse);
+    });
+
   });
 
   group('Graph',() {
-    Graph g = Graph();
+    Graph g;
 
     test('get floorNumber', (){
       int expFloorNum = 1;
@@ -36,6 +119,7 @@ void main() {
     });
 
     test('addNodes valid', () {
+      g = Graph();
       Node expNode = Node("expNode");
       g.addNode(expNode);
 
@@ -45,6 +129,7 @@ void main() {
     });
 
     test('addNodes invalid', () {
+      g = Graph();
       Node testNode;
 
       g.addNode(testNode);
@@ -157,7 +242,7 @@ void main() {
         }
       }
 
-      expect(distCheck, true);
+      expect(distCheck, isTrue);
     });
 
     test('pathToTargetNodeAToNodeF', () {
@@ -182,7 +267,7 @@ void main() {
         }
       }
 
-      expect(pathCheck, true);
+      expect(pathCheck, isTrue);
 
     });
   });
