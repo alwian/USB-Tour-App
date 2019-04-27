@@ -5,6 +5,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+/// The home page that allows users to navigate to [SearchFormPage]
 class FindARoomFragment extends StatelessWidget {
 
   //List of images to display in Carousel
@@ -16,7 +17,7 @@ class FindARoomFragment extends StatelessWidget {
     "assets/images/floor4.png"
   ];
 
-  ///Method to build button
+  ///Method to build button to send users to [SearchFormPage]
   Widget _buildButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 15.0, top: 35.0, right: 15.0, bottom: 35.0),
@@ -26,6 +27,7 @@ class FindARoomFragment extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         textColor: Colors.white,
 
+        // Send user to [SearchFormPage]
         onPressed: () {
           Navigator.push(
             context,
@@ -47,7 +49,7 @@ class FindARoomFragment extends StatelessWidget {
             Text(
               'Search for a room',
               style: TextStyle(
-                fontSize: 30.0,
+                fontSize: 28.0,
                 color: Colors.white,
               ),
             ),
@@ -57,9 +59,8 @@ class FindARoomFragment extends StatelessWidget {
     );
   }
 
-  ///Method to build map content
+  ///Method to build map content (a [Carousel] of floor plans)
   Widget _buildMapBody(BuildContext context) {
-
     return CarouselSlider(
       height: (MediaQuery.of(context).size.height) * 0.66,
       autoPlayInterval: Duration(seconds: 5),
@@ -68,6 +69,8 @@ class FindARoomFragment extends StatelessWidget {
       pauseAutoPlayOnTouch: Duration(seconds: 7),
       viewportFraction: 0.9,
       aspectRatio: 1.0,
+
+      // For every url in [imageList] add an image to the [CarouselSlider]
       items: imageList.map(
             (url) {
           return Container(
@@ -88,12 +91,12 @@ class FindARoomFragment extends StatelessWidget {
   }
 
 
+  /// MMethod to build the page
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          ///@todo replace image with map when finished
           _buildMapBody(context),
           Center(
             child: _buildButton(context),
