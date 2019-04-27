@@ -38,7 +38,14 @@ class Node {
 
   /// Adds a reachable [destination] and its [distance] to [adjacentNodes].
   void addDestination(Node destination, int distance) {
-    adjacentNodes[destination] = distance;
+    if(destination == this || distance < 0) {
+      throw new ArgumentError("Invalid input");
+    } else {
+      if (distance == 0) {
+        distance = 1;
+      }
+      adjacentNodes[destination] = distance;
+    }
   }
 
   String toString(){
