@@ -27,7 +27,7 @@ class _SearchFormState extends State<SearchFormPage> {
   String _currentRoom;
 
   ///List of Strings to send the results of the form to the algorithm on valid submission.
-  List<String> _formParameters = new List<String>();
+  List<String> _formParameters;
 
   ///List to store the text of default suggestions (frequently used room names)
   List<String> _frequentlyUsedRoomNames = [
@@ -42,11 +42,13 @@ class _SearchFormState extends State<SearchFormPage> {
   @override
   void initState() {
     super.initState();
+    _formParameters = new List<String>();
     _getInputs();
   }
 
   @override
   void dispose() {
+    _formParameters = null;
     super.dispose();
   }
 
@@ -285,10 +287,14 @@ class _SearchFormState extends State<SearchFormPage> {
                     ///Add TextField results to list and pass to the SearchResultsPage
                     _formParameters.add(_destinationRoom);
                     _formParameters.add(_currentRoom);
-
+                    
+                    List<String> x = new List<String>();
+                    x.add(_formParameters[0]);
+                    x.add(_formParameters[1]);
+                    _formParameters.clear();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: _formParameters)),
+                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: x)),
                     );
                   }
 
