@@ -9,14 +9,26 @@ import 'dart:collection';
 
 
 void main() {
+  Node n;
+
+  group('Node', () {
+    test('get name', () {
+      String expName = "test";
+      n = Node(expName);
+
+      String actName = n.name;
+
+      expect(actName, expName);
+    });
+
+    
+  });
 
   group('Graph',() {
-    int expFloorNum = 1;
-
     Graph g = Graph();
 
-
     test('get floorNumber', (){
+      int expFloorNum = 1;
       g = Graph.floor(expFloorNum);
       int actFloorNum = g.floorNumber;
 
@@ -39,12 +51,8 @@ void main() {
 
       expect(g.nodes, isEmpty);
     });
-
-    
-
-
-
   });
+
   group('Nav', ()
   {
     Node a = new Node("a");
