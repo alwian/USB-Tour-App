@@ -7,20 +7,22 @@ import 'package:flutter/foundation.dart';
 import 'dart:developer';
 import 'package:photo_view/photo_view.dart';
 
+/// A page for displaying directions between rooms in the Urban Sciences Building
 class SearchResultsPage extends StatefulWidget {
-  ///List of Strings to store the current and destination rooms from form in FindARoom fragment
+  /// List of Strings to store the current and destination rooms from form in FindARoom fragment
   final List<String> formRooms;
 
+  /// Returns a [State] of this page.
   @override
   State<StatefulWidget> createState() {
     return _SearchResultsState();
   }
 
-  ///Constructor
+  /// Constructor
   SearchResultsPage({Key key, @required this.formRooms}) : super(key: key);
 }
 
-///Builds the state
+/// A [State] of [SearchResultsPage]
 class _SearchResultsState extends State<SearchResultsPage> {
 
   // Init local variables
@@ -37,13 +39,14 @@ class _SearchResultsState extends State<SearchResultsPage> {
     updateAndGetQueue();
   }
 
+  /// Refresh the [State]
   void refreshList() {
     // reload
     setState(() {
+      // Find exit pressed. Set target to exit (G.063)
       widget.formRooms[0] = "G.063";
       _directionList = updateAndGetList();
       updateAndGetQueue();
-      debugPrint(_path.toString());
     });
   }
 
@@ -95,6 +98,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
               )
           );
         } else {
+          // While loading display progress indicator
           return Center(child: CircularProgressIndicator());
         }
       },
@@ -106,10 +110,13 @@ class _SearchResultsState extends State<SearchResultsPage> {
     //Get floor plan to return
     int floor;
 
-    if(widget.formRooms[0].substring(0, 1) == "G" || widget.formRooms[0].substring(0, 1) == "S") {
+    // Get map image to display
+    if(widget.formRooms[1].substring(0, 1) == "G") {
       floor = 0;
+    } else if(widget.formRooms[1].substring(0, 1) == "S") {
+      floor = int.parse(widget.formRooms[1].substring(3, 4));
     } else {
-      floor = int.parse(widget.formRooms[0].substring(0, 1));
+      floor = int.parse(widget.formRooms[1].substring(0, 1));
     }
 
     return Container(
@@ -147,6 +154,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
     );
   }
 
+  /// Build the page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
