@@ -9,21 +9,28 @@ import 'dart:collection';
 
 
 void main() {
-  
+
   group('Graph',() {
     int expFloorNum = 1;
 
     Graph g = Graph();
-    Graph gF;
+
 
     test('get floorNumber', (){
-      gF = Graph.floor(expFloorNum);
-      int actFloorNum = gF.floorNumber;
+      g = Graph.floor(expFloorNum);
+      int actFloorNum = g.floorNumber;
 
       expect(expFloorNum, actFloorNum);
     });
 
+    test('addNodes', () {
+      Node expNode = Node("expNode");
+      g.addNode(expNode);
 
+      Node actNode = g.nodes.first;
+
+      expect(expNode, actNode);
+    });
 
 
   });
