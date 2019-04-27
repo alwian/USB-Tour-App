@@ -113,8 +113,10 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
-                if(_target.id.startsWith('S')){
-                  _source = _target.copy();
+                if(_target != null) {
+                  if (_target.id.startsWith('S')) {
+                    _source = _target.copy();
+                  }
                 }
                 dropdownValue = newValue;
                 selectedFloor = newValue;
@@ -227,8 +229,10 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
-                if(_target.id.startsWith('S')){
-                  _source = _target.copy();
+                if(_target != null) {
+                  if (_target.id.startsWith('S')) {
+                    _source = _target.copy();
+                  }
                 }
                 dropdownValue = newValue;
                 selectedFloor = newValue;
