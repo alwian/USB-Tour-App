@@ -108,11 +108,11 @@ class _SearchResultsState extends State<SearchResultsPage> {
     }
 
     return Container(
-        height: (MediaQuery.of(context).size.height) / 2,
-        child: PhotoView.customChild(
-        child: new CustomPaint(
+      height: (MediaQuery.of(context).size.height) / 2,
+        child: _path  == null ? CircularProgressIndicator() : PhotoView.customChild(
+          child: new CustomPaint(
             foregroundPainter: RoutePainter(_path),
-            child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),
+              child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),
         minScale: PhotoViewComputedScale.contained,
         maxScale: 1.5,
         //The height of the currently used images, need changing from magic numbers.
