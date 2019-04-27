@@ -19,8 +19,11 @@ class SearchResultsPage extends StatefulWidget {
   ///Constructor
   SearchResultsPage({Key key, @required this.formRooms}) : super(key: key);
 }
+
+///Builds the state
 class _SearchResultsState extends State<SearchResultsPage> {
 
+  // Init local variables
   Future<List<String>> _directionList;
   Queue<Node> _path;
 
@@ -44,6 +47,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
     });
   }
 
+  /// Get [List] of directions from FindARoomManager
   Future<List<String>> updateAndGetList() async {
     await FindARoomManager.getDirections(widget.formRooms);
 
@@ -51,7 +55,8 @@ class _SearchResultsState extends State<SearchResultsPage> {
     return FindARoomManager.getDirections(widget.formRooms);
   }
 
-  Future<List<String>> updateAndGetQueue() async {
+  /// Set [_path] to [Queue] of [Node] directions from FindARoomManager
+  Future<void> updateAndGetQueue() async {
     _path = await FindARoomManager.getDirectionsQueue(widget.formRooms);
 
     // return the list here
@@ -109,7 +114,8 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
     return Container(
       height: (MediaQuery.of(context).size.height) / 2,
-        child: _path  == null ? CircularProgressIndicator() : PhotoView.customChild(
+        // If data has not loaded, display progress indicator
+        child: _path  == null ? Center(child: CircularProgressIndicator()) : PhotoView.customChild(
           child: new CustomPaint(
             foregroundPainter: RoutePainter(_path),
               child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),

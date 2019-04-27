@@ -22,7 +22,7 @@ class FindARoomManager {
     );
 
     List<String> roomsId = List<String>();
-    // Create a [Room] for a ll rows returned from the DB query.
+    // Add id to list for all rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
       roomsId.add(m['ID'].toString());
     }
@@ -49,10 +49,15 @@ class FindARoomManager {
   /// Easy user interface method to take rooms as [List] of [String]s
   /// and return directions as [List] of [String]s
   static Future<List<String>> getDirections(List<String> formRooms) async {
+    // If source and destinatoin are equal, return error message
+    if(formRooms[0] == formRooms[1]) {
+      List<String> errorOut = ['You are already at your destination'];
+
+      return errorOut;
+    }
+
     Queue<Node> directionsQueue = await getDirectionsQueue(formRooms);
     List<String> directionsList = await getDirectionDetails(directionsQueue);
-
-    debugPrint(directionsList.toString());
 
     return directionsList;
   }
