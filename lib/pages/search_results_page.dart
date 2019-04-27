@@ -7,6 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'dart:developer';
 import 'package:photo_view/photo_view.dart';
 
+/// @Author Connor Harris
+/// @StudentNo 170346489
+
 /// A page for displaying directions between rooms in the Urban Sciences Building
 class SearchResultsPage extends StatefulWidget {
   /// List of Strings to store the current and destination rooms from form in FindARoom fragment

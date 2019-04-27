@@ -11,6 +11,10 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
 
+/// @Author Connor Harris
+/// @StudentNo 170346489
+
+/// Handles data retrieval for a [SearchFormPage] or a [SearchResultsPage]
 class FindARoomManager {
 
   /// Returns all ids as a [List] of [String]s.
@@ -77,7 +81,7 @@ class FindARoomManager {
     Node source;
     Node destination;
 
-    // Store rooms as source and target nodes
+    // Store room as source [Node]
     for (Node w in startGraph.nodes) {
       if (w.name == rooms[0]) {
         source = w;
@@ -86,6 +90,7 @@ class FindARoomManager {
       }
     }
 
+    // Store room as target [Node]
     for (Node v in startGraph.nodes) {
       if (v.name == rooms[1]) {
 
@@ -101,8 +106,6 @@ class FindARoomManager {
     Queue<Node> directions = Navigation.pathToTarget(startGraph, source, destination);
 
     String s = directions.toString();
-    debugPrint('s: $s');
-    log('s: $s');
 
     return directions;
   }
@@ -123,19 +126,13 @@ class FindARoomManager {
       String r1;
       String r2;
 
-      debugPrint('dd: $destA');
-      debugPrint('db: $destB');
-
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
           'SELECT A_to_B FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
       );
 
-      debugPrint(queryResults.toString());
-
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        debugPrint("r1: " + m["A_to_B"].toString());
         r1 = m["A_to_B"].toString();
       }
 
@@ -145,11 +142,8 @@ class FindARoomManager {
           'SELECT B_to_A FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
       );
 
-      debugPrint(queryResults.toString());
-
       //For results, add to directions list
       for (Map<String, dynamic> n in queryResults2) {
-        debugPrint("r2: " + n["B_to_A"].toString());
         r2 = n["B_to_A"].toString();
       }
 

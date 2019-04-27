@@ -5,6 +5,9 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+/// @Author Connor Harris
+/// @StudentNo 170346489
+
 /// The home page that allows users to navigate to [SearchFormPage]
 class FindARoomFragment extends StatelessWidget {
 
