@@ -111,6 +111,7 @@ class _SearchFormState extends State<SearchFormPage> {
 
               ///First TextField (Enter Destination)
               child: TypeAheadFormField(
+                key: Key("destination"),
                 textFieldConfiguration: TextFieldConfiguration(
                   controller: this._typeAheadControllerFirst,
                   autofocus: false,
@@ -142,13 +143,14 @@ class _SearchFormState extends State<SearchFormPage> {
                 ///Build Dropdown menu
                 itemBuilder: (context, suggestion) {
                   return Material(
-                    color: Colors.black12,
-                    child: InkWell(
-                      child: ListTile(
-                        title: Text(suggestion),
-                      ),
-                      splashColor: Theme.of(context).primaryColor,
-                    )
+                      key: Key("destination_suggestion"),
+                      color: Colors.black12,
+                      child: InkWell(
+                        child: ListTile(
+                          title: Text(suggestion),
+                        ),
+                        splashColor: Theme.of(context).primaryColor,
+                      )
                   );
                 }, //itemBuilder
 
@@ -180,6 +182,7 @@ class _SearchFormState extends State<SearchFormPage> {
 
                 noItemsFoundBuilder: (BuildContext context) =>
                     ListView(
+                      key: Key("default_suggestions_destination"),
                         //If no suggestions then create default suggestions.
                         //true param to act on first TextField
                         children: _createDefaultSuggestions(true)
@@ -194,6 +197,7 @@ class _SearchFormState extends State<SearchFormPage> {
               padding: EdgeInsets.all(15.0),
               ///Second TextField (Enter Current Location)
               child: TypeAheadFormField(
+                key: Key("current_location"),
                 textFieldConfiguration: TextFieldConfiguration(
                     controller: this._typeAheadControllerSecond,
                     autofocus: false,
@@ -225,6 +229,7 @@ class _SearchFormState extends State<SearchFormPage> {
                 ///Build Dropdown menu
                 itemBuilder: (context, suggestion) {
                   return Material(
+                      key: Key("suggestions_current"),
                     color: Colors.black12,
                     child: InkWell(
                       child: ListTile(
@@ -232,7 +237,6 @@ class _SearchFormState extends State<SearchFormPage> {
                       ),
                       splashColor: Theme.of(context).primaryColor,
                     )
-
                   );
                 }, //itemBuilder
 
@@ -267,6 +271,7 @@ class _SearchFormState extends State<SearchFormPage> {
                       removeTop: true,
                       context: context,
                       child: ListView(
+                          key: Key("default_suggestions_current"),
                           children: _createDefaultSuggestions(false)
                       ),
                     ),

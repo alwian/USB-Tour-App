@@ -74,6 +74,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
               removeBottom: true,
               context: context,
               child: ListView.builder(
+                key: Key('directions_list'),
                 padding: EdgeInsets.all(0.0),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -117,6 +118,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
         // If data has not loaded, display progress indicator
         child: _path  == null ? Center(child: CircularProgressIndicator()) : PhotoView.customChild(
           child: new CustomPaint(
+            key: Key('map_image'),
             foregroundPainter: RoutePainter(_path),
               child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),
         minScale: PhotoViewComputedScale.contained,
