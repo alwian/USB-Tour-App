@@ -16,8 +16,8 @@ class _SearchFormState extends State<SearchFormPage> {
   final GlobalKey<FormState> _findARoomFormKey = GlobalKey<FormState>();
 
   ///Controller for the first  and second s
-  final TextEditingController _typeAheadControllerFirst = TextEditingController();
-  final TextEditingController _typeAheadControllerSecond = TextEditingController();
+  TextEditingController _typeAheadControllerFirst;
+  TextEditingController _typeAheadControllerSecond;
 
   ///[List] of [String]s containing all valid ids
   List<String> validInputs;
@@ -43,6 +43,8 @@ class _SearchFormState extends State<SearchFormPage> {
   void initState() {
     super.initState();
     _formParameters = new List<String>();
+    _typeAheadControllerFirst = TextEditingController();
+    _typeAheadControllerSecond = TextEditingController();
     _getInputs();
   }
 
@@ -284,17 +286,20 @@ class _SearchFormState extends State<SearchFormPage> {
                   if (this._findARoomFormKey.currentState.validate()) {
                     this._findARoomFormKey.currentState.save();
 
-                    ///Add TextField results to list and pass to the SearchResultsPage
+                    // Add TextField results to list and pass to the SearchResultsPage
                     _formParameters.add(_destinationRoom);
                     _formParameters.add(_currentRoom);
-                    
-                    List<String> x = new List<String>();
-                    x.add(_formParameters[0]);
-                    x.add(_formParameters[1]);
+
+                    // Loacal variable to pass data
+                    List<String> passedData = new List<String>();
+                    passedData.add(_formParameters[0]);
+                    passedData.add(_formParameters[1]);
+
+                    // Clear list for reuse
                     _formParameters.clear();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: x)),
+                      MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: passedData)),
                     );
                   }
 
