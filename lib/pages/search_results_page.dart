@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
+import 'package:csc2022_app/fragments/building_map_fragment.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
@@ -84,14 +85,31 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
   ///Method to build map content
   Widget _buildMapBody(BuildContext context) {
-    return Container(
-      height: (MediaQuery.of(context).size.height) / 2,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            alignment: Alignment(-.2, 0),
-            image: AssetImage('assets/images/lecture_theatre.jpg'),
-            fit: BoxFit.cover),
+    //Get floor plan to return
+    int floor;
+
+    if(widget.formRooms[0].substring(0, 1) == "G" || widget.formRooms[0].substring(0, 1) == "S") {
+      floor = 0;
+    } else {
+      floor = int.parse(widget.formRooms[0].substring(0, 1));
+    }
+
+    return InkWell(
+      child: Container(
+        height: (MediaQuery.of(context).size.height) / 2,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              alignment: Alignment(-.2, 0),
+              image: AssetImage('assets/images/floor' + floor.toString() + '.png'),
+              fit: BoxFit.cover),
+        ),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BuildingMapFragment()),
+        );
+      },
     );
   }
 
