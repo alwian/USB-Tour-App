@@ -123,44 +123,44 @@ class FindARoomManager {
 
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults = await DatabaseHelper.query(
-          'SELECT B_to_A FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
+          'SELECT A_to_B FROM Edge where Room_1_ID = \'$destA\' AND Room_2_ID = \'$destB\''
       );
 
       debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> m in queryResults) {
-        debugPrint("r1: " + m["B_to_A"].toString());
-        r1 = m["B_to_A"].toString();
+        debugPrint("r1: " + m["A_to_B"].toString());
+        r1 = m["A_to_B"].toString();
       }
 
       //Search for link in other direction
       //Query edge table for edge between the first and second nodes
       List<Map<String, dynamic>> queryResults2 = await DatabaseHelper.query(
-          'SELECT A_to_B FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
+          'SELECT B_to_A FROM Edge where Room_1_ID = \'$destB\' AND Room_2_ID = \'$destA\''
       );
 
       debugPrint(queryResults.toString());
 
       //For results, add to directions list
       for (Map<String, dynamic> n in queryResults2) {
-        debugPrint("r2: " + n["A_to_B"].toString());
-        r2 = n["A_to_B"].toString();
+        debugPrint("r2: " + n["B_to_A"].toString());
+        r2 = n["B_to_A"].toString();
       }
 
-      //Check if directions are null
-      if(r1 != null) {
+      //Check if directions are null or have text null as directions
+      if(r1 != null && r1 != "NULL") {
         //Result 1 has results. Populate list
         directions.add(r1);
-      } else if (r2 != null) {
+      } else if (r2 != null && r2 != "NULL") {
         //r1 is null, r2 not. Add r2
         directions.add(r2);
-      } else {
-        //Error. Add error text and return list
-        directions.add("Error. No route found between nodes: " + destA
-            + ", " + destB);
-        return directions;
       }
+    }
+
+    //If list has no items, add error message
+    if(directions.isEmpty) {
+      directions.add("No route could be found");
     }
 
     return directions;
