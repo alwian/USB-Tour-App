@@ -140,7 +140,36 @@ void main() {
   });
   
   /// Integration test on getDirections method
-  group('', body)
+  group('Getting list of suggestions from input list (integration)', () {
+    // Known invalid input
+    List<String> invalidList = ['G.063', 'G.063'];
+
+    // Expected output from invalid input
+    List<String> expectedOutputFromInvalid = ['You are already at your destination'];
+
+    // Test using invalid input
+    test('Using invalid input', () async {
+      List<String> actualOutput = await FindARoomManager.getDirections(invalidList);
+      expect(actualOutput[0], expectedOutputFromInvalid[0]);
+    });
+
+    // Known valid input
+    List<String> validList = ['1.002', '1.006'];
+
+    // Expected output from valid input
+    List<String> expectedOutputFromValid = ['Facing the front of the lecture theatre, go to the bottom of the stairs and go round the left corner.',
+    'With the window of your left, walk through the double doors in front of you.'];
+
+    // Test using known valid input
+    test('Using valid input', () async {
+      List<String> actualOutput = await FindARoomManager.getDirections(validList);
+
+      // Iterate over [actualOutput] and compare values to [expectedFromValid]
+      for(int i = 0; i < actualOutput.length; i++) {
+        expect(actualOutput[i], expectedOutputFromValid[i]);
+      }
+    });
+  });
 
 
 }
