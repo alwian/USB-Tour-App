@@ -139,8 +139,8 @@ void main() {
     });
   });
   
-  /// Integration test on getDirections method
-  group('Getting list of suggestions from input list (integration)', () {
+  // test on getDirections method
+  group('Getting list of suggestions from input list', () {
     // Known invalid input
     List<String> invalidList = ['G.063', 'G.063'];
 

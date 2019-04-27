@@ -251,6 +251,142 @@ void main() {
     });
   });
 
+  //Tests for 'Find a Room Section'
+  group('Find a Room', () {
+
+    // Known good/bad room values.
+    final String invalidRoom = 'ZZZZZZ';
+    final String validRoom1 = '1.002';
+    final String validRoom2 = '1.006';
+
+    // Go to find a room fragment
+    setUpAll(() async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('find_a_room_tile'));
+    });
+
+    // Test Search button
+    test('Search Button', () async {
+      await driver.tap(find.byType('MaterialButton'));
+    });
+
+    // Test SearchFormPage
+    group('Form inputs', () {
+      // Test invalid (no input) input on both fields
+      test('Invalid inputs (no data)', () async {
+        // Enter error message to first field and check for error
+        await driver.tap(find.byType('MaterialButton'));
+
+        // Wait for error message
+        await driver.waitFor(find.text('Please select a room'));
+      });
+
+      // Test invalid input, invalid value for first TextField
+      test('Invalid input first text field', () async {
+        await driver.tap(find.byValueKey('destination'));
+        await driver.enterText(invalidRoom);
+        await driver.tap(find.byType('MaterialButton'));
+
+        //Wait for error message
+        await driver.waitFor(find.text('Please select a room'));
+      });
+
+      // Test invalid input, invalid value for second TextField
+      test('Invalid input second text field', () async {
+        await driver.tap(find.byValueKey('current_location'));
+        await driver.enterText(invalidRoom);
+        await driver.tap(find.byType('MaterialButton'));
+
+        //Wait for error message
+        await driver.waitFor(find.text('Please select a room'));
+      });
+
+      // Test default suggestions for fist TextField
+      test('Default suggestions first field', () async {
+        await driver.tap(find.byValueKey('destination'));
+        await driver.enterText(" ");
+        await Future<void>.delayed(Duration(seconds: 1));
+
+        //Wait for dropdown
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('default_suggestions_destination'));
+      });
+
+      // Test default suggestions for second TextField
+      test('Default suggestions second field', () async {
+        await driver.tap(find.byValueKey('current_location'));
+        await driver.enterText(validRoom1);
+        await Future<void>.delayed(Duration(seconds: 1));
+
+        //Wait for dropdown
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('default_suggestions_current'));
+      });
+
+      // Test dropdown suggestions for first TextField
+      test('Genereated suggestions first field', () async {
+        await driver.tap(find.byValueKey('destination'));
+        await driver.enterText(validRoom1);
+        await Future<void>.delayed(Duration(seconds: 3));
+
+        //Wait for dropdown
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('destination_suggestion'));
+      });
+
+      // Test dropdown suggestions for second TextField
+      test('Genereated suggestions first field', () async {
+        await driver.tap(find.byValueKey('current_location'));
+        await driver.enterText(validRoom1);
+        await Future<void>.delayed(Duration(seconds: 3));
+
+        //Wait for dropdown
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('suggestions_current'));
+      });
+
+      // Test valid input
+      test('Valid input', () async {
+        // First TextField
+        await driver.tap(find.byValueKey('destination'));
+        await driver.enterText(validRoom1);
+
+        // Second TextField
+        await driver.tap(find.byValueKey('current_location'));
+        await driver.enterText(validRoom2);
+
+        await driver.tap(find.byType('MaterialButton'), timeout: Duration(seconds: 10));
+      });
+    });
+
+    // Test SearchResultsPage
+    group('SearchResultsPage', () {
+      //Check image loaded
+      test('Test imgade loaded', () async {
+        await driver.waitFor(find.byValueKey('map_image'));
+      });
+
+      // Check directions loaded
+      test('Test directions loaded', () async {
+        //Wait for directions
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('directions_list'));
+      });
+
+      // Test refresh when finding exit
+      // Check directions loaded
+      test('Find nearest exit', () async {
+        await driver.tap(find.byType('FlatButton'));
+        Future<void>.delayed(Duration(seconds: 10));
+
+        // Check list and image with new destination
+        await driver.waitFor(find.byValueKey('map_image'));
+        await driver.scrollUntilVisible(find.byType('ListView'),
+            find.byValueKey('directions_list'));
+      });
+    });
+  });
+
   // Executes after all tests.
   tearDownAll(() async {
     if (driver != null) {
