@@ -394,7 +394,7 @@ class RoomList extends StatelessWidget {
               }*/
               return new ListTile(
                 //The name of node i in list floorNum.
-                  title: Text(allNodes[i].name),
+                  title: Text(allNodes[i].id + ': ' + allNodes[i].name),
                   onTap: () {
                     if (sot == 1) {
                       //1 means we are setting the source.
