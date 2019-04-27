@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:csc2022_app/pages/search_results_page.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
+
+/// @Author Connor Harris
+/// @StudentNo 170346489
+
+/// A page to allow users to enter details for finding directions
+/// between rooms in the Urban Sciences Building
 class SearchFormPage extends StatefulWidget {
+
+  /// Returns a [State] of this page.
   @override
   State<StatefulWidget> createState() {
     return _SearchFormState();
   }
 }
 
+/// A [State] of [SearchFormPage]
 class _SearchFormState extends State<SearchFormPage> {
 
   ///Form keys and textEditingController
@@ -40,16 +49,17 @@ class _SearchFormState extends State<SearchFormPage> {
     "G.071", "1.006", "3.015", "4.005"
   ];
 
+  /// Loads the [SearchFormPage] for this page to display.
   @override
   void initState() {
     super.initState();
     _formParameters = new List<String>();
     _typeAheadControllerFirst = TextEditingController();
     _typeAheadControllerSecond = TextEditingController();
-    //_findARoomFormKey.currentState.initState();
     _getInputs();
   }
 
+  /// Removes the [SearchFormPage]
   @override
   void dispose() {
     _formParameters = null;
@@ -289,6 +299,7 @@ class _SearchFormState extends State<SearchFormPage> {
                 color: Colors.black54,
                 textColor: Colors.white,
 
+                // Deals with [Form] submission
                 onPressed: () {
                   if (this._findARoomFormKey.currentState.validate()) {
                     this._findARoomFormKey.currentState.save();
@@ -312,6 +323,7 @@ class _SearchFormState extends State<SearchFormPage> {
                     // Clear formKey
                     _findARoomFormKey.currentState.reset();
 
+                    // Send data to [SearchResultsPage]
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: passedData)),
@@ -340,6 +352,7 @@ class _SearchFormState extends State<SearchFormPage> {
     );
   }
 
+  /// Builds the page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -358,20 +371,18 @@ class _SearchFormState extends State<SearchFormPage> {
                       fit: BoxFit.cover),
                 ),
                 alignment: Alignment.center,
-                padding: EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "Search for a room here!",
-                  style: Theme.of(context)
-                      .textTheme
-                      .display1
-                      .copyWith(color: Colors.black),
-                ),
+                padding: EdgeInsets.only(bottom: 20, left: 20),
+                child: Center(
+                  child: Text(
+                    "Search for a room here!",
+                    style: Theme.of(context)
+                        .textTheme
+                        .display1
+                        .copyWith(color: Colors.black),
+                  ),
+                )
               ),
 
-            //@todo Improve styling - https://medium.com/flutter-community/breaking-layouts-in-rows-and-columns-in-flutter-8ea1ce4c1316
-            //@todo Hard code suggestion dropdowns
-            //@todo add new search page
-            ///Form to submit start and end points for the route finding algorithm /algorithm/
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
