@@ -46,6 +46,10 @@ class _BuildingMapState extends State<BuildingMapFragment> {
   Node _target;
   _Route route;
 
+  int stairs = 0;
+  int sourceFloor = 0;
+  int targetFloor = 0;
+
   /// The path of nodes to be drawn.
   Queue<Node> path = new Queue<Node>();
   List<List<Node>> floorNodes = new List<List<Node>>();
@@ -106,9 +110,15 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       return Scaffold(
         body: Column(children: <Widget>[
           DropdownButton<Floor>(
+            key: Key('dropdown_btn'),
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
+                if (_target != null) {
+                  if (_target.id.startsWith('S')) {
+                    _source = _target.copy();
+                  }
+                }
                 dropdownValue = newValue;
                 selectedFloor = newValue;
                 floorNum = newValue.floorNumber;
@@ -119,6 +129,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
               return DropdownMenuItem<Floor>(
+                key: Key(value.name),
                 value: value,
                 child: Text(value.name),
               );
@@ -147,6 +158,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
+              key: Key('source_btn'),
               icon: Icon(Icons.trip_origin),
               onPressed: () {
                 setState(() {
@@ -155,6 +167,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               },
             ),
             IconButton(
+              key: Key('target_btn'),
               icon: Icon(Icons.lens),
               onPressed: () {
                 setState(() {
@@ -165,6 +178,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
+          key: Key('draw_btn'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -173,8 +187,45 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                       new Text("Both source and target must be selected first"),
                 ));
               } else {
+                if (_source.id.startsWith('G', 0)) {
+                  sourceFloor = 0;
+                } else if (_source.id.startsWith('S', 0)) {
+                  sourceFloor = int.parse(_source.id.substring(3, 4));
+                } else {
+                  sourceFloor = int.parse(_source.id.substring(0, 1));
+                }
+
+                if (_target.id.startsWith('G', 0)) {
+                  targetFloor = 0;
+                } else if (_target.id.startsWith('S', 0)) {
+                  targetFloor = int.parse(_target.id.substring(3, 4));
+                } else {
+                  targetFloor = int.parse(_target.id.substring(0, 1));
+                }
+
+                if (_source.id.substring(0, 1) != _target.id.substring(0, 1)) {
+                  if (_source.id.startsWith('G', 0)) {
+                    stairs = 1;
+                  } else if (sourceFloor < targetFloor) {
+                    stairs = sourceFloor + 1;
+                  } else {
+                    stairs = sourceFloor - 1;
+                  }
+
+                  for (Node n in selectedFloor.graph.nodes) {
+                    if (n.id == 'S.00$stairs') {
+                      _target = n;
+                    }
+                  }
+                }
                 path = _Route(_source, _target, floorNum, selectedFloor.graph)
                     .generateRoute();
+
+                if (path.isEmpty) {
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: new Text("No route available!"),
+                  ));
+                }
               }
             });
           },
@@ -187,9 +238,15 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       return Scaffold(
         body: Column(children: <Widget>[
           DropdownButton<Floor>(
+            key: Key('dropdown_btn'),
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
+                if (_target != null) {
+                  if (_target.id.startsWith('S')) {
+                    _source = _target.copy();
+                  }
+                }
                 dropdownValue = newValue;
                 selectedFloor = newValue;
                 floorNum = newValue.floorNumber;
@@ -199,6 +256,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
               return DropdownMenuItem<Floor>(
+                key: Key(value.name),
                 value: value,
                 child: Text(value.name),
               );
@@ -223,6 +281,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
+              key: Key('source_btn'),
               icon: Icon(Icons.trip_origin),
               onPressed: () {
                 setState(() {
@@ -231,6 +290,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               },
             ),
             IconButton(
+              key: Key('target_btn'),
               icon: Icon(Icons.lens),
               onPressed: () {
                 setState(() {
@@ -241,6 +301,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
+          key: Key('draw_btn'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -249,8 +310,48 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                       new Text("Both source and target must be selected first"),
                 ));
               } else {
+                if (_source.id.startsWith('G', 0)) {
+                  sourceFloor = 0;
+                } else if (_source.id.startsWith('S', 0)) {
+                  sourceFloor = int.parse(_source.id.substring(4, 5));
+                } else {
+                  sourceFloor = int.parse(_source.id.substring(0, 1));
+                }
+
+                if (_target.id.startsWith('G', 0)) {
+                  targetFloor = 0;
+                } else if (_target.id.startsWith('S', 0)) {
+                  targetFloor = int.parse(_target.id.substring(4, 5));
+                } else {
+                  targetFloor = int.parse(_target.id.substring(0, 1));
+                }
+
+                if (_source.id.substring(0, 1) != _target.id.substring(0, 1)) {
+                  if (_source.id.startsWith('G', 0)) {
+                    stairs = 1;
+                  } else if (sourceFloor < targetFloor) {
+                    stairs = sourceFloor + 1;
+                  } else {
+                    stairs = sourceFloor - 1;
+                  }
+
+                  if (selectedFloor.floorNumber != sourceFloor) {}
+
+                  for (Node n in selectedFloor.graph.nodes) {
+                    if (n.id == 'S.00$stairs') {
+                      _target = n;
+                    }
+                  }
+                }
+
                 path = _Route(_source, _target, floorNum, selectedFloor.graph)
                     .generateRoute();
+
+                if (path.isEmpty) {
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: new Text("No route available!"),
+                  ));
+                }
               }
             });
           },
@@ -290,9 +391,18 @@ class RoomList extends StatelessWidget {
   Node _source;
   Node _target;
   List<List<Node>> floorNodes;
+  int overallLength = 0;
+  List<Node> allNodes = [];
 
   RoomList(@override this.sot, @override this.floorNum, @override this._source,
-      @override this._target, @override this.floorNodes);
+      @override this._target, @override this.floorNodes) {
+    for (List<Node> floor in floorNodes) {
+      overallLength = overallLength + floor.length;
+      for (Node n in floor) {
+        allNodes.add(n);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,34 +411,38 @@ class RoomList extends StatelessWidget {
           title: Text('Select a room'),
         ),
         body: ListView.builder(
+          key: Key('room_list'),
             padding: const EdgeInsets.all(10.0),
-            itemCount: floorNodes[floorNum].length,
+            itemCount: overallLength,
             //List of all the nodes on the specified floor (floorNum).
             itemBuilder: (context, i) {
+              /*if(i == floorNodes[0].length){
+                return Text("Floor 1");
+              }*/
               return new ListTile(
-                  //The name of node i in list floorNum.
-                  title: Text(floorNodes[floorNum][i].name),
+                  key: Key(allNodes[i].id),
+                  title: Text(allNodes[i].id + ': ' + allNodes[i].name),
                   onTap: () {
                     if (sot == 1) {
                       //1 means we are setting the source.
-                      if (floorNodes[floorNum][i] == _target) {
+                      if (allNodes[i] == _target) {
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content:
                               new Text("Can't have matching source and target"),
                         ));
                       } else {
-                        _source = floorNodes[floorNum][i];
+                        _source = allNodes[i];
                         Navigator.pop(context, _source);
                       }
                     } else if (sot == 2) {
                       //2 means we are setting the target.
-                      if (floorNodes[floorNum][i] == _source) {
+                      if (allNodes[i] == _source) {
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content:
                               new Text("Can't have matching source and target"),
                         ));
                       } else {
-                        _target = floorNodes[floorNum][i];
+                        _target = allNodes[i];
                         Navigator.pop(context, _target);
                       }
                     }
@@ -336,7 +450,6 @@ class RoomList extends StatelessWidget {
             }));
   }
 }
-
 
 /// [Paint]s the route based on the coordinates for the [Node]s in [path].
 class RoutePainter extends CustomPainter {
@@ -395,12 +508,12 @@ class _Route {
   Node target;
   Graph currentGraph;
   Queue<Node> route;
+  int floor;
+  int stairs = 0;
+  int sourceFloor = 0;
+  int targetFloor = 0;
 
-  _Route(Node source, Node target, int floor, Graph graph) {
-    currentGraph = graph;
-
-    this.source = source;
-    this.target = target;
+  _Route(this.source, this.target, this.floor, this.currentGraph) {
     if (currentGraph != null) {
       currentGraph =
           Navigation.calculateShortestPathFromSource(currentGraph, this.source);
@@ -409,6 +522,36 @@ class _Route {
 
   /// Calls [Navigation.pathToTarget] to create a [path].
   Queue<Node> generateRoute() {
+    if (source.id.startsWith('G', 0)) {
+      sourceFloor = 0;
+    } else if (source.id.startsWith('S', 0)) {
+      sourceFloor = int.parse(source.id.substring(4, 5));
+    } else {
+      sourceFloor = int.parse(source.id.substring(0, 1));
+    }
+    if (target.id.startsWith('G', 0)) {
+      targetFloor = 0;
+    } else if (target.id.startsWith('S', 0)) {
+      targetFloor = int.parse(target.id.substring(4, 5));
+    } else {
+      targetFloor = int.parse(target.id.substring(0, 1));
+    }
+
+    if (source.id.substring(0, 1) != target.id.substring(0, 1)) {
+      if (source.id.startsWith('G', 0)) {
+        stairs = 1;
+      } else if (sourceFloor < targetFloor) {
+        stairs = sourceFloor + 1;
+      } else {
+        stairs = sourceFloor - 1;
+      }
+
+      for (Node n in currentGraph.nodes) {
+        if (n.id == 'S.00$stairs') {
+          target = n;
+        }
+      }
+    }
     route =
         Queue<Node>.from(Navigation.pathToTarget(currentGraph, source, target));
     return route;

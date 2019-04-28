@@ -47,6 +47,13 @@ void main() {
       await driver.tap(find.byValueKey('find_a_room_tile'));
       await driver.waitFor(find.byType('FindARoomFragment'));
     });
+
+    // Test the 'Map' tile.
+    test('Map', () async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('map_tile'));
+      await driver.waitFor(find.byType('BuildingMapFragment'));
+    });
   });
 
   // Tests for the 'Explore a floor' section.
@@ -251,9 +258,7 @@ void main() {
     });
   });
 
-  //Tests for 'Find a Room Section'
-  group('Find a Room', () {
-
+  group('Find a room', () {
     // Known good/bad room values.
     final String invalidRoom = 'ZZZZZZ';
     final String validRoom1 = '1.002';
@@ -352,27 +357,90 @@ void main() {
 
         await driver.tap(find.byType('MaterialButton'), timeout: Duration(seconds: 10));
       });
+
+      // Test SearchResultsPage
+      group('SearchResultsPage', () {
+        // Check directions loaded
+        test('Test directions loaded', () async {
+          //Wait for directions
+          await driver.scrollUntilVisible(find.byType('ListView'),
+              find.byValueKey('directions_list'));
+        });
+
+        // Test refresh when finding exit
+        // Check directions loaded
+        test('Find nearest exit', () async {
+          await driver.tap(find.byType('FlatButton'));
+          Future<void>.delayed(Duration(seconds: 6));
+
+          // Check list with new destination
+          await driver.scrollUntilVisible(find.byType('ListView'),
+              find.byValueKey('directions_list'));
+        });
+      });
+    });
+  });
+
+  group('Map', () {
+    SerializableFinder sourceButtonFinder = find.byValueKey('source_btn');
+    SerializableFinder targetButtonFinder = find.byValueKey('target_btn');
+    SerializableFinder drawButtonFinder = find.byValueKey('draw_btn');
+    SerializableFinder dropdownButtonFinder = find.byValueKey('dropdown_btn');
+    SerializableFinder roomListFinder = find.byValueKey('room_list');
+
+    // Executes before all tests in the group.
+    setUpAll(() async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('map_tile'));
     });
 
-    // Test SearchResultsPage
-    group('SearchResultsPage', () {
+    group('Select', () {
 
-      // Check directions loaded
-      test('Test directions loaded', () async {
-        //Wait for directions
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('directions_list'));
+      test('source button', () async {
+        await driver.tap(sourceButtonFinder);
+        await driver.tap(find.byType('IconButton'));
       });
 
-      // Test refresh when finding exit
-      // Check directions loaded
-      test('Find nearest exit', () async {
-        await driver.tap(find.byType('FlatButton'));
-        Future<void>.delayed(Duration(seconds: 6));
+      test('target button', () async {
+        await driver.tap(targetButtonFinder);
+        await driver.tap(find.byType('IconButton'));
+      });
+    });
 
-        // Check list with new destination
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('directions_list'));
+    group('Select and draw', () {
+      SerializableFinder sourceFinder;
+      SerializableFinder targetFinder;
+      test('route for the same floor', () async {
+        sourceFinder = find.byValueKey('G.063');
+        targetFinder = find.byValueKey('G.071');
+
+        await driver.tap(sourceButtonFinder);
+        await driver.scrollUntilVisible(roomListFinder, sourceFinder, dyScroll: -150);
+        await driver.tap(find.byValueKey('G.063'));
+
+        await driver.tap(targetButtonFinder);
+        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
+        await driver.tap(find.byValueKey('G.071'));
+
+        await driver.tap(drawButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
+      });
+
+
+      test('route across multiple floors', () async {
+        sourceFinder = find.byValueKey('G.063');
+        targetFinder = find.byValueKey('1.006');
+
+        await driver.tap(sourceButtonFinder);
+        await driver.scrollUntilVisible(roomListFinder, sourceFinder, dyScroll: -150);
+        await driver.tap(sourceFinder);
+
+        await driver.tap(targetButtonFinder);
+        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -200);
+        await driver.tap(targetFinder);
+
+        await driver.tap(drawButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
       });
     });
   });
