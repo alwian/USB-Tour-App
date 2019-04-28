@@ -281,68 +281,57 @@ void main() {
         await driver.waitFor(find.text('Please select a room'));
       });
 
-      // Test invalid input, invalid value for first TextField
-      test('Invalid input first text field', () async {
+      // Test invalid input, invalid value first TextField
+      test('Invalid input & default suggestion first field', () async {
         await driver.tap(find.byValueKey('destination'));
         await driver.enterText(invalidRoom);
         await driver.tap(find.byType('MaterialButton'));
+
+        //Remove suggestion
+        await driver.tap(find.text('Lecture Theater'));
+        //Remove second suggestion
+        await driver.tap(find.text('1.006'));
 
         //Wait for error message
         await driver.waitFor(find.text('Please select a room'));
       });
 
-      // Test invalid input, invalid value for second TextField
-      test('Invalid input second text field', () async {
+      // Test invalid input, invalid value second field
+      test('Invalid input & default suggestion second Textfield', () async {
         await driver.tap(find.byValueKey('current_location'));
         await driver.enterText(invalidRoom);
         await driver.tap(find.byType('MaterialButton'));
+
+        //Remove suggestion
+        await driver.tap(find.text('Cafe'));
+
+        Future<void>.delayed(Duration(seconds: 1));
+
+        //Remove second suggestion
+        await driver.tap(find.text('G.071'));
 
         //Wait for error message
         await driver.waitFor(find.text('Please select a room'));
       });
 
-      // Test default suggestions for fist TextField
-      test('Default suggestions first field', () async {
-        await driver.tap(find.byValueKey('destination'));
-        await driver.enterText(" ");
-        await Future<void>.delayed(Duration(seconds: 1));
-
-        //Wait for dropdown
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('default_suggestions_destination'));
-      });
-
-      // Test default suggestions for second TextField
-      test('Default suggestions second field', () async {
-        await driver.tap(find.byValueKey('current_location'));
-        await driver.enterText(validRoom1);
-        await Future<void>.delayed(Duration(seconds: 1));
-
-        //Wait for dropdown
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('default_suggestions_current'));
-      });
 
       // Test dropdown suggestions for first TextField
       test('Genereated suggestions first field', () async {
         await driver.tap(find.byValueKey('destination'));
-        await driver.enterText(validRoom1);
+        await driver.enterText("1.010");
         await Future<void>.delayed(Duration(seconds: 3));
 
-        //Wait for dropdown
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('destination_suggestion'));
+        // Tap suggestion to remove it
+        await driver.tap(find.byType('ListTile'));
       });
 
       // Test dropdown suggestions for second TextField
-      test('Genereated suggestions first field', () async {
+      test('Genereated suggestions second field', () async {
         await driver.tap(find.byValueKey('current_location'));
-        await driver.enterText(validRoom1);
-        await Future<void>.delayed(Duration(seconds: 3));
+        await driver.enterText("3.018");
 
-        //Wait for dropdown
-        await driver.scrollUntilVisible(find.byType('ListView'),
-            find.byValueKey('suggestions_current'));
+        // Tap suggestion to remove it
+        await driver.tap(find.byType('ListTile'));
       });
 
       // Test valid input
@@ -351,18 +340,24 @@ void main() {
         await driver.tap(find.byValueKey('destination'));
         await driver.enterText(validRoom1);
 
+        // Tap suggestion to remove it
+        await driver.tap(find.byType('ListTile'));
+
         // Second TextField
         await driver.tap(find.byValueKey('current_location'));
         await driver.enterText(validRoom2);
+
+        // Tap suggestion to remove it
+        await driver.tap(find.byType('ListTile'));
 
         await driver.tap(find.byType('MaterialButton'), timeout: Duration(seconds: 10));
       });
     });
 
     // Test SearchResultsPage
-    group('SearchResultsPage', () {
+    /*group('SearchResultsPage', () {
       //Check image loaded
-      test('Test imgade loaded', () async {
+      test('Test image loaded', () async {
         await driver.waitFor(find.byValueKey('map_image'));
       });
 
@@ -384,7 +379,7 @@ void main() {
         await driver.scrollUntilVisible(find.byType('ListView'),
             find.byValueKey('directions_list'));
       });
-    });
+    });*/
   });
 
   // Executes after all tests.
