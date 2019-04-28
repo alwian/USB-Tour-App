@@ -355,11 +355,7 @@ void main() {
     });
 
     // Test SearchResultsPage
-    /*group('SearchResultsPage', () {
-      //Check image loaded
-      test('Test image loaded', () async {
-        await driver.waitFor(find.byValueKey('map_image'));
-      });
+    group('SearchResultsPage', () {
 
       // Check directions loaded
       test('Test directions loaded', () async {
@@ -372,14 +368,13 @@ void main() {
       // Check directions loaded
       test('Find nearest exit', () async {
         await driver.tap(find.byType('FlatButton'));
-        Future<void>.delayed(Duration(seconds: 10));
+        Future<void>.delayed(Duration(seconds: 6));
 
-        // Check list and image with new destination
-        await driver.waitFor(find.byValueKey('map_image'));
+        // Check list with new destination
         await driver.scrollUntilVisible(find.byType('ListView'),
             find.byValueKey('directions_list'));
       });
-    });*/
+    });
   });
 
   // Executes after all tests.
