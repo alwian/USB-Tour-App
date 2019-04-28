@@ -6,6 +6,9 @@
 ///
 /// Author: Connor Harris
 /// Student No: 170346489
+///
+/// Author: Jamie Wolfenden
+/// Student No: 160379158
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
