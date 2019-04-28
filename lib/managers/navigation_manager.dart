@@ -144,7 +144,7 @@ class NavigationManager {
 
     // Create a [Node] for all rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
-      nodes[m['ID']] = Node.fromDB(m['ID'],m['Name'], m['XCoord'].toDouble(), m['YCoord'].toDouble());
+      nodes[m['ID']] = Node.fromDB(m['Name'], m['XCoord'].toDouble(), m['YCoord'].toDouble(), m['ID']);
     }
   }
 }
