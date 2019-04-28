@@ -47,6 +47,13 @@ void main() {
       await driver.tap(find.byValueKey('find_a_room_tile'));
       await driver.waitFor(find.byType('FindARoomFragment'));
     });
+
+    // Test the 'Map' tile.
+    test('Map', () async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('map_tile'));
+      await driver.waitFor(find.byType('BuildingMapFragment'));
+    });
   });
 
   // Tests for the 'Explore a floor' section.
@@ -251,10 +258,62 @@ void main() {
     });
   });
 
+  group('Map', () {
+    SerializableFinder sourceButtonFinder = find.byValueKey('source_btn');
+    SerializableFinder targetButtonFinder = find.byValueKey('target_btn');
+    SerializableFinder drawButtonFinder = find.byValueKey('draw_btn');
+    SerializableFinder dropdownButtonFinder = find.byValueKey('dropdown_btn');
+
+    // Executes before all tests in the group.
+    setUpAll(() async {
+      await driver.tap(drawerButtonFinder);
+      await driver.tap(find.byValueKey('map_tile'));
+    });
+
+    group('Select and draw', () {
+      test('Same floor nav', () async {
+        await driver.tap(sourceButtonFinder);
+        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.063'), dyScroll: -5);
+        await driver.tap(find.byValueKey('G.063'));
+
+        await driver.tap(targetButtonFinder);
+        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.071'), dyScroll: -5);
+        await driver.tap(find.byValueKey('G.071'));
+
+        await driver.tap(drawButtonFinder);
+      });
+
+      test('Multiple floor nav', () async {
+        await driver.tap(sourceButtonFinder);
+        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.063'), dyScroll: -10);
+        await driver.tap(find.byValueKey('G.063'));
+
+        await driver.tap(targetButtonFinder);
+        await driver.scrollUntilVisible(find.byType('LiatView.builder'), find.byValueKey('1.006'), dyScroll: -10);
+        await driver.tap(find.byValueKey('1.006'));
+
+        await driver.tap(drawButtonFinder);
+        
+        await driver.tap(dropdownButtonFinder);
+        await driver.tap(find.byValueKey('Floor 1'));
+
+        await driver.tap(targetButtonFinder);
+        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('1.006'), dyScroll: -10 );
+        await driver.tap(find.byValueKey('1.006'));
+        await driver.tap(find.byValueKey('1.006'));
+
+        await driver.tap(drawButtonFinder);
+
+        
+      });
+    });
+  });
+
   // Executes after all tests.
   tearDownAll(() async {
     if (driver != null) {
       driver.close();
     }
   });
+
 }
