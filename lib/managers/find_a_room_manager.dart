@@ -8,8 +8,6 @@ import 'package:csc2022_app/navigation/node.dart';
 import 'package:csc2022_app/navigation/graph.dart';
 import 'package:csc2022_app/managers/navigation_manager.dart';
 import 'dart:collection';
-import 'package:flutter/foundation.dart';
-import 'dart:developer';
 
 /// Handles data retrieval for a [SearchFormPage] or a [SearchResultsPage]
 class FindARoomManager {

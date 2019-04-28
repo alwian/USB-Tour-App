@@ -1,7 +1,6 @@
 /// Author: Mason Powell
 /// Student No: 170256018
 
-
 import 'package:csc2022_app/navigation/node.dart';
 
 /// Represents a graph, just a set of nodes but could be expanded.

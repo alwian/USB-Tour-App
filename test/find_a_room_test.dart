@@ -5,8 +5,6 @@ import 'package:test/test.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:csc2022_app/navigation/node.dart';
 import 'dart:collection';
-import 'package:sqflite/sqflite.dart';
-
 
 /// Main method to run tests
 void main() {
