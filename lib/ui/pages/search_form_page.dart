@@ -367,7 +367,7 @@ class _SearchFormState extends State<SearchFormPage> {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       alignment: Alignment(-.2, 0),
-                      image: AssetImage('assets/images/fina_a_room/search_room_form_background.png'),
+                      image: AssetImage('assets/images/find_a_room/search_room_form_background.png'),
                       fit: BoxFit.cover),
                 ),
                 alignment: Alignment.center,
