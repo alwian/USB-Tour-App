@@ -167,7 +167,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               },
             ),
             IconButton(
-              key: Key('terget_btn'),
+              key: Key('target_btn'),
               icon: Icon(Icons.lens),
               onPressed: () {
                 setState(() {

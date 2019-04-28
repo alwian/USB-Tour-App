@@ -313,23 +313,14 @@ void main() {
         await driver.tap(sourceFinder);
 
         await driver.tap(targetButtonFinder);
-        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
+        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -200);
         await driver.tap(targetFinder);
 
         await driver.tap(drawButtonFinder);
         await Future<void>.delayed(Duration(seconds: 5));
-        
-        //await driver.tap(dropdownButtonFinder);
-        //await driver.tap(find.byValueKey('Floor 1'));
-
-       // await driver.tap(targetButtonFinder);
-       // await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
-       // await driver.tap(targetFinder);
-
-       // await driver.tap(drawButtonFinder);
 
       });
-    }, timeout: Timeout(Duration(minutes: 10)));
+    });
   });
 
   // Executes after all tests.
