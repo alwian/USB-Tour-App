@@ -65,7 +65,13 @@ class _ColorScheme {
 }
 
 /// Page used to chnage different app settings.
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return SettingsPageState();
+  }
+}
+class SettingsPageState extends State<SettingsPage> {
 
   /// Sets relevant preferences based on the selected scheme.
   Future<void> _setColorScheme(_ColorScheme scheme) async {
@@ -105,6 +111,9 @@ class SettingsPage extends StatelessWidget {
                     scaffKey.currentState.showSnackBar(
                       SnackBar(content: Text('Please reload the app for changes to take effect!'))
                     );
+                    setState(() {
+                      _selectedColorScheme = value;
+                    });
                   },
                   items: _colorSchemes.map((_ColorScheme value) {
                     return DropdownMenuItem<_ColorScheme>(
