@@ -263,6 +263,7 @@ void main() {
     SerializableFinder targetButtonFinder = find.byValueKey('target_btn');
     SerializableFinder drawButtonFinder = find.byValueKey('draw_btn');
     SerializableFinder dropdownButtonFinder = find.byValueKey('dropdown_btn');
+    SerializableFinder roomListFinder = find.byValueKey('room_list');
 
     // Executes before all tests in the group.
     setUpAll(() async {
@@ -270,43 +271,65 @@ void main() {
       await driver.tap(find.byValueKey('map_tile'));
     });
 
-    group('Select and draw', () {
-      test('Same floor nav', () async {
+    group('Select', () {
+
+      test('source button', () async {
         await driver.tap(sourceButtonFinder);
-        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.063'), dyScroll: -5);
+        await driver.tap(find.byType('IconButton'));
+      });
+
+      test('target button', () async {
+        await driver.tap(targetButtonFinder);
+        await driver.tap(find.byType('IconButton'));
+      });
+    });
+
+    group('Select and draw', () {
+      SerializableFinder sourceFinder;
+      SerializableFinder targetFinder;
+      test('route for the same floor', () async {
+        sourceFinder = find.byValueKey('G.063');
+        targetFinder = find.byValueKey('G.071');
+
+        await driver.tap(sourceButtonFinder);
+        await driver.scrollUntilVisible(roomListFinder, sourceFinder, dyScroll: -150);
         await driver.tap(find.byValueKey('G.063'));
 
         await driver.tap(targetButtonFinder);
-        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.071'), dyScroll: -5);
+        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
         await driver.tap(find.byValueKey('G.071'));
 
         await driver.tap(drawButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
       });
 
-      test('Multiple floor nav', () async {
+
+      test('route across multiple floors', () async {
+        sourceFinder = find.byValueKey('G.063');
+        targetFinder = find.byValueKey('1.006');
+
         await driver.tap(sourceButtonFinder);
-        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('G.063'), dyScroll: -10);
-        await driver.tap(find.byValueKey('G.063'));
+        await driver.scrollUntilVisible(roomListFinder, sourceFinder, dyScroll: -150);
+        await driver.tap(sourceFinder);
 
         await driver.tap(targetButtonFinder);
-        await driver.scrollUntilVisible(find.byType('LiatView.builder'), find.byValueKey('1.006'), dyScroll: -10);
-        await driver.tap(find.byValueKey('1.006'));
+        await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
+        await driver.tap(targetFinder);
 
         await driver.tap(drawButtonFinder);
+        await Future<void>.delayed(Duration(seconds: 5));
         
-        await driver.tap(dropdownButtonFinder);
-        await driver.tap(find.byValueKey('Floor 1'));
+        //await driver.tap(dropdownButtonFinder);
+        //await driver.tap(find.byValueKey('Floor 1'));
 
-        await driver.tap(targetButtonFinder);
-        await driver.scrollUntilVisible(find.byType('ListView.builder'), find.byValueKey('1.006'), dyScroll: -10 );
-        await driver.tap(find.byValueKey('1.006'));
-        await driver.tap(find.byValueKey('1.006'));
+       // await driver.tap(targetButtonFinder);
+       // await driver.scrollUntilVisible(roomListFinder, targetFinder, dyScroll: -150);
+       // await driver.tap(targetFinder);
 
-        await driver.tap(drawButtonFinder);
+       // await driver.tap(drawButtonFinder);
 
-        
       });
-    });
+    }, timeout: Timeout(Duration(minutes: 10)));
   });
 
   // Executes after all tests.

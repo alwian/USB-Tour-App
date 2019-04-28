@@ -129,6 +129,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
               return DropdownMenuItem<Floor>(
+                key: Key(value.name),
                 value: value,
                 child: Text(value.name),
               );
@@ -410,6 +411,7 @@ class RoomList extends StatelessWidget {
           title: Text('Select a room'),
         ),
         body: ListView.builder(
+          key: Key('room_list'),
             padding: const EdgeInsets.all(10.0),
             itemCount: overallLength,
             //List of all the nodes on the specified floor (floorNum).
