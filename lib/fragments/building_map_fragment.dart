@@ -156,6 +156,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
+              key: Key('source_btn'),
               icon: Icon(Icons.trip_origin),
               onPressed: () {
                 setState(() {
@@ -164,6 +165,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               },
             ),
             IconButton(
+              key: Key('terget_btn'),
               icon: Icon(Icons.lens),
               onPressed: () {
                 setState(() {
@@ -174,6 +176,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
+          key: Key('draw_route'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -274,6 +277,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
+              key: Key('source_btn'),
               icon: Icon(Icons.trip_origin),
               onPressed: () {
                 setState(() {
@@ -282,6 +286,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
               },
             ),
             IconButton(
+              key: Key('target_btn'),
               icon: Icon(Icons.lens),
               onPressed: () {
                 setState(() {
@@ -292,6 +297,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
+          key: Key('draw_route'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -307,7 +313,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
                 } else {
                   sourceFloor = int.parse(_source.id.substring(0, 1));
                 }
-                
+
                 if (_target.id.startsWith('G', 0)) {
                   targetFloor = 0;
                 } else if (_target.id.startsWith('S', 0)) {
