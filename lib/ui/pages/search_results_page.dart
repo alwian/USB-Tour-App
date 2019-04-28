@@ -47,10 +47,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
   /// Get [List] of directions from FindARoomManager
   Future<List<String>> updateAndGetList() async {
-    await FindARoomManager.getDirections(widget.formRooms);
 
     // return the list here
-    return FindARoomManager.getDirections(widget.formRooms);
+    return await FindARoomManager.getDirections(widget.formRooms);
   }
 
   ///Method to build return a [FutureBuilder] that generates a [ListView] of directions
