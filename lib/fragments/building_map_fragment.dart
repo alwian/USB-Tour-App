@@ -113,7 +113,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
-                if(_target != null) {
+                if (_target != null) {
                   if (_target.id.startsWith('S')) {
                     _source = _target.copy();
                   }
@@ -152,68 +152,75 @@ class _BuildingMapState extends State<BuildingMapFragment> {
         ]),
         bottomNavigationBar: BottomAppBar(
             child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.trip_origin),
-                  onPressed: () {
-                    setState(() {
-                      _navigateAndDisplayRoomList(context, 1);
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.lens),
-                  onPressed: () {
-                    setState(() {
-                      _navigateAndDisplayRoomList(context, 2);
-                    });
-                  },
-                ),
-              ],
-            )),
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.trip_origin),
+              onPressed: () {
+                setState(() {
+                  _navigateAndDisplayRoomList(context, 1);
+                });
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.lens),
+              onPressed: () {
+                setState(() {
+                  _navigateAndDisplayRoomList(context, 2);
+                });
+              },
+            ),
+          ],
+        )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
                 Scaffold.of(context).showSnackBar(new SnackBar(
                   content:
-                  new Text("Both source and target must be selected first"),
+                      new Text("Both source and target must be selected first"),
                 ));
               } else {
-                if(_source.id.startsWith('G', 0)) {
+                if (_source.id.startsWith('G', 0)) {
                   sourceFloor = 0;
                 } else if (_source.id.startsWith('S', 0)) {
-                  sourceFloor = int.parse(_source.id.substring(3,4));
+                  sourceFloor = int.parse(_source.id.substring(3, 4));
                 } else {
-                  sourceFloor = int.parse(_source.id.substring(0,1));
+                  sourceFloor = int.parse(_source.id.substring(0, 1));
                 }
-                if(_target.id.startsWith('G', 0)) {
+
+                if (_target.id.startsWith('G', 0)) {
                   targetFloor = 0;
                 } else if (_target.id.startsWith('S', 0)) {
-                  targetFloor = int.parse(_target.id.substring(3,4));
+                  targetFloor = int.parse(_target.id.substring(3, 4));
                 } else {
                   targetFloor = int.parse(_target.id.substring(0, 1));
                 }
 
-                if(_source.id.substring(0,1) != _target.id.substring(0,1)) {
-                  if(_source.id.startsWith('G', 0)) {
+                if (_source.id.substring(0, 1) != _target.id.substring(0, 1)) {
+                  if (_source.id.startsWith('G', 0)) {
                     stairs = 1;
-                  } else if(sourceFloor < targetFloor) {
+                  } else if (sourceFloor < targetFloor) {
                     stairs = sourceFloor + 1;
                   } else {
-                    stairs = sourceFloor -1;
+                    stairs = sourceFloor - 1;
                   }
 
-                  for(Node n in selectedFloor.graph.nodes){
-                    if(n.id == 'S.00$stairs') {
+                  for (Node n in selectedFloor.graph.nodes) {
+                    if (n.id == 'S.00$stairs') {
                       _target = n;
                     }
                   }
                 }
                 path = _Route(_source, _target, floorNum, selectedFloor.graph)
                     .generateRoute();
+
+                if (path.isEmpty) {
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: new Text("No route available!"),
+                  ));
+                }
               }
             });
           },
@@ -229,7 +236,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
-                if(_target != null) {
+                if (_target != null) {
                   if (_target.id.startsWith('S')) {
                     _source = _target.copy();
                   }
@@ -263,68 +270,78 @@ class _BuildingMapState extends State<BuildingMapFragment> {
         ]),
         bottomNavigationBar: BottomAppBar(
             child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.trip_origin),
-                  onPressed: () {
-                    setState(() {
-                      _navigateAndDisplayRoomList(context, 1);
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.lens),
-                  onPressed: () {
-                    setState(() {
-                      _navigateAndDisplayRoomList(context, 2);
-                    });
-                  },
-                ),
-              ],
-            )),
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.trip_origin),
+              onPressed: () {
+                setState(() {
+                  _navigateAndDisplayRoomList(context, 1);
+                });
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.lens),
+              onPressed: () {
+                setState(() {
+                  _navigateAndDisplayRoomList(context, 2);
+                });
+              },
+            ),
+          ],
+        )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
                 Scaffold.of(context).showSnackBar(new SnackBar(
                   content:
-                  new Text("Both source and target must be selected first"),
+                      new Text("Both source and target must be selected first"),
                 ));
               } else {
-                if(_source.id.startsWith('G', 0)) {
+                if (_source.id.startsWith('G', 0)) {
                   sourceFloor = 0;
                 } else if (_source.id.startsWith('S', 0)) {
-                  sourceFloor = int.parse(_source.id.substring(4,5));
+                  sourceFloor = int.parse(_source.id.substring(4, 5));
                 } else {
-                  sourceFloor = int.parse(_source.id.substring(0,1));
+                  sourceFloor = int.parse(_source.id.substring(0, 1));
                 }
-                if(_target.id.startsWith('G', 0)) {
+                
+                if (_target.id.startsWith('G', 0)) {
                   targetFloor = 0;
                 } else if (_target.id.startsWith('S', 0)) {
-                  targetFloor = int.parse(_target.id.substring(4,5));
+                  targetFloor = int.parse(_target.id.substring(4, 5));
                 } else {
                   targetFloor = int.parse(_target.id.substring(0, 1));
                 }
 
-                if(_source.id.substring(0,1) != _target.id.substring(0,1)) {
-                  if(_source.id.startsWith('G', 0)) {
+                if (_source.id.substring(0, 1) != _target.id.substring(0, 1)) {
+                  if (_source.id.startsWith('G', 0)) {
                     stairs = 1;
-                  } else if(sourceFloor < targetFloor) {
+                  } else if (sourceFloor < targetFloor) {
                     stairs = sourceFloor + 1;
                   } else {
-                    stairs = sourceFloor -1;
+                    stairs = sourceFloor - 1;
                   }
 
-                  for(Node n in selectedFloor.graph.nodes){
-                    if(n.id == 'S.00$stairs') {
+                  if (selectedFloor.floorNumber != sourceFloor) {}
+
+                  for (Node n in selectedFloor.graph.nodes) {
+                    if (n.id == 'S.00$stairs') {
                       _target = n;
                     }
                   }
                 }
+
                 path = _Route(_source, _target, floorNum, selectedFloor.graph)
                     .generateRoute();
+
+                if (path.isEmpty) {
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: new Text("No route available!"),
+                  ));
+                }
               }
             });
           },
@@ -367,12 +384,11 @@ class RoomList extends StatelessWidget {
   int overallLength = 0;
   List<Node> allNodes = [];
 
-
   RoomList(@override this.sot, @override this.floorNum, @override this._source,
       @override this._target, @override this.floorNodes) {
-    for(List<Node> floor in floorNodes) {
+    for (List<Node> floor in floorNodes) {
       overallLength = overallLength + floor.length;
-      for(Node n in floor) {
+      for (Node n in floor) {
         allNodes.add(n);
       }
     }
@@ -393,7 +409,7 @@ class RoomList extends StatelessWidget {
                 return Text("Floor 1");
               }*/
               return new ListTile(
-                //The name of node i in list floorNum.
+                  //The name of node i in list floorNum.
                   title: Text(allNodes[i].id + ': ' + allNodes[i].name),
                   onTap: () {
                     if (sot == 1) {
@@ -401,7 +417,7 @@ class RoomList extends StatelessWidget {
                       if (allNodes[i] == _target) {
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content:
-                          new Text("Can't have matching source and target"),
+                              new Text("Can't have matching source and target"),
                         ));
                       } else {
                         _source = allNodes[i];
@@ -412,7 +428,7 @@ class RoomList extends StatelessWidget {
                       if (allNodes[i] == _source) {
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content:
-                          new Text("Can't have matching source and target"),
+                              new Text("Can't have matching source and target"),
                         ));
                       } else {
                         _target = allNodes[i];
@@ -423,7 +439,6 @@ class RoomList extends StatelessWidget {
             }));
   }
 }
-
 
 /// [Paint]s the route based on the coordinates for the [Node]s in [path].
 class RoutePainter extends CustomPainter {
@@ -488,7 +503,6 @@ class _Route {
   int targetFloor = 0;
 
   _Route(this.source, this.target, this.floor, this.currentGraph) {
-
     if (currentGraph != null) {
       currentGraph =
           Navigation.calculateShortestPathFromSource(currentGraph, this.source);
@@ -497,40 +511,38 @@ class _Route {
 
   /// Calls [Navigation.pathToTarget] to create a [path].
   Queue<Node> generateRoute() {
-    if(source.id.startsWith('G', 0)) {
+    if (source.id.startsWith('G', 0)) {
       sourceFloor = 0;
     } else if (source.id.startsWith('S', 0)) {
-      sourceFloor = int.parse(source.id.substring(4,5));
-    }else {
-      sourceFloor = int.parse(source.id.substring(0,1));
+      sourceFloor = int.parse(source.id.substring(4, 5));
+    } else {
+      sourceFloor = int.parse(source.id.substring(0, 1));
     }
-    if(target.id.startsWith('G', 0)) {
+    if (target.id.startsWith('G', 0)) {
       targetFloor = 0;
     } else if (target.id.startsWith('S', 0)) {
-      targetFloor = int.parse(target.id.substring(4,5));
-    }else {
+      targetFloor = int.parse(target.id.substring(4, 5));
+    } else {
       targetFloor = int.parse(target.id.substring(0, 1));
     }
 
-      if(source.id.substring(0,1) != target.id.substring(0,1)) {
-        if(source.id.startsWith('G', 0)) {
-          stairs = 1;
-        } else if(sourceFloor < targetFloor) {
-          stairs = sourceFloor + 1;
-        } else {
-          stairs = sourceFloor -1;
-        }
+    if (source.id.substring(0, 1) != target.id.substring(0, 1)) {
+      if (source.id.startsWith('G', 0)) {
+        stairs = 1;
+      } else if (sourceFloor < targetFloor) {
+        stairs = sourceFloor + 1;
+      } else {
+        stairs = sourceFloor - 1;
+      }
 
-        for(Node n in currentGraph.nodes){
-          if(n.id == 'S.00$stairs') {
-            target = n;
-          }
+      for (Node n in currentGraph.nodes) {
+        if (n.id == 'S.00$stairs') {
+          target = n;
         }
       }
-      route =
-      Queue<Node>.from(Navigation.pathToTarget(currentGraph, source, target));
-      return route;
     }
+    route =
+        Queue<Node>.from(Navigation.pathToTarget(currentGraph, source, target));
+    return route;
   }
-
-
+}
