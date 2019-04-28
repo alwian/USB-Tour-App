@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'helpers/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:csc2022_app/pages/home_page.dart';
+import 'package:csc2022_app/ui/pages/home_page.dart';
 
 SharedPreferences prefs;
 Set<String> prefKeys;

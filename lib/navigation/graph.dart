@@ -2,7 +2,7 @@
 /// Student No. 170256018.
 
 
-import 'node.dart';
+import 'package:csc2022_app/navigation/node.dart';
 
 /// Represents a graph, just a set of nodes but could be expanded.
 class Graph {

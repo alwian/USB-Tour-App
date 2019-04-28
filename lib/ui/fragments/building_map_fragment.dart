@@ -4,9 +4,9 @@
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:photo_view/photo_view.dart';
-import 'package:csc2022_app/algorithm/graph.dart';
-import 'package:csc2022_app/algorithm/node.dart';
-import 'package:csc2022_app/algorithm/navigation.dart';
+import 'package:csc2022_app/navigation/graph.dart';
+import 'package:csc2022_app/navigation/node.dart';
+import 'package:csc2022_app/navigation/navigation.dart';
 import 'package:csc2022_app/managers/navigation_manager.dart';
 
 /// Stores info for a [Floor].

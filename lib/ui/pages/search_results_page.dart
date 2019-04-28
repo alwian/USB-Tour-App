@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
-import 'package:csc2022_app/fragments/building_map_fragment.dart';
-import 'package:csc2022_app/algorithm/node.dart';
+import 'package:csc2022_app/ui/fragments/building_map_fragment.dart';
+import 'package:csc2022_app/navigation/node.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';

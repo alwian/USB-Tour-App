@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
-import 'package:csc2022_app/pages/floor_feature_list_page.dart';
+import 'package:csc2022_app/ui/pages/floor_feature_list_page.dart';
 
 /// Allows users to view information about different floors in the Urban Sciences Building.
 class ExploreAFloorFragment extends StatefulWidget {

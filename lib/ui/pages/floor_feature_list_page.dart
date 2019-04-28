@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
-import 'package:csc2022_app/pages/room_feature_list_page.dart';
+import 'package:csc2022_app/ui/pages/room_feature_list_page.dart';
 
 /// A Page for displaying features in a room in the Urban Sciences Building.
 class FloorFeatureListPage extends StatefulWidget {

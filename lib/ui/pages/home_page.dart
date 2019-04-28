@@ -2,12 +2,12 @@
 /// Student No: 170453905
 
 import 'package:flutter/material.dart';
-import 'package:csc2022_app/fragments/find_a_room_fragment.dart';
-import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
-import 'package:csc2022_app/fragments/building_information_fragment.dart';
-import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
-import 'package:csc2022_app/fragments/building_map_fragment.dart';
-import 'package:csc2022_app/pages/settings_page.dart';
+import 'package:csc2022_app/ui/fragments/find_a_room_fragment.dart';
+import 'package:csc2022_app/ui/fragments/explore_a_floor_fragment.dart';
+import 'package:csc2022_app/ui/fragments/building_information_fragment.dart';
+import 'package:csc2022_app/ui/fragments/urban_observatory_fragment.dart';
+import 'package:csc2022_app/ui/fragments/building_map_fragment.dart';
+import 'package:csc2022_app/ui/pages/settings_page.dart';
 
 /// An appbar action.
 class _Action {

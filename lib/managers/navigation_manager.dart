@@ -3,8 +3,8 @@
 
 import 'dart:collection';
 import 'package:csc2022_app/helpers/database_helper.dart';
-import 'package:csc2022_app/algorithm/node.dart';
-import 'package:csc2022_app/algorithm/graph.dart';
+import 'package:csc2022_app/navigation/node.dart';
+import 'package:csc2022_app/navigation/graph.dart';
 
 /// A manager to deal with database operations
 ///
@@ -144,8 +144,7 @@ class NavigationManager {
 
     // Create a [Node] for all rows returned from the DB query.
     for (Map<String, dynamic> m in queryResults) {
-      nodes[m['ID']] = Node.fromDB(m['ID'], m['XCoord'].toDouble(), m['YCoord'].toDouble());
+      nodes[m['ID']] = Node.fromDB(m['ID'],m['Name'], m['XCoord'].toDouble(), m['YCoord'].toDouble());
     }
-
   }
 }

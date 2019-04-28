@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:csc2022_app/pages/search_results_page.dart';
-import 'package:csc2022_app/pages/search_form_page.dart';
+import 'package:csc2022_app/ui/pages/search_results_page.dart';
+import 'package:csc2022_app/ui/pages/search_form_page.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:carousel_slider/carousel_slider.dart';

@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
-import 'package:csc2022_app/algorithm/navigation.dart';
-import 'package:csc2022_app/algorithm/node.dart';
-import 'package:csc2022_app/algorithm/graph.dart';
+import 'package:csc2022_app/navigation/navigation.dart';
+import 'package:csc2022_app/navigation/node.dart';
+import 'package:csc2022_app/navigation/graph.dart';
 import 'dart:collection';
 
 void main() {

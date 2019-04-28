@@ -1,8 +1,8 @@
 /// Author: Mason Powell.
 /// Student No. 170256018.
 
-import 'graph.dart';
-import 'node.dart';
+import 'package:csc2022_app/navigation/graph.dart';
+import 'package:csc2022_app/navigation/node.dart';
 import 'dart:collection';
 
 /// Returns the [graph] with the [shortestPath] and [distance] set relative to the [source].

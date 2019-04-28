@@ -3,9 +3,9 @@
 
 import 'package:csc2022_app/helpers/database_helper.dart';
 import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
-import 'package:csc2022_app/algorithm/navigation.dart';
-import 'package:csc2022_app/algorithm/node.dart';
-import 'package:csc2022_app/algorithm/graph.dart';
+import 'package:csc2022_app/navigation/navigation.dart';
+import 'package:csc2022_app/navigation/node.dart';
+import 'package:csc2022_app/navigation/graph.dart';
 import 'package:csc2022_app/managers/navigation_manager.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
