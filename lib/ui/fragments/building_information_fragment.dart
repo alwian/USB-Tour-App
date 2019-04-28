@@ -7,7 +7,7 @@ class BuildingInformationFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Image.asset('assets/images/usb2.jpg'),
+        Image.asset('assets/images/building_information/usb2.jpg'),
         DefaultTabController(
           length: 3,
           child: Column(

@@ -126,7 +126,7 @@ class _ExploreAFragmentState extends State<ExploreAFloorFragment> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Image.asset('assets/images/usb.jpg'),
+        Image.asset('assets/images/explore_a_floor/usb.jpg'),
         Expanded(
           child: _floors == null ? CircularProgressIndicator()
               : _floors.isEmpty ? Center(

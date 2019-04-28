@@ -63,29 +63,31 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/images/ncl_logo.jpg
-    - assets/images/usb.jpg
-    - assets/images/usb2.jpg
-    - assets/images/lecture_theatre.jpg
-    - assets/images/flat_floor.jpg
-    - assets/images/observatory.png
-    - assets/images/search_room_form_background.png
+    # Data
     - assets/databases/data.db
 
+    # Home
+    - assets/images/
+
     # Floor images
-    - assets/images/floor0.png
-    - assets/images/floor1.png
-    - assets/images/floor2.png
-    - assets/images/floor3.png
-    - assets/images/floor4.png
+    - assets/images/floors/
+
+    # Find a room
+    - assets/images/find_a_room/
 
     # Explore a floor
+    - assets/images/explore_a_floor/
     - assets/images/explore_a_floor/floor_0/
     - assets/images/explore_a_floor/floor_1/
     - assets/images/explore_a_floor/floor_2/
     - assets/images/explore_a_floor/floor_3/
     - assets/images/explore_a_floor/floor_4/
 
+    # Building information
+    - assets/images/building_information/
+
+    # Urban Observatory
+    - assets/images/urban_observatory/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

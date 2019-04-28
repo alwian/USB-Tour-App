@@ -13,11 +13,11 @@ class FindARoomFragment extends StatelessWidget {
 
   //List of images to display in Carousel
   final List<String> imageList = [
-    "assets/images/floor0.png",
-    "assets/images/floor1.png",
-    "assets/images/floor2.png",
-    "assets/images/floor3.png",
-    "assets/images/floor4.png"
+    "assets/images/floors/floor0.png",
+    "assets/images/floors/floor1.png",
+    "assets/images/floors/floor2.png",
+    "assets/images/floors/floor3.png",
+    "assets/images/floors/floor4.png"
   ];
 
   ///Method to build button to send users to [SearchFormPage]

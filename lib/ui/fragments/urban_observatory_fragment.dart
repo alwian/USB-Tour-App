@@ -184,7 +184,7 @@ class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                     padding: EdgeInsets.all(16.0),
                     child: Column(
                       children: <Widget>[
-                        Image.asset('assets/images/observatory.png'),
+                        Image.asset('assets/images/urban_observatory/observatory.png'),
                         Container(
                           padding: EdgeInsets.all(16.0),
                           child: Text(widget._aboutText),

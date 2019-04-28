@@ -32,19 +32,19 @@ class BuildingMapFragment extends StatefulWidget {
 class _BuildingMapState extends State<BuildingMapFragment> {
 
   /// Ground floor.
-  Floor floor0 = Floor('Ground floor', 'assets/images/floor0.png', 0);
+  Floor floor0 = Floor('Ground floor', 'assets/images/floors/floor0.png', 0);
 
   /// First floor.
-  Floor floor1 = Floor('Floor 1', 'assets/images/floor1.png', 1);
+  Floor floor1 = Floor('Floor 1', 'assets/images/floors/floor1.png', 1);
 
   /// Second floor.
-  Floor floor2 = Floor('Floor 2', 'assets/images/floor2.png', 2);
+  Floor floor2 = Floor('Floor 2', 'assets/images/floors/floor2.png', 2);
 
   /// Third floor.
-  Floor floor3 = Floor('Floor 3', 'assets/images/floor3.png', 3);
+  Floor floor3 = Floor('Floor 3', 'assets/images/floors/floor3.png', 3);
 
   /// Fourth floor.
-  Floor floor4 = Floor('Floor 4', 'assets/images/floor4.png', 4);
+  Floor floor4 = Floor('Floor 4', 'assets/images/floors/floor4.png', 4);
 
   /// Standard image width.
   double imageWidth = 4961;
