@@ -22,38 +22,74 @@ class Floor {
   Graph graph;
 }
 
+/// A fragment to display an graphical navigation view of the building.
 class BuildingMapFragment extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BuildingMapState();
 }
 
+/// A state of a [BuildingMapFragment].
 class _BuildingMapState extends State<BuildingMapFragment> {
+
+  /// Ground floor.
   Floor floor0 = Floor('Ground floor', 'assets/images/floor0.png', 0);
+
+  /// First floor.
   Floor floor1 = Floor('Floor 1', 'assets/images/floor1.png', 1);
+
+  /// Second floor.
   Floor floor2 = Floor('Floor 2', 'assets/images/floor2.png', 2);
+
+  /// Third floor.
   Floor floor3 = Floor('Floor 3', 'assets/images/floor3.png', 3);
+
+  /// Fourth floor.
   Floor floor4 = Floor('Floor 4', 'assets/images/floor4.png', 4);
+
+  /// Standard image width.
   double imageWidth = 4961;
+
+  /// Standard image height.
   double imageHeight = 3508;
 
+  /// The floor being viewed.
   Floor selectedFloor;
+
+  /// The floor selected fo the floors dropdown.
   Floor dropdownValue;
+
+  /// The floor a route is based on.
   int floorNum;
+
+  /// The floors in the building.
   List<Floor> floors;
+
+  /// The nodes to use when planning a route.
   Map<String, Node> nodes;
 
+  /// The source node of the route.
   Node _source;
+
+  /// The target node of the route.
   Node _target;
+
+  /// The route to display to the user.
   _Route route;
 
+  /// Whether a route contains stairs.
   int stairs = 0;
+
+  /// The floor a route starts on.
   int sourceFloor = 0;
+
+  /// The floor a route ends on.
   int targetFloor = 0;
 
   /// The path of nodes to be drawn.
   Queue<Node> path = new Queue<Node>();
   List<List<Node>> floorNodes = new List<List<Node>>();
 
+  /// Initialise the state.
   @override
   void initState() {
     super.initState();
@@ -404,6 +440,7 @@ class RoomList extends StatelessWidget {
     }
   }
 
+  /// Builds the state.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

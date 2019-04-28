@@ -21,6 +21,7 @@ List<_ColorScheme> _colorSchemes = <_ColorScheme>[
   ),
 ];
 
+/// Represents a set of colors used for the app.
 class _ColorScheme {
   String name;
   Color primaryColor;
@@ -34,6 +35,7 @@ class _ColorScheme {
   Color appBarIconThemeColor;
   Color appBarTextThemeColor;
 
+  /// Defines a [_ColorScheme].
   _ColorScheme(
       this.name,
       this.primaryColor,
@@ -49,8 +51,10 @@ class _ColorScheme {
   );
 }
 
+/// Page used to chnage different app settings.
 class SettingsPage extends StatelessWidget {
 
+  /// Sets relevant preferences based on the selected scheme.
   Future<void> _setColorScheme(_ColorScheme scheme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('primaryColor', scheme.primaryColor.value);
@@ -65,6 +69,7 @@ class SettingsPage extends StatelessWidget {
     prefs.setInt('appBarTextThemeColor', scheme.appBarTextThemeColor.value);
   }
 
+  /// Builds the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

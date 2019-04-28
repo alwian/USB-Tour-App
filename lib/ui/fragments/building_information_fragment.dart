@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+/// A fragment containing useful information about the Urban Sciences Building.
 class BuildingInformationFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,6 +12,7 @@ class BuildingInformationFragment extends StatelessWidget {
           length: 3,
           child: Column(
             children: <Widget>[
+              // Setup TabBar
               TabBar(
                 indicatorColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: Colors.black,
@@ -24,6 +27,7 @@ class BuildingInformationFragment extends StatelessWidget {
                 height: MediaQuery.of(context).size.height - 289,
                 child: TabBarView(
                   children: <Widget>[
+                    // Building info.
                     Container(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       color: Colors.grey[400],
@@ -40,6 +44,7 @@ class BuildingInformationFragment extends StatelessWidget {
                         ],
                       ),
                     ),
+                    // Opening hours.
                     Container(
                       padding: const EdgeInsets.only(left: 20),
                       color: Colors.grey[400],
@@ -59,6 +64,7 @@ class BuildingInformationFragment extends StatelessWidget {
                         ],
                       ),
                     ),
+                    // Contacts.
                     Container(
                       padding: const EdgeInsets.only(left: 20),
                       color: Colors.grey[400],

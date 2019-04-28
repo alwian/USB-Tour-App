@@ -6,7 +6,11 @@ import 'package:csc2022_app/navigation/node.dart';
 
 /// Represents a graph, just a set of nodes but could be expanded.
 class Graph {
+
+   /// The nodes in the graph.
    Set<Node> nodes = {};
+
+   /// The floor the graph represents.
    int floorNumber;
 
    Graph();

@@ -4,8 +4,10 @@
 /// Represents a node and the necessary describing data.
 class Node {
 
+  /// The name of the area this represents.
   String _name;
 
+  /// The unique id for the area this represents.
   String _id;
 
   /// A [List] of nodes for the shortest path to start node.
