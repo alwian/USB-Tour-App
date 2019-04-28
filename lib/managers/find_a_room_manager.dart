@@ -48,7 +48,7 @@ class FindARoomManager {
   /// Easy user interface method to take rooms as [List] of [String]s
   /// and return directions as [List] of [String]s
   static Future<List<String>> getDirections(List<String> formRooms) async {
-    // If source and destinatoin are equal, return error message
+    // If source and destination are equal, return error message
     if(formRooms[0] == formRooms[1]) {
       List<String> errorOut = ['You are already at your destination'];
 
@@ -64,12 +64,6 @@ class FindARoomManager {
   /// Return [Queue] of [Node]s of order between rooms given a [List] of [String]s containing
   /// the current room name and destination room name
   static Future<Queue<Node>> getDirectionsQueue(List<String> rooms) async {
-    // Store startRoom floor as an integer
-    int startFloor;
-    if(rooms[0].substring(0, 1) == "G") {
-      startFloor = 0;
-    }
-
     //Import nodes and populate Graph of Nodes
     Graph startGraph = await NavigationManager.allNodeGraph();
 
@@ -99,8 +93,6 @@ class FindARoomManager {
 
     // Store directions from algorithm
     Queue<Node> directions = Navigation.pathToTarget(startGraph, source, destination);
-
-    String s = directions.toString();
 
     return directions;
   }
