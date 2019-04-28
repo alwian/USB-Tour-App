@@ -74,7 +74,7 @@ void main() {
     Node three = new Node('1.002');
 
     // Expected returned Queue
-    Queue<Node> expectedOutput;
+    Queue<Node> expectedOutput = new Queue<Node>();
     expectedOutput.add(one);
     expectedOutput.add(two);
     expectedOutput.add(three);
@@ -99,7 +99,7 @@ void main() {
     Node three = new Node('1.002');
 
     // Valid input Queue
-    Queue<Node> validInput;
+    Queue<Node> validInput  = new Queue<Node>();
     validInput.add(one);
     validInput.add(two);
     validInput.add(three);
@@ -123,7 +123,7 @@ void main() {
     Node invalidTwo = new Node('G.062');
 
     // Invalid input [Queue]
-    Queue<Node> invalidInput;
+    Queue<Node> invalidInput  = new Queue<Node>();
     invalidInput.add(invalidOne);
     invalidInput.add(invalidTwo);
     
