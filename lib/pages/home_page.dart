@@ -7,6 +7,20 @@ import 'package:csc2022_app/fragments/explore_a_floor_fragment.dart';
 import 'package:csc2022_app/fragments/building_information_fragment.dart';
 import 'package:csc2022_app/fragments/urban_observatory_fragment.dart';
 import 'package:csc2022_app/fragments/building_map_fragment.dart';
+import 'package:csc2022_app/pages/settings_page.dart';
+
+/// An appbar action.
+class _Action {
+
+  /// The title of the the [_Action].
+  String title;
+
+  /// The [IconData] to represent the [_Action].
+  IconData icon;
+
+  /// Defines an _Action.
+  _Action(this.title, this.icon);
+}
 
 /// Is used to collect data used to created a [ListTile].
 class _DrawerTile {
@@ -26,6 +40,11 @@ class _DrawerTile {
 
 ///  The main shell used to house different sections of the app.
 class HomePage extends StatefulWidget {
+
+  /// The appbar actions to display in the appbar.
+  final List<_Action> _actions = <_Action>[
+    _Action('Settings', Icons.settings),
+  ];
 
   /// The [_DrawerTiles] to display in the [Drawer].
   final List<_DrawerTile> _drawerTiles = <_DrawerTile>[
@@ -48,6 +67,17 @@ class _HomePageState extends State<HomePage> {
 
   /// The section of the app currently being displayed.
   int _selectedFragmentIndex = 0;
+
+
+  /// Handle actions being selected
+  void _actionSelected(_Action action) {
+    switch(action.title) {
+      case 'Settings':
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => SettingsPage())
+        );
+    }
+  }
 
   /// Loads the app section that needs to be displayed.
   Widget _getSelectedFragment() {
@@ -102,6 +132,19 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         // The title of the current section.
         title: Text(widget._drawerTiles[_selectedFragmentIndex].appbarTitle),
+        actions: <Widget>[
+          PopupMenuButton<_Action>(
+            onSelected: _actionSelected,
+            itemBuilder: (BuildContext context) {
+              return widget._actions.map((_Action action) {
+                return PopupMenuItem<_Action>(
+                  child: Text(action.title),
+                  value: action,
+                );
+              }).toList();
+            },
+          )
+        ],
       ),
       drawer: Drawer(
         child: Column(
