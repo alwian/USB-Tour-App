@@ -183,6 +183,11 @@ void main() {
         });
       });
     });
+
+    tearDownAll(() async {
+      await driver.tap(find.byType('IconButton'));
+      await driver.tap(find.byType('IconButton'));
+    });
   });
 
   // Tests for the 'Explore a floor' section.
