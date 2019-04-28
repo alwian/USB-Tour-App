@@ -293,7 +293,7 @@ void main() {
         await driver.tap(find.text('1.006'));
 
         //Wait for error message
-        await driver.waitFor(find.text('Please select a room'));
+        await driver.waitFor(find.text('Please enter a valid value, e.g 1.006'));
       });
 
       // Test invalid input, invalid value second field
@@ -311,7 +311,7 @@ void main() {
         await driver.tap(find.text('G.071'));
 
         //Wait for error message
-        await driver.waitFor(find.text('Please select a room'));
+        await driver.waitFor(find.text('Please enter a valid value, e.g 1.006'));
       });
 
 
@@ -328,7 +328,7 @@ void main() {
       // Test dropdown suggestions for second TextField
       test('Genereated suggestions second field', () async {
         await driver.tap(find.byValueKey('current_location'));
-        await driver.enterText("3.018");
+        await driver.enterText('3.015');
 
         // Tap suggestion to remove it
         await driver.tap(find.byType('ListTile'));
