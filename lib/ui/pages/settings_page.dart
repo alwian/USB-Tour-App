@@ -19,6 +19,19 @@ List<_ColorScheme> _colorSchemes = <_ColorScheme>[
       Colors.white,
       Colors.white
   ),
+  _ColorScheme(
+      'High Contrast',
+      Color(0xFF000000),
+      Color(0xFF000000),
+      Color(0xFF000000),
+      Colors.white,
+      Color(0xFF000000),
+      Color(0xFF000000),
+      Color(0xFF000000),
+      Colors.black,
+      Colors.white,
+      Colors.white
+  ),
 ];
 
 /// Represents a set of colors used for the app.
@@ -69,10 +82,12 @@ class SettingsPage extends StatelessWidget {
     prefs.setInt('appBarTextThemeColor', scheme.appBarTextThemeColor.value);
   }
 
+  GlobalKey<ScaffoldState> scaffKey = GlobalKey();
   /// Builds the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffKey,
       appBar: AppBar(
         title: Text('Settings'),
       ),
@@ -85,7 +100,12 @@ class SettingsPage extends StatelessWidget {
                 Text('Text Theme: '),
                 DropdownButton<_ColorScheme>(
                   value: _selectedColorScheme,
-                  onChanged: _setColorScheme,
+                  onChanged: (_ColorScheme value) {
+                    _setColorScheme(value);
+                    scaffKey.currentState.showSnackBar(
+                      SnackBar(content: Text('Please reload the app for changes to take effect!'))
+                    );
+                  },
                   items: _colorSchemes.map((_ColorScheme value) {
                     return DropdownMenuItem<_ColorScheme>(
                       child: Text(value.name),
