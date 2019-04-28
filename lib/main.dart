@@ -12,12 +12,6 @@ Set<String> prefKeys;
 void main() async {
   prefs = await SharedPreferences.getInstance();
   prefKeys = prefs.getKeys();
-  print(prefKeys);
-  for (String key in prefKeys) {
-    String value;
-    value = prefs.getString(key);
-    print('$key - $value');
-  }
   runApp(MyApp());
 }
 
