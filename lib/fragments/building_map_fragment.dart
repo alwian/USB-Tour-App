@@ -110,6 +110,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       return Scaffold(
         body: Column(children: <Widget>[
           DropdownButton<Floor>(
+            key: Key('dropdown_btn'),
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
@@ -176,7 +177,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
-          key: Key('draw_route'),
+          key: Key('draw_btn'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -236,6 +237,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
       return Scaffold(
         body: Column(children: <Widget>[
           DropdownButton<Floor>(
+            key: Key('dropdown_btn'),
             value: dropdownValue,
             onChanged: (Floor newValue) {
               setState(() {
@@ -253,6 +255,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
             },
             items: floors.map<DropdownMenuItem<Floor>>((Floor value) {
               return DropdownMenuItem<Floor>(
+                key: Key(value.name),
                 value: value,
                 child: Text(value.name),
               );
@@ -297,7 +300,7 @@ class _BuildingMapState extends State<BuildingMapFragment> {
           ],
         )),
         floatingActionButton: FloatingActionButton(
-          key: Key('draw_route'),
+          key: Key('draw_btn'),
           onPressed: () {
             setState(() {
               if (_source == null || _target == null) {
@@ -415,7 +418,7 @@ class RoomList extends StatelessWidget {
                 return Text("Floor 1");
               }*/
               return new ListTile(
-                  //The name of node i in list floorNum.
+                  key: Key(allNodes[i].id),
                   title: Text(allNodes[i].id + ': ' + allNodes[i].name),
                   onTap: () {
                     if (sot == 1) {
