@@ -54,13 +54,17 @@ class _FloorFeatureListPageState extends State<FloorFeatureListPage> {
               onTap: () {
                 // Go to feature page when tapped.
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => RoomFeatureListPage(_rooms[index].name))
+                    MaterialPageRoute(builder: (context) => RoomFeatureListPage(_rooms[index].name, widget._floor))
                 );
               },
               // Represents a room.
               child: Stack(
                 children: <Widget>[
-                  Image.asset('assets/images/' + _rooms[index].image),
+                  Image.asset(
+                      'assets/images/explore_a_floor/floor_'
+                          + widget._floor.toString()
+                          + '/'
+                          + _rooms[index].image),
                   Container(
                     margin: EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(left: 10.0, top: 7.5, right: 20.0, bottom: 7.5),

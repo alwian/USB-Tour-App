@@ -10,8 +10,11 @@ class RoomFeatureListPage extends StatefulWidget {
   /// The name of the [Room] this page is about.
   final String roomName;
 
+  /// The floor this room is on.
+  final int floor;
+
   /// Defines a [RoomFeatureListPage].
-  RoomFeatureListPage(this.roomName);
+  RoomFeatureListPage(this.roomName, this.floor);
 
   /// Returns a [State] of this page.
   @override
@@ -68,7 +71,11 @@ class _RoomFeatureListPageState extends State<RoomFeatureListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   // Image representing the feature.
-                  Image.asset('assets/images/' + _features[index].image),
+                  Image.asset(
+                      'assets/images/explore_a_floor/floor_'
+                          + widget.floor.toString()
+                          + '/'
+                          + _features[index].image),
                   Container(
                       margin: EdgeInsets.only(top: 10.0),
                       color: Color(0xFFE0E0E0),

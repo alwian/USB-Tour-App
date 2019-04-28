@@ -79,6 +79,14 @@ flutter:
     - assets/images/floor3.png
     - assets/images/floor4.png
 
+    # Explore a floor
+    - assets/images/explore_a_floor/floor_0/
+    - assets/images/explore_a_floor/floor_1/
+    - assets/images/explore_a_floor/floor_2/
+    - assets/images/explore_a_floor/floor_3/
+    - assets/images/explore_a_floor/floor_4/
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
