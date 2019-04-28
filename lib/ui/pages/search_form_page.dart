@@ -338,7 +338,7 @@ class _SearchFormState extends State<SearchFormPage> {
                     Text(
                       'Find your room now!',
                       style: TextStyle(
-                        fontSize: 25.0,
+                        fontSize: 20.0,
                         color: Colors.white,
                       ),
                     ),

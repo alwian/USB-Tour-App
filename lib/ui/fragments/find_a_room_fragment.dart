@@ -52,7 +52,7 @@ class FindARoomFragment extends StatelessWidget {
             Text(
               'Search for a room',
               style: TextStyle(
-                fontSize: 28.0,
+                fontSize: 20.0,
                 color: Colors.white,
               ),
             ),
