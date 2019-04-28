@@ -1,3 +1,6 @@
+/// Author: Mason Powell
+/// Student No: 170256018
+
 import 'package:test/test.dart';
 import 'package:csc2022_app/navigation/navigation.dart';
 import 'package:csc2022_app/navigation/node.dart';

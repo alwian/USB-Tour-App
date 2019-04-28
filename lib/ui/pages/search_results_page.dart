@@ -1,3 +1,6 @@
+/// Author: Connor Harris
+/// Student No: 170346489
+
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:csc2022_app/ui/fragments/building_map_fragment.dart';
@@ -6,9 +9,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
 import 'package:photo_view/photo_view.dart';
-
-/// @Author Connor Harris
-/// @StudentNo 170346489
 
 /// A page for displaying directions between rooms in the Urban Sciences Building
 class SearchResultsPage extends StatefulWidget {

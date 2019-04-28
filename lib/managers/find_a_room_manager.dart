@@ -1,5 +1,5 @@
-/// @Author: Connor Harris
-/// @Email c dot harris99@hotmail dot co dot uk
+/// Author: Connor Harris
+/// Student No: 170346489
 
 import 'package:csc2022_app/helpers/database_helper.dart';
 import 'package:csc2022_app/managers/explore_a_floor_manager.dart';
@@ -10,9 +10,6 @@ import 'package:csc2022_app/managers/navigation_manager.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
-
-/// @Author Connor Harris
-/// @StudentNo 170346489
 
 /// Handles data retrieval for a [SearchFormPage] or a [SearchResultsPage]
 class FindARoomManager {

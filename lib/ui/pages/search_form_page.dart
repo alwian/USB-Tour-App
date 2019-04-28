@@ -1,10 +1,10 @@
+/// Author: Connor Harris
+/// Student No: 170346489
+
 import 'package:flutter/material.dart';
 import 'package:csc2022_app/ui/pages/search_results_page.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
-
-/// @Author Connor Harris
-/// @StudentNo 170346489
 
 /// A page to allow users to enter details for finding directions
 /// between rooms in the Urban Sciences Building

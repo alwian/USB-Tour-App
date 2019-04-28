@@ -1,5 +1,11 @@
 /// Author: Alex Anderson
 /// Student No: 17045390
+///
+/// Author: Mason Powell
+/// Student No: 170256018
+///
+/// Author: Connor Harris
+/// Student No: 170346489
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';

@@ -1,5 +1,5 @@
-/// Author: Mason Powell.
-/// Student No. 170256018.
+/// Author: Mason Powell
+/// Student No: 170256018
 
 import 'dart:collection';
 import 'package:csc2022_app/helpers/database_helper.dart';

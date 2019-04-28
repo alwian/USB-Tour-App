@@ -1,5 +1,5 @@
-/// Author Alex Anderson
-/// Student No. 170453905
+/// Author: Alex Anderson
+/// Student No: 170453905
 
 import 'dart:typed_data';
 import 'dart:io';

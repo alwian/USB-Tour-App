@@ -1,5 +1,5 @@
-/// Author: Mason Powell.
-/// Student No. 170256018.
+/// Author: Mason Powell
+/// Student No: 170256018
 
 /// Represents a node and the necessary describing data.
 class Node {

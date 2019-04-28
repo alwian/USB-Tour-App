@@ -1,4 +1,4 @@
-/// Author Alex Anderson
+/// Author: Alex Anderson
 /// Student No: 170453905
 
 import 'package:flutter/material.dart';

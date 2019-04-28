@@ -1,12 +1,12 @@
+/// Author: Connor Harris
+/// Student No: 170346489
+
 import 'package:test/test.dart';
 import 'package:csc2022_app/managers/find_a_room_manager.dart';
 import 'package:csc2022_app/navigation/node.dart';
 import 'dart:collection';
 import 'package:sqflite/sqflite.dart';
 
-/// @Author: Connor Harris
-/// @StudentNo: 170346489
-/// File to test find_a_room
 
 /// Main method to run tests
 void main() {
