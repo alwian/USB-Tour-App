@@ -12,6 +12,10 @@ Set<String> prefKeys;
 void main() async {
   prefs = await SharedPreferences.getInstance();
   prefKeys = prefs.getKeys();
+  print(prefKeys);
+  for (String key in prefKeys) {
+    print('$key - ' + prefs.getInt(key).toString());
+  }
   runApp(MyApp());
 }
 
@@ -24,23 +28,23 @@ class MyApp extends StatelessWidget {
     // Return the app
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: !prefKeys.contains('primaryColor') ? Color(0xFF96B24A) : Color(int.parse(prefs.getString('primaryColor'))),
-        backgroundColor: !prefKeys.contains('backgroundColor') ? Color(0xFFBDBDBD) : Color(int.parse(prefs.getString('backgroundColor'))),
-        accentColor: !prefKeys.contains('accentColor') ? Color(0xFF96B24A) : Color(int.parse(prefs.getString('accentColor'))),
+        primaryColor: !prefKeys.contains('primaryColor') ? Color(0xFF96B24A) : Color(prefs.getInt('primaryColor')),
+        backgroundColor: !prefKeys.contains('backgroundColor') ? Color(0xFFBDBDBD) : Color(prefs.getInt('backgroundColor')),
+        accentColor: !prefKeys.contains('accentColor') ? Color(0xFF96B24A) : Color(prefs.getInt('accentColor')),
         accentIconTheme: IconThemeData(
-          color: !prefKeys.contains('accentIconThemeColor') ? Colors.white : Color(int.parse(prefs.getString('accentIconThemeColor'))),
+          color: !prefKeys.contains('accentIconThemeColor') ? Colors.white : Color(prefs.getInt('accentIconThemeColor')),
         ),
         fontFamily: 'Ayuthaya',
-        indicatorColor: !prefKeys.contains('indicatorColor') ? Color(0xFFD5E3AF) : Color(int.parse(prefs.getString('indicatorColor'))),
-        splashColor: !prefKeys.contains('primaryColor') ? Color(0xFFD5E3AF) : Color(int.parse(prefs.getString('splashColor'))),
+        indicatorColor: !prefKeys.contains('indicatorColor') ? Color(0xFFD5E3AF) : Color(prefs.getInt('indicatorColor')),
+        splashColor: !prefKeys.contains('primaryColor') ? Color(0xFFD5E3AF) : Color(prefs.getInt('splashColor')),
         tabBarTheme: TabBarTheme(
-          labelColor: !prefKeys.contains('labelColor') ? Color(0xFF96B24A) : Color(int.parse(prefs.getString('labelColor'))),
-          unselectedLabelColor:  !prefKeys.contains('unselectedLabelColor') ? Colors.black : Color(int.parse(prefs.getString('unselectedLabelColor'))),
+          labelColor: !prefKeys.contains('labelColor') ? Color(0xFF96B24A) : Color(prefs.getInt('labelColor')),
+          unselectedLabelColor:  !prefKeys.contains('unselectedLabelColor') ? Colors.black : Color(prefs.getInt('unselectedLabelColor')),
         ),
         appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: !prefKeys.contains('appBarIconThemeColor') ? Colors.white : Color(int.parse(prefs.getString('appBarIconThemeColor')))),
+          iconTheme: IconThemeData(color: !prefKeys.contains('appBarIconThemeColor') ? Colors.white : Color(prefs.getInt('appBarIconThemeColor'))),
           textTheme: TextTheme(
-              title: TextStyle(color: !prefKeys.contains('appBarTextThemeColor') ? Colors.white : Color(int.parse(prefs.getString('appBarTextThemeColor'))), fontSize: 20.0, fontFamily: 'Ayuthaya')
+              title: TextStyle(color: !prefKeys.contains('appBarTextThemeColor') ? Colors.white : Color(prefs.getInt('appBarTextThemeColor')), fontSize: 20.0, fontFamily: 'Ayuthaya')
           ),
         ),
       ),
