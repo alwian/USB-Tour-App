@@ -29,6 +29,7 @@ class BuildingInformationFragment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   color: Colors.grey[400],
                   child: ListView(
+                    physics: ScrollPhysics(),
                     children: <Widget>[
                       Text(
                         '\n\nAbout the building',
@@ -46,6 +47,7 @@ class BuildingInformationFragment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, bottom: 20),
                   color: Colors.grey[400],
                   child: ListView(
+                    physics: ScrollPhysics(),
                     children: <Widget>[
                       Text(
                         '\n\nReception opening hours',
@@ -66,6 +68,7 @@ class BuildingInformationFragment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, bottom: 20),
                   color: Colors.grey[400],
                   child: ListView(
+                    physics: ScrollPhysics(),
                     children: <Widget>[
                       Text(
                         '\n\nAddress',
