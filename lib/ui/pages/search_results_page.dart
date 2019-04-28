@@ -23,7 +23,7 @@ class SearchResultsPage extends StatefulWidget {
 /// A [State] of [SearchResultsPage]
 class _SearchResultsState extends State<SearchResultsPage> {
 
-  // Init local variables
+  /// The list of directions.
   Future<List<String>> _directionList;
 
   /// Load [_directionList] when the [State] is created.
