@@ -10,16 +10,10 @@ import 'package:csc2022_app/managers/urban_observatory_manager.dart';
 class UrbanObservatoryFragment extends StatefulWidget {
 
   /// The text to display in the about section of the page.
-  final String _placeholderAbout = 'Lorem ipsum dolor sit amet, consectetur adipiscing'
-      ' elit. Aliquam tempus ac risus in iaculis. Quisque placerat a lectus '
-      'non pretium. Cras congue aliquam arcu, eget dictum ipsum ornare quis. '
-      'Sed quis ipsum nec odio pulvinar ullamcorper eget vel turpis. '
-      'Donec molestie neque sit amet pharetra fringilla. Quisque ut '
-      'tellus non orci porttitor porttitor. Proin facilisis lorem id '
-      'fringilla sagittis. Mauris non magna auctor, tincidunt nibh in, '
-      'molestie lacus. Ut pharetra in justo sed luctus. Sed quis sem massa. '
-      'In hac habitasse platea dictumst. Donec et dignissim magna. Nunc in '
-      'finibus dui. ';
+  final String _aboutText = "The Urban Observatory provides real time sendor data from all over Newcastle,"
+      " including the Urban Sciences Building.\n\nData collected will provide a long time baseline for "
+      "urban research in Newcastle.\n\nUse the 'Pick a Room' tab to search different rooms in the "
+      "building and see their recent sensor data.";
 
   /// Returns a [UrbanObservatoryFragmentState].
   @override
@@ -193,7 +187,7 @@ class _UrbanObservatoryFragmentState extends State<UrbanObservatoryFragment> {
                         Image.asset('assets/images/observatory.png'),
                         Container(
                           padding: EdgeInsets.all(16.0),
-                          child: Text(widget._placeholderAbout),
+                          child: Text(widget._aboutText),
                         )
                       ],
                     ),
