@@ -83,7 +83,7 @@ class FindARoomManager {
 
     // Store room as source [Node]
     for (Node w in startGraph.nodes) {
-      if (w.name == rooms[0]) {
+      if (w.name == rooms[1]) {
         source = w;
 
         break;
@@ -92,7 +92,7 @@ class FindARoomManager {
 
     // Store room as target [Node]
     for (Node v in startGraph.nodes) {
-      if (v.name == rooms[1]) {
+      if (v.name == rooms[0]) {
 
         destination = v;
         break;

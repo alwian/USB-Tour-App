@@ -30,7 +30,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
   // Init local variables
   Future<List<String>> _directionList;
-  Queue<Node> _path;
 
   /// Load [_directionList] when the [State] is created.
   @override
@@ -39,7 +38,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
     // initial load
     _directionList = updateAndGetList();
-    updateAndGetQueue();
   }
 
   /// Refresh the [State]
@@ -49,7 +47,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
       // Find exit pressed. Set target to exit (G.063)
       widget.formRooms[0] = "G.063";
       _directionList = updateAndGetList();
-      updateAndGetQueue();
     });
   }
 
@@ -59,14 +56,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
 
     // return the list here
     return FindARoomManager.getDirections(widget.formRooms);
-  }
-
-  /// Set [_path] to [Queue] of [Node] directions from FindARoomManager
-  Future<void> updateAndGetQueue() async {
-    _path = await FindARoomManager.getDirectionsQueue(widget.formRooms);
-
-    // return the list here
-    setState(() {});
   }
 
   ///Method to build return a [FutureBuilder] that generates a [ListView] of directions
@@ -109,38 +98,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
     );
   }
 
-  ///Method to build map content
-  Widget _buildMapBody(BuildContext context) {
-    //Get floor plan to return
-    int floor;
-
-    // Get map image to display
-    if(widget.formRooms[1].substring(0, 1) == "G") {
-      floor = 0;
-    } else if(widget.formRooms[1].substring(0, 1) == "S") {
-      floor = int.parse(widget.formRooms[1].substring(3, 4));
-    } else {
-      floor = int.parse(widget.formRooms[1].substring(0, 1));
-    }
-
-    return Container(
-      height: (MediaQuery.of(context).size.height) / 2,
-        // If data has not loaded, display progress indicator
-        child: _path  == null ? Center(child: CircularProgressIndicator()) : PhotoView.customChild(
-          child: new CustomPaint(
-            key: Key('map_image'),
-            foregroundPainter: RoutePainter(_path),
-              child: Image(image: AssetImage('assets/images/floor' + floor.toString() + '.png'))),
-        minScale: PhotoViewComputedScale.contained,
-        maxScale: 1.5,
-        //The height of the currently used images, need changing from magic numbers.
-        childSize: Size(4961, 3508),
-        backgroundDecoration: new BoxDecoration(
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
 
   ///Method to build [ListTiles] to display route instructions.
   Widget _buildInstructionDisplay(BuildContext context) {
@@ -169,8 +126,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
       body: SingleChildScrollView(
         child: Column(
             children: <Widget>[
-              _buildMapBody(context),
-
               _buildInstructionDisplay(context),
               Divider(height: 20.0, color: Colors.black,),
 
