@@ -80,7 +80,7 @@ class FindARoomManager {
 
     // Store room as source [Node]
     for (Node w in startGraph.nodes) {
-      if (w.name == rooms[1]) {
+      if (w.id == rooms[1]) {
         source = w;
 
         break;
@@ -89,7 +89,7 @@ class FindARoomManager {
 
     // Store room as target [Node]
     for (Node v in startGraph.nodes) {
-      if (v.name == rooms[0]) {
+      if (v.id == rooms[0]) {
 
         destination = v;
         break;
@@ -117,8 +117,8 @@ class FindARoomManager {
     //Iterate over all but last node
     for(int i = nodeList.length-1; i >= 1; i--) {
       //Store name of node and if not null next node
-      String destA = nodeList[i].name;
-      String destB = nodeList[i-1].name;
+      String destA = nodeList[i].id;
+      String destB = nodeList[i-1].id;
 
       String r1;
       String r2;
