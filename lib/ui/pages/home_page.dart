@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
     tiles.add(Divider(height: 10.0,color: Colors.black,));
     tiles.add(
       AboutListTile(
-        icon: Icon(Icons.list),
+        icon: Icon(Icons.copyright),
         applicationName: 'USB Tour',
         applicationVersion: '1.0.0',
       )
