@@ -14,12 +14,21 @@ import 'package:csc2022_app/managers/navigation_manager.dart';
 /// Stores the [name], its image file[path], [floorNumber] and
 /// the associated [graph] for each [Floor].
 class Floor {
-  Floor(this.name, this.path, this.floorNumber);
 
+  /// [String] representation of this floor;
   final String name;
+
+  /// Path to the image of this.
   final String path;
+
+  /// The floor number of this,
   final int floorNumber;
+
+  /// A graph of the nodes on this floor.
   Graph graph;
+
+  /// Defines a [Floor].
+  Floor(this.name, this.path, this.floorNumber);
 }
 
 /// A fragment to display an graphical navigation view of the building.

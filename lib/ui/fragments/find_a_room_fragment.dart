@@ -91,7 +91,7 @@ class FindARoomFragment extends StatelessWidget {
   }
 
 
-  /// MMethod to build the page
+  /// Method to build the page
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

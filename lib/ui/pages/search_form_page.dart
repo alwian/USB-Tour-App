@@ -20,20 +20,22 @@ class SearchFormPage extends StatefulWidget {
 /// A [State] of [SearchFormPage]
 class _SearchFormState extends State<SearchFormPage> {
 
-  ///Form keys and textEditingController
-  ///For more info on TextEditingController, see https://pub.dartlang.org/packages/flutter_typeahead#-readme-tab-
-
+  /// Key for the form.
   final GlobalKey<FormState> _findARoomFormKey = GlobalKey<FormState>();
 
-  ///Controller for the first  and second s
+  ///Controller for the first input field.
   TextEditingController _typeAheadControllerFirst;
+
+  ///Controller for the second input field.
   TextEditingController _typeAheadControllerSecond;
 
   ///[List] of [String]s containing all valid ids
   List<String> validInputs;
 
-  ///Strings to store results from the form text fields
+  /// The destination entered.
   String _destinationRoom;
+
+  /// The current location entered.
   String _currentRoom;
 
   ///List of Strings to send the results of the form to the algorithm on valid submission.
@@ -87,7 +89,7 @@ class _SearchFormState extends State<SearchFormPage> {
           child: InkWell(
             child: ListTile(
               title: new Text(_frequentlyUsedRoomNames[i]),
-              ///Set TextField value to suggestion
+              // Set TextField value to suggestion
               onTap: () {
                 //Edit firstTextField
                 if (first) {
@@ -118,8 +120,7 @@ class _SearchFormState extends State<SearchFormPage> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(15.0),
-
-              ///First TextField (Enter Destination)
+              // First TextField (Enter Destination).
               child: TypeAheadFormField(
                 key: Key("destination"),
                 textFieldConfiguration: TextFieldConfiguration(
@@ -143,14 +144,12 @@ class _SearchFormState extends State<SearchFormPage> {
                     filled: true,
                   )
                 ),
-
-                ///Method to get suggestions to populate dropdown
+                // Get suggestions to populate dropdown.
                 suggestionsCallback: (pattern) {
                   //Call method to find rooms with similar name
                   return FindARoomManager.getRoomSuggestions(pattern);
                 }, //suggestionsCallback
-
-                ///Build Dropdown menu
+                // Build Dropdown menu.
                 itemBuilder: (context, suggestion) {
                   return Material(
                       key: Key("destination_suggestion"),
@@ -163,8 +162,7 @@ class _SearchFormState extends State<SearchFormPage> {
                       )
                   );
                 }, //itemBuilder
-
-                ///Create loading animation
+                // Create loading animation.
                 transitionBuilder: (context, suggestionsBox, animationController) =>
                     FadeTransition(
                       child: suggestionsBox,
@@ -173,39 +171,34 @@ class _SearchFormState extends State<SearchFormPage> {
                           curve: Curves.fastOutSlowIn
                       ),
                     ),
-
-                ///Set TextField value to suggestion
+                // Set TextField value to suggestion.
                 onSuggestionSelected: (suggestion) {
                   this._typeAheadControllerFirst.text = suggestion;
                 },
-
-                ///Validation method @todo add more comprehensive checks
+                // Validate field.
                 validator: (value) {
                   if (value.isEmpty) {
-                    //If empty, return default suggestions
+                    // If empty, return default suggestions.
                     return 'Please select a room';
                   } else if (!validInputs.contains(value)) {
-                    //Not a valid value
+                    // Not a valid value.
                     return 'Please enter a valid value, e.g 1.006';
                   }
                 },
-
                 noItemsFoundBuilder: (BuildContext context) =>
                     ListView(
                       key: Key("default_suggestions_destination"),
-                        //If no suggestions then create default suggestions.
-                        //true param to act on first TextField
+                        //  If no suggestions then create default suggestions.
+                        // true param to act on first TextField.
                         children: _createDefaultSuggestions(true)
                     ),
-
-                ///Set string to selected value
+                // Set string to selected value
                 onSaved: (value) => this._destinationRoom = value,
               ),
             ),
-
             Padding(
               padding: EdgeInsets.all(15.0),
-              ///Second TextField (Enter Current Location)
+              // Second TextField (Enter Current Location).
               child: TypeAheadFormField(
                 key: Key("current_location"),
                 textFieldConfiguration: TextFieldConfiguration(
@@ -229,14 +222,12 @@ class _SearchFormState extends State<SearchFormPage> {
                       filled: true,
                     )
                 ),
-
-                ///Method to get suggestions to populate dropdown
+                // Method to get suggestions to populate dropdown.
                 suggestionsCallback: (pattern) {
-                  //Call method to find rooms with similar name
+                  // Call method to find rooms with similar name
                   return FindARoomManager.getRoomSuggestions(pattern);
-                }, //suggestionsCallback
-
-                ///Build Dropdown menu
+                }, // suggestionsCallback
+                // Build Dropdown menu.
                 itemBuilder: (context, suggestion) {
                   return Material(
                       key: Key("suggestions_current"),
@@ -249,8 +240,7 @@ class _SearchFormState extends State<SearchFormPage> {
                     )
                   );
                 }, //itemBuilder
-
-                ///Create loading animation
+                // Create loading animation.
                 transitionBuilder: (context, suggestionsBox, animationController) =>
                     FadeTransition(
                       child: suggestionsBox,
@@ -259,23 +249,20 @@ class _SearchFormState extends State<SearchFormPage> {
                           curve: Curves.fastOutSlowIn
                       ),
                     ),
-
-                ///Set TextField value to suggestion
+                // Set TextField value to suggestion.
                 onSuggestionSelected: (suggestion) {
                   this._typeAheadControllerSecond.text = suggestion;
                 },
-
-                ///Validation method @todo add more comprehensive checks
+                // Validate field.
                 validator: (value) {
                   if (value.isEmpty) {
-                    //If empty, return default suggestions
+                    // If empty, return default suggestions.
                     return 'Please select a room';
                   } else if (!validInputs.contains(value)) {
-                    //Not a valid value
+                    // Not a valid value.
                     return 'Please enter a valid value, e.g 1.006';
                   }
                 },
-
                 noItemsFoundBuilder: (BuildContext context) =>
                     MediaQuery.removePadding(
                       removeTop: true,
@@ -285,12 +272,10 @@ class _SearchFormState extends State<SearchFormPage> {
                           children: _createDefaultSuggestions(false)
                       ),
                     ),
-
-                ///Set string to selected value
+                // Set string to selected value.
                 onSaved: (value) => this._currentRoom = value,
               ),
             ),
-
             Padding(
               padding: EdgeInsets.all(15.0),
               child: MaterialButton(
@@ -298,39 +283,31 @@ class _SearchFormState extends State<SearchFormPage> {
                 minWidth: 125.0,
                 color: Colors.black54,
                 textColor: Colors.white,
-
-                // Deals with [Form] submission
+                // Deals with form submission.
                 onPressed: () {
                   if (this._findARoomFormKey.currentState.validate()) {
                     this._findARoomFormKey.currentState.save();
-
-                    // Add TextField results to list and pass to the SearchResultsPage
+                    // Add TextField results to list and pass to the SearchResultsPage.
                     _formParameters.add(_destinationRoom);
                     _formParameters.add(_currentRoom);
-
-                    // Loacal variable to pass data
+                    // Loacal variable to pass data.
                     List<String> passedData = new List<String>();
                     passedData.add(_formParameters[0]);
                     passedData.add(_formParameters[1]);
-
-                    // Clear list for reuse
+                    // Clear list for reuse.
                     _formParameters.clear();
-
-                    // Clear [TextEditingControllers]
+                    // Clear [TextEditingControllers].
                     _typeAheadControllerFirst.clear();
                     _typeAheadControllerSecond.clear();
-
-                    // Clear formKey
+                    // Clear formKey.
                     _findARoomFormKey.currentState.reset();
-
-                    // Send data to [SearchResultsPage]
+                    // Send data to [SearchResultsPage].
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SearchResultsPage(formRooms: passedData)),
                     );
                   }
                 },
-
                 splashColor: Theme.of(context).primaryColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

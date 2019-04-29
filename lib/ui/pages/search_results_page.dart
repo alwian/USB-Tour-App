@@ -48,7 +48,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
   /// Get [List] of directions from FindARoomManager
   Future<List<String>> updateAndGetList() async {
 
-    // return the list here
+    // Return the list here.
     return await FindARoomManager.getDirections(widget.formRooms);
   }
 
@@ -71,7 +71,6 @@ class _SearchResultsState extends State<SearchResultsPage> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   String item = snapshot.data[index];
-
                   return Column(
                     children: <Widget>[
                       ListTile(
@@ -85,7 +84,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
               )
           );
         } else {
-          // While loading display progress indicator
+          // While loading display progress indicator.
           return Center(child: CircularProgressIndicator());
         }
       },
@@ -100,9 +99,9 @@ class _SearchResultsState extends State<SearchResultsPage> {
         Padding(
             padding: EdgeInsets.only(left: 0.0, top: 8.0, bottom: 0.0, right: 0.0),
             child: ListTile(
-              // Title is the Destination from form (formRooms)
+              // Title is the Destination from form (formRooms).
                 title: Text("To " + widget.formRooms[0], style: TextStyle(fontSize: 24.0),),
-                // Leading is source
+                // Leading is source.
                 subtitle: Text("From " + widget.formRooms[1], style: TextStyle(fontSize: 16.0),)
             )
         )
@@ -123,7 +122,7 @@ class _SearchResultsState extends State<SearchResultsPage> {
               _buildInstructionDisplay(context),
               Divider(height: 20.0, color: Colors.black,),
 
-              // Build ListView
+              // Build ListView.
               _createDirectionTiles(context)
             ]
         ),

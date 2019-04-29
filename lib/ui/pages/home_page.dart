@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedFragmentIndex = 0;
 
 
-  /// Handle actions being selected
+  /// Handle actions being selected.
   void _actionSelected(_Action action) {
     switch(action.title) {
       case 'Settings':

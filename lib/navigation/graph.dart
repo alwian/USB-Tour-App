@@ -12,6 +12,7 @@ class Graph {
    /// The floor the graph represents.
    int floorNumber;
 
+   /// Defines a [Graph].
    Graph();
    Graph.floor(this.floorNumber);
 
