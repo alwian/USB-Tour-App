@@ -7,7 +7,146 @@ import 'package:csc2022_app/navigation/node.dart';
 import 'package:csc2022_app/navigation/graph.dart';
 import 'dart:collection';
 
+
 void main() {
+  Node n;
+
+  group('Node', () {
+    test('Node() get name', () {
+      String expName = "test";
+      n = Node(expName);
+
+      String actName = n.name;
+
+      expect(actName, expName);
+    });
+
+    test('Node.fromDB() get name', () {
+      String expName = "test";
+      n = Node.fromDB(expName, null, null, null);
+
+      String actName = n.name;
+
+      expect(actName, expName);
+    });
+
+    test('Node.fromDB() get coordsX', () {
+      double expCoordsX = 1.1;
+      n = Node.fromDB(null, expCoordsX, null, null);
+
+      double actCoordsX = n.coordsX;
+
+      expect(actCoordsX, expCoordsX);
+    });
+
+    test('Node.fromDB() get coordsY', () {
+      double expCoordsY = 1.1;
+      n = Node.fromDB(null, null, expCoordsY, null);
+
+      double actCoordsY = n.coordsY;
+
+      expect(actCoordsY, expCoordsY);
+    });
+
+    test('Node.fromDB() get id', () {
+      String  expId = 'G.001';
+      n = Node.fromDB(null, null, null, 'G.001');
+
+      String actId = n.id;
+
+      expect(actId, expId);
+    });
+
+    test('addDestination valid Node', () {
+      n = Node("test");
+      Node adjNode = Node("test2");
+      int testDistance = 100;
+      n.addDestination(adjNode, testDistance);
+
+      expect(n.adjacentNodes, isNotEmpty);
+    });
+
+    test('addDestination invalid Node', () {
+      n = Node("test");
+      int testDistance = 100;
+
+      expect(() => n.addDestination(n, testDistance), throwsArgumentError);
+    });
+
+    test('addDestination valid distance', () {
+      n = Node("test");
+      Node adjNode = Node('test2');
+      int expDistance = 100;
+      n.addDestination(adjNode, expDistance);
+
+      int actDistance = n.adjacentNodes[adjNode];
+
+      expect(actDistance, expDistance);
+    });
+
+    test('addDestination invalid distance', () {
+      n = Node("test");
+      Node adjNode = Node('test2');
+      int expDistance = -1;
+
+      expect(() => n.addDestination(adjNode, expDistance), throwsArgumentError);
+    });
+
+    test('toString', () {
+      String expStringRep = "test";
+      n = Node(expStringRep);
+
+      String actStringRep = n.toString();
+
+      expect(actStringRep, expStringRep);
+    });
+
+    test('copy', () {
+      bool equal = false;
+
+      n = Node("test");
+      Node testNode = n.copy();
+
+      if(n == testNode) {
+        equal = true;
+      }
+
+      expect(equal, isFalse);
+    });
+
+  });
+
+  group('Graph',() {
+    Graph g;
+
+    test('get floorNumber', (){
+      int expFloorNum = 1;
+      g = Graph.floor(expFloorNum);
+      int actFloorNum = g.floorNumber;
+
+      expect(actFloorNum, expFloorNum);
+    });
+
+    test('addNodes valid', () {
+      g = Graph();
+      Node expNode = Node("expNode");
+      g.addNode(expNode);
+
+      Node actNode = g.nodes.first;
+
+      expect(actNode, expNode);
+    });
+
+    test('addNodes invalid', () {
+      g = Graph();
+      Node testNode;
+
+      g.addNode(testNode);
+
+      expect(g.nodes, isEmpty);
+    });
+  });
+
   group('Nav', ()
   {
     Node a = new Node("a");
@@ -112,7 +251,7 @@ void main() {
         }
       }
 
-      expect(distCheck, true);
+      expect(distCheck, isTrue);
     });
 
     test('pathToTargetNodeAToNodeF', () {
@@ -137,7 +276,7 @@ void main() {
         }
       }
 
-      expect(pathCheck, true);
+      expect(pathCheck, isTrue);
 
     });
   });

@@ -18,6 +18,8 @@ class Graph {
 
    /// Adds [nodeA] to the [nodes] [Set].
    void addNode(Node nodeA) {
-     nodes.add(nodeA);
+     if(nodeA != null) {
+       nodes.add(nodeA);
+     }
    }
 }
