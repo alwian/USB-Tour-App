@@ -2,6 +2,7 @@
 /// Student No: 170453905
 
 import 'package:flutter/material.dart';
+import 'package:charcode/charcode.dart';
 import 'package:csc2022_app/ui/fragments/find_a_room_fragment.dart';
 import 'package:csc2022_app/ui/fragments/explore_a_floor_fragment.dart';
 import 'package:csc2022_app/ui/fragments/building_information_fragment.dart';
@@ -122,6 +123,17 @@ class _HomePageState extends State<HomePage> {
           )
       );
     }
+
+    // Add about tile.
+    tiles.add(Divider(height: 10.0,color: Colors.black,));
+    tiles.add(
+      AboutListTile(
+        icon: Icon(Icons.list),
+        applicationName: 'USB Tour',
+        applicationVersion: '1.0.0',
+      )
+    );
+
     return tiles;
   }
 
