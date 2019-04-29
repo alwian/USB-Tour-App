@@ -2,6 +2,7 @@
 /// Student No: 170453905
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'helpers/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:csc2022_app/ui/pages/home_page.dart';
@@ -10,6 +11,7 @@ SharedPreferences prefs;
 Set<String> prefKeys;
 /// Starts the app.
 void main() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   prefs = await SharedPreferences.getInstance();
   prefKeys = prefs.getKeys();
   print(prefKeys);
