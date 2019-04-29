@@ -9,15 +9,21 @@ import 'package:csc2022_app/ui/pages/home_page.dart';
 
 SharedPreferences prefs;
 Set<String> prefKeys;
+
 /// Starts the app.
 void main() async {
+
+  // Set preferred orientations.
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  // Create map of saved color scheme.
   prefs = await SharedPreferences.getInstance();
   prefKeys = prefs.getKeys();
   print(prefKeys);
   for (String key in prefKeys) {
     print('$key - ' + prefs.getInt(key).toString());
   }
+
   runApp(MyApp());
 }
 
