@@ -13,17 +13,19 @@ class DatabaseHelper {
   /// Loads in a database asset.
   static Future<bool> _load(BuildContext context, String dbsPath, String dbName) async {
     String pathToCopyTo = join(dbsPath, dbName);
-    // If no file exists, copy file.
-    if(! await File(pathToCopyTo).exists()) {
-      ByteData dbFile = await DefaultAssetBundle.of(context).load(join('assets/databases/', dbName));
-      List<int> bytes = dbFile.buffer.asUint8List(dbFile.offsetInBytes, dbFile.lengthInBytes);
-      // Write file to new location.
-      await File(pathToCopyTo).writeAsBytes(bytes);
-      // If file exists, delete file first, then copy.
-    } else {
-      await File(pathToCopyTo).delete();
-      _load(context, dbsPath, dbName);
+
+    // Create databases path is it doesn't exist.
+    if(! await Directory(dbsPath).exists()) {
+      await Directory(dbsPath).create(recursive: true);
     }
+
+    // Delete is already exists.
+    await deleteDatabase(pathToCopyTo);
+
+    // Copy database to correct directory.
+    ByteData data = await DefaultAssetBundle.of(context).load(join("assets/databases/", "data.db"));
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(pathToCopyTo).writeAsBytes(bytes);
     return true;
   }
 
